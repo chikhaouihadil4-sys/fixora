@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register as Artisan - Fixora</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<body>
+
+<header>
+    <div class="logo">
+        <span style="font-family: 'Lucida Handwriting', cursive; font-size:48px;">F</span>
+        <span style="font-size:36px;">ixora</span>
+    </div>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'login' %}">Login</a>
+    </nav>
+</header>
+
+<section class="fx-register">
+    <div class="fx-card">
+        <h1>Register as an Artisan</h1>
+        <p class="fx-sub">Create your professional profile and start receiving requests.</p>
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="fx-grid">
+           <div>
+               {{ form.name.label_tag }}<br>
+               {{ form.name }}
+            </div>
+            <div>
+               {{ form.email.label_tag }}<br>
+               {{ form.email }}
+            </div>
+            <div>
+               {{ form.phone.label_tag }}<br>
+               {{ form.phone }}
+            </div>
+            <div>
+               {{ form.service.label_tag }}<br>
+               {{ form.service }}
+            </div>
+            <div>
+               {{ form.city.label_tag }}<br>
+               {{ form.city }}
+            </div>
+            <div>
+               {{ form.experience.label_tag }}<br>
+               {{ form.experience }}
+            </div>
+            <div>
+               {{ form.description.label_tag }}<br>
+               {{ form.description }}
+            </div>
+            <div>
+               {{ form.image.label_tag }}<br>
+               {{ form.image }}
+            </div>
+        </div>
+          <button type="submit" class="fx-btn">Create Profile</button>
+     </form>
+            
+    </div>
+</section>
+
+</body>
+</html>

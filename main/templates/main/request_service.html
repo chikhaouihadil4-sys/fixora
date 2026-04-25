@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Request Service - Fixora</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#1e3a8a;
+}
+
+/* Header */
+header{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    color:white;
+}
+
+/* Logo */
+.logo{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.logo span:first-child{
+    font-family:'Lucida Handwriting', cursive;
+    font-size:48px;
+}
+
+.logo span:last-child{
+    font-size:36px;
+}
+
+/* Center container */
+.wrapper{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+/* Card */
+.card{
+    background:#f4f6f9;
+    padding:40px;
+    border-radius:20px;
+    width:420px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Inputs */
+input, textarea, select{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    font-size:15px;
+    outline:none;
+}
+
+/* Button */
+button{
+    width:100%;
+    padding:14px;
+    background:#1e3a8a;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#163172;
+}
+
+/* Labels */
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:5px;
+    color:#1e3a8a;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#1e3a8a;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <span>F</span>
+        <span>ixora</span>
+    </div>
+</header>
+
+<div class="wrapper">
+
+    <p style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">
+        Request a service from <b>{{ artisan.name }}</b>
+    </p>
+
+    <div class="card">
+
+        <h2>Request Service</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- SERVICE -->
+            <label>Service</label>
+            {{ form.service }}
+            <div style="color:red">{{ form.service.errors }}</div>
+
+            <!-- PHONE -->
+            <label>Phone</label>
+            {{ form.phone }}
+            <div style="color:red">{{ form.phone.errors }}</div>
+
+            <!-- MESSAGE -->
+            <label>Message</label>
+            {{ form.message }}
+            <div style="color:red">{{ form.message.errors }}</div>
+
+            <button type="submit">
+                Request Service
+            </button>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

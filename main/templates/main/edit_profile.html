@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Profile - Fixora</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6f9;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+    background:#1e3a8a;
+    color:white;
+}
+
+nav a{
+    color:white;
+    margin-left:20px;
+    text-decoration:none;
+}
+
+/* CENTER */
+.edit-wrapper{
+    display:flex;
+    justify-content:center;
+    padding:60px 20px;
+}
+
+/* CARD */
+.edit-card{
+    background:white;
+    padding:40px;
+    width:500px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+.edit-card h2{
+    text-align:center;
+    color:#1e3a8a;
+    margin-bottom:25px;
+}
+
+.edit-card input,
+.edit-card textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.edit-card textarea{
+    height:120px;
+    resize:none;
+}
+
+.save-btn{
+    width:100%;
+    padding:14px;
+    background:#1e3a8a;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.save-btn:hover{
+    background:#16306f;
+}
+
+.profile-img{
+    width:100%;
+    margin-bottom:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div><b>Fixora</b></div>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'profile' artisan.id %}">Back</a>
+    </nav>
+</header>
+
+<div class="edit-wrapper">
+
+<div class="edit-card">
+
+    <h2>Edit Your Profile</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input type="text" name="name" value="{{ artisan.name }}" placeholder="Name">
+
+        <input type="email" name="email" value="{{ artisan.email }}" placeholder="Email">
+
+        <input type="text" name="phone" value="{{ artisan.phone }}" placeholder="Phone">
+
+        <input type="text" name="city" value="{{ artisan.city }}" placeholder="City">
+
+        <input type="number" name="experience" value="{{ artisan.experience }}" placeholder="Experience">
+
+        <textarea name="description" placeholder="Description">{{ artisan.description }}</textarea>
+
+        {% if artisan.image %}
+            <img src="{{ artisan.image.url }}" class="profile-img">
+        {% endif %}
+
+        <input type="file" name="image">
+
+        <button type="submit" class="save-btn">Update Profile</button>
+    </form>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register as Artisan - Fixora</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<header style="display:flex; justify-content:space-between; align-items:center; padding:15px 50px; background-color:#1e3a8a; color:white;">
+
+<div class="logo">
+<span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
+<span style="font-size:36px;">ixora</span>
+</div>
+
+<nav>
+<a href="{% url 'home' %}" style="color:white;">Home</a>
+<a href="{% url 'login' %}" style="color:white; margin-left:20px;">Login</a>
+</nav>
+
+</header>
+
+
+<section class="fx-register">
+
+<div class="fx-card">
+
+<h1>Register as an Artisan</h1>
+
+<p>Create your professional profile and start receiving requests</p>
+
+
+<form class="fx-form">
+            <div class="fx-grid">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="text" placeholder="Phone Number" required>
+
+                <select required>
+                    <option value="">Select Service</option>
+                    <option>Plumber</option>
+                    <option>Electrician</option>
+                    <option>Carpenter</option>
+                    <option>Painter</option>
+                </select>
+
+                <input type="text" placeholder="City" required>
+                <input type="number" placeholder="Years of Experience" required>
+            </div>
+
+            <textarea placeholder="Describe your experience briefly" rows="4"></textarea>
+
+<button type="submit" class="fx-btn">Create Profile</button>
+        </form>
+    </div>
+</section>
+
+</div>
+
+</section>
+
+</body>
+</html>

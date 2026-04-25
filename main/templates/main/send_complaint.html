@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Send Complaint - Fixora</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#1e3a8a;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 50px;
+    background:#0f2557;
+    color:white;
+}
+
+/* LOGO */
+.logo{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.logo span:first-child{
+    font-family:'Lucida Handwriting', cursive;
+    font-size:48px;
+}
+
+.logo span:last-child{
+    font-size:36px;
+}
+
+/* CENTER */
+.wrapper{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+/* CARD */
+.card{
+    width:420px;
+    background:#f4f6f9;
+    padding:40px;
+    border-radius:18px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+/* TITLE */
+.card h2{
+    text-align:center;
+    color:#1e3a8a;
+    margin-bottom:25px;
+}
+
+/* INPUTS */
+input, textarea, select{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    outline:none;
+    font-size:15px;
+}
+
+/* LABEL */
+label{
+    font-weight:bold;
+    color:#1e3a8a;
+    display:block;
+    margin-bottom:6px;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:14px;
+    background:#1e3a8a;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#142a63;
+}
+
+/* ERROR */
+.error{
+    color:red;
+    font-size:13px;
+    margin-bottom:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <span>F</span>
+        <span>ixora</span>
+    </div>
+
+    <h3>Send Complaint</h3>
+</header>
+
+<div class="wrapper">
+
+    <div class="card">
+
+        <h2>Complaint Form</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+           {% csrf_token %}
+
+              <label>Service</label>
+                {{ form.service }}
+
+               <label>Reason</label>
+                 {{ form.reason }}
+
+                 <label>Description</label>
+                  {{ form.description }}
+
+                  <label>Attachment</label>
+                  {{ form.attachment }}
+
+            <button type="submit">Send Complaint</button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

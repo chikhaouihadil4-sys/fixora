@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>My Complaints - Fixora</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#f5f7fb;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 50px;
+background:#1e3a8a;
+color:white;
+}
+
+.logo{
+font-size:36px;
+display:flex;
+align-items:center;
+gap:5px;
+}
+
+.logo span:first-child{
+font-family:'Lucida Handwriting', cursive;
+font-size:48px;
+}
+
+.container{
+width:85%;
+margin:50px auto;
+}
+
+h2{
+color:#1e3a8a;
+text-align:center;
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+border-collapse:collapse;
+}
+
+th{
+background:#1e3a8a;
+color:white;
+padding:15px;
+}
+
+td{
+padding:15px;
+border-bottom:1px solid #eee;
+text-align:center;
+}
+
+tr:hover{
+background:#f1f5ff;
+}
+
+a{
+color:#1e3a8a;
+font-weight:bold;
+text-decoration:none;
+}
+
+.badge{
+padding:5px 10px;
+border-radius:6px;
+background:#f59e0b;
+color:white;
+font-size:12px;
+}
+/* Status */
+
+.status{
+padding:5px 10px;
+border-radius:8px;
+font-size:13px;
+font-weight:bold;
+text-transform:capitalize;
+}
+
+.status.pending{
+background:#fff3cd;
+color:#856404;
+}
+
+.status.accepted{
+background:#d4edda;
+color:#155724;
+}
+
+.status.rejected{
+background:#f8d7da;
+color:#721c24;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+<span>F</span>
+<span>ixora</span>
+</div>
+<h3>My Complaints</h3>
+
+</header>
+
+<div class="container">
+
+<h2>Complaints History</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Complainant</th>
+<th>Against</th>
+<th>Service</th>
+<th>Reason</th>
+<th>File</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for c in complaints %}
+
+<tr>
+
+<td>
+{% if c.sender_type == "user" %}
+    {{ c.user.username }}
+{% else %}
+    {{ c.artisan.name }}
+{% endif %}
+</td>
+
+<td>
+{% if c.sender_type == "user" %}
+    {{ c.artisan.name }}
+{% else %}
+    {{ c.user.username }}
+{% endif %}
+</td>
+
+<td>{{ c.service }}</td>
+
+<td>{{ c.reason }}</td>
+
+<td>
+{% if c.attachment %}
+<a class="file-btn" href="{{ c.attachment.url }}">View</a>
+{% else %}
+No File
+{% endif %}
+</td>
+
+<td>
+<span class="status {{ c.status }}">
+{{ c.status }}
+</span>
+</td>
+
+<td>{{ c.created_at|date:"d M Y" }}</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="7">No complaints yet</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</table>
+
+</div>
+
+</body>
+</html>

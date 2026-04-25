@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Add Review - Fixora</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
+        <span style="font-size:36px;">ixora</span>
+    </div>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+    </nav>
+</header>
+<main>
+    <section class="review-section">
+
+<div class="review-card">
+
+<h1>Add Review for {{ artisan.name }}</h1>
+
+<p class="review-sub">Share your experience with this artisan.</p>
+
+<form method="post">
+            {% csrf_token %}
+
+            <div style="margin-bottom:15px;">
+                <label for="id_user_name">User Name</label><br>
+                {{ form.user_name }}
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <label for="id_rating">Rating (1-5)</label><br>
+                {{ form.rating }}
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <label for="id_comment">Comment</label><br>
+                {{ form.comment }}
+            </div>
+
+           <button type="submit" class="fx-btn">Submit Review</button>
+        </form>
+    </section>
+
+
+</main>
+
+</body>
+</html>

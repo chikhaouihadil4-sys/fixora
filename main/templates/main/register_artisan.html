@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register as Artisan - Fixora</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+.fx-grid input, .fx-grid textarea, .fx-grid select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+.service-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <span style="font-family: 'Lucida Handwriting', cursive; font-size:48px;">F</span>
+        <span style="font-size:36px;">ixora</span>
+    </div>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'login' %}">Login</a>
+    </nav>
+</header>
+
+<section class="fx-register">
+<div class="fx-card">
+
+<h1>Register as an Artisan</h1>
+<p class="fx-sub">Create your professional profile and start receiving requests.</p>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- USER LOGIN INFO -->
+    <div class="fx-grid">
+
+        <div>
+            <label>Username</label>
+            <input type="text" name="username" required>
+        </div>
+
+        <div>
+            <label>Email</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div>
+            <label>Password</label>
+            <input type="password" name="password" required>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- ARTISAN INFO -->
+    <div class="fx-grid">
+
+        <div>
+            <label>Full Name</label>
+            <input type="text" name="name" required>
+        </div>
+
+        <div>
+            <label>Phone</label>
+            <input type="text" name="phone" required>
+        </div>
+
+        <div>
+            <label>City</label>
+            <input type="text" name="city" required>
+        </div>
+
+        <div>
+            <label>Experience</label>
+            <input type="number" name="experience" required>
+        </div>
+
+        <div>
+            <label>Description</label>
+            <textarea name="description"></textarea>
+        </div>
+
+        <div>
+            <label>Profile Image</label>
+            <input type="file" name="image">
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- SERVICES -->
+    <label>How many services?</label>
+    <input type="number" id="services_count" name="services_count" min="1" value="1" onchange="generateServices()">
+
+    <div id="services_container"></div>
+
+    <br>
+
+    <button type="submit" class="fx-btn">Create Profile</button>
+</form>
+
+</div>
+</section>
+
+<script>
+function generateServices() {
+    let count = document.getElementById("services_count").value;
+    let container = document.getElementById("services_container");
+
+    container.innerHTML = "";
+
+    for (let i = 0; i < count; i++) {
+        container.innerHTML += `
+            <div class="service-box">
+                <h4>Service ${i+1}</h4>
+
+                <label>Name</label>
+                <input type="text" name="service_${i}" required>
+
+                <label>Price</label>
+                <input type="number" name="price_${i}" required>
+            </div>
+        `;
+    }
+}
+
+generateServices();
+</script>
+
+</body>
+</html>

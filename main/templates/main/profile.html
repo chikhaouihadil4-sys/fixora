@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profile - Fixora</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+<span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
+<span style="font-size:36px;">ixora</span>
+</div>
+
+<nav>
+    {% if user.is_authenticated %}
+
+        {% if user.artisan %}
+            <a href="{% url 'artisan_history' %}" style="color:white; margin-right:15px;">
+                History
+            </a>
+        {% endif %}
+
+        <a href="{% url 'logout' %}" style="color:white; margin-right:15px;">
+            Logout
+        </a>
+
+    {% endif %}
+</nav>
+</header>
+<section class="profile-section">
+
+<div class="profile-card">
+
+{% if artisan.image %}
+<img src="{{ artisan.image.url }}" width="200">
+{% endif %}
+
+<h2>{{ artisan.name }}</h2>
+
+<!-- SERVICES -->
+<div>
+{% for s in services %}
+    <span class="badge">{{ s.name }} - {{ s.price }} DA</span><br>
+{% endfor %}
+</div>
+
+<p>📍 {{ artisan.city }}</p>
+<p>📞 {{ artisan.phone }}</p>
+<p>Experience: {{ artisan.experience }} years</p>
+
+<p>{{ artisan.description }}</p>
+
+<!-- RATING -->
+<p>
+⭐ {{ average_rating }}
+</p>
+
+<!-- OWNER BUTTONS -->
+{% if is_owner %}
+
+    <a href="{% url 'artisan_requests' %}" class="review-btn">
+        View Requests
+    </a>
+
+    <a href="{% url 'edit_profile' %}" class="review-btn">
+        Edit Profile
+    </a>
+
+{% endif %}
+
+<!-- CLIENT BUTTONS -->
+{% if not is_owner %}
+
+    <a href="{% url 'request_service' artisan.id %}" class="review-btn">
+        Request Service
+    </a>
+
+    <a href="{% url 'add_review' artisan.id %}" class="review-btn">
+        Add Review
+    </a>
+
+{% endif %}
+
+</div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section">
+
+<h3>Customer Reviews</h3>
+
+{% for review in reviews %}
+<div class="review-card">
+<p>⭐ {{ review.rating }}</p>
+<p>{{ review.comment }}</p>
+<small>- {{ review.user_name }}</small>
+</div>
+{% empty %}
+<p>No reviews yet</p>
+{% endfor %}
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Add Review - Fixora</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+
+/* الصفحة */
+body{
+margin:0;
+font-family:Arial;
+background:#f4f6f9;
+}
+
+/* الهيدر */
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:#1e3a8a;
+color:white;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+}
+
+/* الكارد */
+.review-section{
+display:flex;
+justify-content:center;
+align-items:center;
+padding:60px 20px;
+}
+
+.review-card{
+background:white;
+padding:40px;
+width:420px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+text-align:center;
+}
+
+.review-card h1{
+color:#1e3a8a;
+margin-bottom:10px;
+}
+
+.review-card p{
+color:#555;
+margin-bottom:25px;
+}
+
+/* inputs */
+.review-card input,
+.review-card textarea{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+.review-card textarea{
+height:110px;
+resize:none;
+}
+
+/* زر */
+.fx-btn{
+width:100%;
+padding:14px;
+background:#1e3a8a;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.fx-btn:hover{
+background:#16306f;
+}
+
+/* ⭐⭐⭐ STARS SYSTEM ⭐⭐⭐ */
+
+.stars{
+display:flex;
+flex-direction: row-reverse;
+justify-content:center;
+gap:5px;
+font-size:35px;
+margin-bottom:20px;
+}
+
+.stars input{
+display:none;
+}
+
+.stars label{
+color:#ccc;
+cursor:pointer;
+transition:0.2s;
+}
+
+/* hover effect */
+.stars label:hover,
+.stars label:hover ~ label{
+color:gold;
+}
+
+/* checked effect (fixed) */
+.stars input:checked + label,
+.stars input:checked + label ~ label{
+color:gold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
+<span style="font-size:36px;">ixora</span>
+</div>
+
+<nav>
+<a href="{% url 'home' %}">Home</a>
+</nav>
+
+</header>
+
+
+<section class="review-section">
+
+<div class="review-card">
+
+<h1>Add Review for {{ artisan.name }}</h1>
+
+<p>Share your experience with this artisan</p>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<input type="text" name="user_name" value="{{ request.user.username }}" readonly>
+
+<!-- ⭐⭐⭐ STARS -->
+
+<div class="stars">
+
+<input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
+<input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+<input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+<input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+<input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+
+</div>
+
+<textarea name="comment" placeholder="Write your review..." required></textarea>
+
+<button type="submit" class="fx-btn" style="margin-top:10px;">
+Submit Review
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+</body>
+</html>

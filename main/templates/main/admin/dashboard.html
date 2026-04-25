@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fixora Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f6f9;
+}
+
+/* TOPBAR */
+.topbar {
+    background: #111;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* زر ☰ */
+.topbar button {
+    font-size: 26px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 2000;
+    position: relative;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #111;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    transition: 0.3s;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+
+.sidebar.hidden {
+    left: -240px;
+}
+
+/* MENU */
+.menu-item {
+    padding: 12px;
+    margin: 8px 0;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.menu-item:hover { background: #333; }
+
+/* CONTENT */
+.content {
+    margin-left: 260px;
+    padding: 20px;
+    transition: 0.3s;
+}
+
+.content.full {
+    margin-left: 20px;
+}
+
+/* SECTIONS */
+.section { display: none; }
+.section.active { display: block; }
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: 0.3s;
+}
+.card:hover { transform: scale(1.05); }
+
+/* CHART */
+#chartBox {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: #222;
+    color: white;
+}
+
+/* STATUS */
+.pending { color: orange; }
+.accepted { color: green; }
+.rejected { color: red; }
+.completed { color: blue; }
+
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div>
+        <button onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <div>Fixora Admin</div>
+
+    <div>
+        <a href="{% url 'home' %}" style="color:white;">🏠 Home</a>
+    </div>
+</div>
+
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h2>Menu</h2>
+
+    <div class="menu-item" onclick="show('dashboard')">📊 Dashboard</div>
+    <div class="menu-item" onclick="show('complaints')">⚠ Complaints</div>
+    <div class="menu-item" onclick="show('users')">👤 Users</div>
+    <div class="menu-item" onclick="show('artisans')">🔧 Artisans</div>
+    <div class="menu-item" onclick="show('services')">📨 Service Requests</div>
+    <div class="menu-item" onclick="show('reviews')">⭐ Reviews</div>
+    
+
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="section active">
+
+    <div class="cards">
+        <div class="card">Users <h2>{{ users_count }}</h2></div>
+        <div class="card">Artisans <h2>{{ artisans_count }}</h2></div>
+        <div class="card">Reviews <h2>{{ reviews_count }}</h2></div>
+        <div class="card">Complaints <h2>{{ complaints_count }}</h2></div>
+        <div class="card">Requests <h2>{{ service_requests_count }}</h2></div>
+    </div>
+
+    <div id="chartBox">
+        <canvas id="chartCanvas"></canvas>
+
+        <div style="margin-top:10px;">
+            <button onclick="showChart('doughnut')">📊 Doughnut</button>
+            <button onclick="showChart('line')">📈 Line</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- COMPLAINTS -->
+<div id="complaints" class="section">
+<h2>Complaints</h2>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Sender</th>
+<th>Target</th>
+<th>Reason</th>
+<th>⭐ Rating</th>
+<th>📝 Reviews</th>
+<th>⚠ Complaints</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+{% for c in complaints %}
+<tr>
+
+<td>{{ c.id }}</td>
+
+<td>
+{% if c.user %}{{ c.user.username }}
+{% elif c.artisan %}{{ c.artisan.name }}
+{% else %}Unknown{% endif %}
+</td>
+
+<td>
+{% if c.artisan %}{{ c.artisan.name }}
+{% elif c.target_user %}{{ c.target_user.username }}
+{% else %}Unknown{% endif %}
+</td>
+
+<td>{{ c.reason }}</td>
+
+<td>
+{% if c.rating %}
+{{ c.rating|floatformat:1 }}
+{% else %}
+0
+{% endif %}
+</td>
+
+<td>{{ c.review_count|default:0 }}</td>
+<td>{{ c.complaint_count|default:0 }}</td>
+
+<td>{{ c.status }}</td>
+
+<td>
+<a href="{% url 'accept_complaint' c.id %}">
+    <button style="background:green;color:white;">Accept</button>
+</a>
+<a href="{% url 'reject_complaint' c.id %}">
+    <button style="background:red;color:white;">Reject</button>
+</a>
+</td>
+
+</tr>
+{% empty %}
+<tr>
+<td colspan="9">No complaints found</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+
+
+<!-- USERS -->
+<div id="users" class="section">
+<h2>Users</h2>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Username</th>
+<th>Email</th>
+<th>Action</th>
+</tr>
+
+{% for u in users %}
+<tr>
+
+<td>{{ u.id }}</td>
+<td>{{ u.username }}</td>
+<td>{{ u.email }}</td>
+
+<td>
+{% if u.is_active %}
+<a href="{% url 'block_user' u.id %}">
+    <button style="background:red;color:white;">Block</button>
+</a>
+{% else %}
+<a href="{% url 'unblock_user' u.id %}">
+    <button style="background:green;color:white;">Unblock</button>
+</a>
+{% endif %}
+</td>
+
+</tr>
+{% empty %}
+<tr>
+<td colspan="4">No users found</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+
+<!-- ARTISANS -->
+<div id="artisans" class="section">
+<h2>Artisans</h2>
+
+<table>
+<tr><th>ID</th><th>Name</th><th>City</th><th>Status</th><th>Block</th><th>Approval</th></tr>
+
+{% for a in artisans %}
+<tr>
+<td>{{ a.id }}</td>
+<td>{{ a.name }}</td>
+<td>{{ a.city }}</td>
+
+<td class="{{ a.status }}">
+{% if a.status == "accepted" %}Approved
+{% elif a.status == "rejected" %}Rejected
+{% else %}Pending{% endif %}
+</td>
+
+<td>
+{% if not a.is_blocked %}
+<a href="{% url 'block_artisan' a.id %}">
+    <button style="background:red;color:white;">Block</button>
+</a>
+{% else %}
+<a href="{% url 'unblock_artisan' a.id %}">
+    <button style="background:green;color:white;">Unblock</button>
+</a>
+{% endif %}
+</td>
+
+<td>
+{% if a.status == "pending" %}
+<a href="{% url 'approve_artisan' a.id %}">
+    <button style="background:green;color:white;">✔</button>
+</a>
+
+<a href="{% url 'reject_artisan' a.id %}">
+    <button style="background:red;color:white;">✖</button>
+</a>
+{% else %}
+Done
+{% endif %}
+</td>
+
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<!-- SERVICES -->
+<div id="services" class="section">
+<h2>Service Requests</h2>
+
+<table>
+<tr>
+<th>ID</th><th>User</th><th>Artisan</th><th>Service</th><th>Phone</th><th>Status</th><th>Date</th>
+</tr>
+
+{% for s in request_service %}
+<tr>
+<td>{{ s.id }}</td>
+<td>{{ s.user.username }}</td>
+<td>{{ s.artisan.name }}</td>
+<td>{{ s.service.name }}</td>
+<td>{{ s.phone }}</td>
+<td class="{{ s.status }}">{{ s.status }}</td>
+<td>{{ s.created_at|date:"Y-m-d" }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<!-- REVIEWS -->
+<div id="reviews" class="section">
+<h2>Reviews</h2>
+
+<table>
+<tr><th>ID</th><th>User</th><th>Artisan</th><th>Rating</th></tr>
+
+{% for r in reviews %}
+<tr>
+<td>{{ r.id }}</td>
+<td>{{ r.user_name }}</td>
+<td>{{ r.artisan.name }}</td>
+<td>{{ r.rating }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+
+
+</div>
+
+<!-- JS -->
+<script>
+
+function show(id){
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+function toggleSidebar(){
+    let sidebar = document.querySelector(".sidebar");
+    let content = document.getElementById("content");
+
+    sidebar.classList.toggle("hidden");
+    content.classList.toggle("full");
+}
+
+let chart;
+
+function showChart(type){
+
+    let ctx = document.getElementById("chartCanvas");
+    if(!ctx || typeof Chart === "undefined") return;
+
+    let data = {
+        Users: {{ users_count }},
+        Artisans: {{ artisans_count }},
+        Reviews: {{ reviews_count }},
+        Complaints: {{ complaints_count }},
+        Requests: {{ service_requests_count }}
+    };
+
+    if(chart) chart.destroy();
+
+    if(type === "line"){
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(data),
+                datasets: [{
+                    data: Object.values(data),
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            }
+        });
+    } else {
+        chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(data),
+                datasets: [{
+                    data: Object.values(data)
+                }]
+            }
+        });
+    }
+}
+
+/* باش يبان chart مباشرة */
+window.onload = function(){
+    showChart('doughnut');
+}
+
+</script>
+
+</body>
+</html>

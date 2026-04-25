@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Profile - Fixora</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+<span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
+
+<span style="font-size:36px;">ixora</span>
+
+</div>
+
+<nav>
+
+<a href="{% url 'home' %}">Home</a>
+
+</nav>
+
+</header>
+
+
+<section class="profile-section">
+
+<div class="profile-card">
+
+{% if artisan.image %}
+<img src="{{ artisan.image.url }}" width="200">
+{% endif %}
+<h2>{{ artisan.name }}</h2>
+
+<span class="badge">{{ artisan.service }}</span>
+
+<p>📍 {{ artisan.city }}</p>
+
+<p>📞 {{ artisan.phone }}</p>
+
+<p>Experience: {{ artisan.experience }} years</p>
+
+<p>{{ artisan.description }}</p>
+
+<p>
+{% if average_rating >= 1 %}⭐{% endif %}
+{% if average_rating >= 2 %}⭐{% endif %}
+{% if average_rating >= 3 %}⭐{% endif %}
+{% if average_rating >= 4 %}⭐{% endif %}
+{% if average_rating >= 5 %}⭐{% endif %}
+({{ average_rating }})
+</p>
+
+<a href="{% url 'add_review' artisan.id %}" class="review-btn">Add Review</a>
+
+</div>
+
+</section>
+
+
+<section class="reviews-section">
+
+<h3>Customer Reviews</h3>
+
+{% for review in reviews %}
+
+<div class="review-card">
+
+<p>⭐ {{ review.rating }}</p>
+
+<p>{{ review.comment }}</p>
+
+<small>- {{ review.user_name }}</small>
+</div>
+
+{% empty %}
+
+<p>No reviews yet</p>
+
+{% endfor %}
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Fixora</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<section class="register-wrapper">
+
+    <div class="register-left">
+        <h1>Join Fixora</h1>
+        <p>Find trusted local artisans easily and securely.</p>
+    </div>
+
+    <div class="register-right">
+        <div class="register-card">
+            <h2>Create Account</h2>
+            {% if error %}
+              <p style="color:red;">{{ error }}</p>
+            {% endif %}
+            <!-- الفورم مربوطة مع Django -->
+            <form method="POST">
+                {% csrf_token %}
+
+                <input type="text" name="name" placeholder="Full Name" required>
+
+                <input type="email" name="email" placeholder="Email Address" required>
+
+                <input type="password" name="password" placeholder="Password" required>
+
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+
+                <button type="submit">Register</button>
+            </form>
+
+            <p class="switch-auth">
+                Already have an account?
+                <a href="{% url 'login' %}">Login</a>
+            </p>
+               {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>
