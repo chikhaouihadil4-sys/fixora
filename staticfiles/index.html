@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    {% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header style="display:flex; justify-content:space-between; align-items:center; padding:15px 50px; background-color:#1e3a8a; color:white;">
+    <!-- Logo -->
+    <div class="logo" style="font-size:36px; display:flex; align-items:center; gap:5px;">
+    <span style="font-family: 'Lucida Handwriting', cursive; font-size:48px; color:white;">F</span>
+    <span style="font-family: Arial, sans-serif; font-size:36px;">ixora</span>
+</div>
+
+
+    <!-- Navigation -->
+    <nav>
+        <a href="login.html" style="color:white; text-decoration:none; margin-right:15px;">Login</a>
+        <a href="register_user.html" style="color:#1e3a8a; background:white; padding:6px 12px; border-radius:5px; text-decoration:none;">Register</a>
+    </nav>
+</header>
+    <section class="hero">
+        <h1>Find trusted local artisans fast and easily with Fixora</h1>
+        <p>Plumbers, Electricians, Carpenters and more near you</p>
+        <div class="search-box">
+            <select>
+                <option>Select Service</option>
+                <option>Plumber</option>
+                <option>Electrician</option>
+                <option>Carpenter</option>
+                <option>Painter</option>
+            </select>
+
+            <select>
+                <option>Select City</option>
+                <option>Algiers</option>
+                <option>Oran</option>
+                <option>Constantine</option>
+            </select>
+
+           <a href="results.html">
+               <button>Search</button>
+           </a>
+
+        </div>
+    </section>
+    
+    <section class="service-bar">
+       <h2>What can we help you with?</h2>
+     <div class="services">
+        <div class="service-card">
+            <span class="icon">🔧</span>
+            Handyperson
+        </div>
+        <div class="service-card">
+            <span class="icon">🌿</span>
+            Landscaping
+        </div>
+        <div class="service-card">
+            <span class="icon">🚰</span>
+            Plumbing
+        </div>
+        <div class="service-card">
+            <span class="icon">⚡</span>
+            Electrical
+        </div>
+        <div class="service-card">
+            <span class="icon">🛠️</span>
+            Remodeling
+        </div>
+        <div class="service-card">
+            <span class="icon">🏠</span>
+            Roofing
+        </div>
+        <div class="service-card">
+            <span class="icon">🎨</span>
+            Painting
+        </div>
+        <div class="service-card">
+            <span class="icon">🧹</span>
+            Cleaning
+        </div>
+       
+        
+        <div class="service-card">
+            <span class="icon">🧱</span>
+            Concrete
+        </div>
+     </div>
+    </section>
+
+
+
+    <section class="featured">
+        <h2>Top Rated Artisans</h2>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Ahmed Ben</h3>
+                <p>Plumber</p>
+                <p>“Quick, professional, and fixed my leak perfectly! Highly recommend.”</p>
+                <p>⭐⭐⭐⭐☆ (4.5)</p>
+               <a href="profile.html">
+                    <button>View Profile</button>
+                </a>
+            </div>
+
+            <div class="card">
+                <h3>Ayman Bou</h3>
+                <p>Electrician</p>
+                <p>“Fixed my wiring safely and quickly. It is very reliable !”</p>
+                <p>⭐⭐⭐⭐⭐ (5.0)</p>
+                <button>View Profile</button>
+            </div>
+
+             <div class="card">
+                <h3>Toufik T</h3>
+                <p>Carpenter</p>
+                <p>“Built my new shelves perfectly. Highly skilled and professional!”</p>
+                <p>⭐⭐⭐⭐☆ (4.2)</p>
+                <button>View Profile</button>
+            </div>
+             <div class="card">
+                <h3>Houda Aou</h3>
+                <p>cleaning</p>
+                <p>“Left my home spotless! Friendly and thorough service.”</p>
+                <p>⭐⭐⭐⭐☆ (4.2)</p>
+                <button>View Profile</button>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
