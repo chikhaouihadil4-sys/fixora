@@ -17,7 +17,11 @@ from .forms import ReviewForm, ServiceRequestForm, ComplaintForm
 def home(request):
     services = Service.objects.values_list('name', flat=True).distinct()
     cities = Artisan.objects.values_list('city', flat=True).distinct()
-    top_artisans = Artisan.objects.filter(is_approved=True).order_by('-rating')[:4]
+
+    top_artisans = Artisan.objects.filter(
+        status='accepted',
+        is_blocked=False
+    ).order_by('-rating')[:4]
 
     return render(request, 'main/index.html', {
         'services': services,
