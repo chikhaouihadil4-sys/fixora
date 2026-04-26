@@ -3,13 +3,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Home Page - Fixora</title>
+    <meta charset="UTF-8">
+    <title>Home Page - Fixora</title>
 
-{% load static %}
+    {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+    <!-- LOGO ICON -->
+    <link rel="icon" type="image/png" href="{% static 'logo.png' %}">
+
+    <!-- SEO -->
+    <meta property="og:title" content="Fixora - Services Platform">
+    <meta property="og:description" content="Find artisans and services easily">
+    <meta property="og:image" content="https://fixora-8odh.onrender.com/static/logo.png">
+    <meta property="og:type" content="website">
 </head>
 
 <body>
@@ -20,7 +29,8 @@
 <span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
 <span style="font-size:36px;">ixora</span>
 </div>
-
+<!-- عرض اللوقو -->
+    <img src="{% static 'logo.png' %}" alt="Fixora Logo" width="200">
 
 <nav >
 

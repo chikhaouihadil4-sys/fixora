@@ -4,10 +4,10 @@ from .models import Artisan, Service, Review, ServiceRequest, Complaint
 
 @admin.register(Artisan)
 class ArtisanAdmin(admin.ModelAdmin):
-    list_display = ('name', 'city', 'phone', 'is_approved')
-    list_filter = ('city', 'is_approved')
-
-
+    list_display = ('name', 'city', 'phone', 'status', 'rating', 'is_blocked')
+    list_filter = ('status', 'is_blocked')
+    search_fields = ('name', 'city', 'phone')
+    
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'artisan')

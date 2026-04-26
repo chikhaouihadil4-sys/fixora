@@ -14,22 +14,21 @@ class Artisan(models.Model):
     image = models.ImageField(upload_to='artisans/', blank=True, null=True)
 
     rating = models.FloatField(default=0)
-    is_approved = models.BooleanField(default=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_blocked = models.BooleanField(default=False)
+
     status = models.CharField(
-    max_length=20,
-    choices=[
-        ('pending', 'Pending'),
-        ('accepted', 'Accepted'),
-        ('rejected', 'Rejected')
-    ],    
-     default='pending'
-)
-    
+        max_length=20,
+        choices=[
+            ('pending', 'Pending'),
+            ('accepted', 'Accepted'),
+            ('rejected', 'Rejected')
+        ],
+        default='pending'
+    )
+
+    is_blocked = models.BooleanField(default=False)
+
     def __str__(self):
         return self.name
-
 
 class Service(models.Model):
     artisan = models.ForeignKey(Artisan, on_delete=models.CASCADE, related_name="services")
