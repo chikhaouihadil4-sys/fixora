@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +9,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <!-- LOGO ICON -->
+    <!-- Logo Icon -->
     <link rel="icon" type="image/png" href="{% static 'logo.png' %}">
 
     <!-- SEO -->
@@ -21,34 +19,42 @@
     <meta property="og:type" content="website">
 
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
+            padding: 0;
+            box-sizing: border-box;
         }
 
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        /* HEADER */
         header {
+            background: linear-gradient(to right, #0f2f8f, #1e3a8a);
+            padding: 20px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 50px;
-            background-color: #1e3a8a;
-            color: white;
         }
 
+        /* LOGO LEFT */
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         .logo img {
-            width: 55px;
-            height: 55px;
+            width: 85px;
+            height: 85px;
             border-radius: 50%;
             object-fit: cover;
+            background: white;
+            padding: 6px;
             border: 3px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.20);
             transition: 0.3s;
         }
 
@@ -57,196 +63,284 @@
         }
 
         .logo span {
-            font-size: 26px;
+            color: white;
+            font-size: 42px;
             font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* NAVBAR */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 18px;
         }
 
         nav a {
-            color: white;
-            margin-left: 15px;
             text-decoration: none;
+            color: white;
+            font-size: 18px;
         }
 
-        nav a:hover {
-            opacity: 0.8;
+        .btn-white {
+            background: white;
+            color: #1e3a8a !important;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
+        .btn-white:hover {
+            transform: translateY(-2px);
+        }
+
+        /* HERO */
         .hero {
             text-align: center;
-            padding: 70px 20px;
+            padding: 90px 20px;
+            background: #f5f7fb;
+        }
+
+        .hero h1 {
+            font-size: 58px;
+            font-weight: bold;
+            color: #111;
+            max-width: 950px;
+            margin: auto;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            margin-top: 25px;
+            font-size: 24px;
+            color: #666;
+        }
+
+        /* SEARCH BOX */
+        .search-box {
+            margin-top: 35px;
+        }
+
+        select {
+            width: 220px;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            margin: 8px;
             background: white;
         }
 
-        select, button {
-            padding: 10px;
-            margin: 5px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-
         button {
-            background: #2563eb;
+            padding: 18px 35px;
+            border: none;
+            border-radius: 12px;
+            background: #1e3a8a;
             color: white;
+            font-size: 20px;
+            font-weight: bold;
             cursor: pointer;
+            transition: 0.3s;
         }
 
+        button:hover {
+            opacity: 0.92;
+        }
+
+        /* FEATURED */
+        .featured {
+            padding: 70px 50px;
+        }
+
+        .featured h2 {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 40px;
+            color: #111;
+        }
+
+        /* CARDS */
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            padding: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 25px;
         }
 
         .card {
             background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #1e3a8a;
+        }
+
+        .card p {
+            margin: 10px 0;
+            color: #444;
         }
     </style>
 </head>
 
 <body>
 
-<header style="display:flex; justify-content:space-between; align-items:center; padding:15px 50px; background-color:#1e3a8a; color:white;">
+<!-- HEADER -->
+<header>
 
-<div class="logo" style="font-size:36px; display:flex; align-items:center; gap:5px;">
-<span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
-<span style="font-size:36px;">ixora</span>
-</div>
-<!-- عرض اللوقو -->
-    <img src="{% static 'logo.png' %}" alt="Fixora Logo" width="200">
+    <div class="logo">
+        <img src="{% static 'logo.png' %}" alt="Fixora Logo">
+        <span>Fixora</span>
+    </div>
 
-<nav >
+    <nav>
 
-    {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
 
-        <span>Welcome {{ user.username }}</span>
+            <span style="color:white;">
+                Welcome {{ user.username }}
+            </span>
 
-        {% if user.is_staff %}
-            <!-- 🔥 Admin only -->
-            <a href="{% url 'admin_dashboard' %}" 
-               style="color:white; margin-right:15px;">
-               🛠 Dashboard
+            {% if user.is_staff %}
+                <a href="{% url 'admin_dashboard' %}">
+                    🛠 Dashboard
+                </a>
+            {% endif %}
+
+            {% if is_artisan %}
+                <a href="{% url 'artisan_history' %}">
+                    History
+                </a>
+            {% else %}
+                <a href="{% url 'user_history' %}">
+                    History
+                </a>
+            {% endif %}
+
+            <a href="{% url 'logout' %}">
+                Logout
             </a>
-        {% endif %}
-
-        {% if user.artisan %}
-
-            <a href="{% url 'artisan_history' %}" style="color:white; margin-right:15px;">History</a>
 
         {% else %}
 
-            <a href="{% url 'user_history' %}" style="color:white; margin-right:15px;">History</a>
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+            <a href="{% url 'register_user' %}" class="btn-white">
+                Register
+            </a>
+
+            <a href="{% url 'register_artisan' %}" class="btn-white">
+                Become an Artisan
+            </a>
 
         {% endif %}
 
-        <a href="{% url 'logout' %}" style="color:white; margin-right:15px;">Logout</a>
-
-    {% else %}
-
-        <a href="{% url 'login' %}" style="color:white; margin-right:15px;">Login</a>
-
-        <a href="{% url 'register_user' %}" style="background:white; color:#1e3a8a; padding:6px 12px; border-radius:5px; margin-right:10px;">
-            Register
-        </a>
-
-        <a href="{% url 'register_artisan' %}" style="background:white; color:#1e3a8a; padding:6px 12px; border-radius:5px;">
-            Become an Artisan
-        </a>
-
-    {% endif %}
-
-</nav>
+    </nav>
 
 </header>
 
-
+<!-- HERO -->
 <section class="hero">
 
-<h1>Find trusted local artisans fast and easily with Fixora</h1>
+    <h1>
+        Find trusted local artisans fast and easily with Fixora
+    </h1>
 
-<p>Plumbers, Electricians, Carpenters and more near you</p>
+    <p>
+        Plumbers, Electricians, Carpenters and more near you
+    </p>
 
-<div class="search-box">
+    <div class="search-box">
 
-<form method="GET" action="{% url 'search_results' %}">
+        <form method="GET" action="{% url 'search_results' %}">
 
-<select name="service">
-<option value="">All Services</option>
+            <select name="service">
+                <option value="">All Services</option>
 
-{% for service in services %}
-<option value="{{ service }}">{{ service }}</option>
-{% empty %}
-<option disabled>No services</option>
-{% endfor %}
+                {% for service in services %}
+                    <option value="{{ service }}">{{ service }}</option>
+                {% empty %}
+                    <option disabled>No services</option>
+                {% endfor %}
+            </select>
 
-</select>
+            <select name="city">
+                <option value="">All Cities</option>
 
+                {% for city in cities %}
+                    <option value="{{ city }}">{{ city }}</option>
+                {% empty %}
+                    <option disabled>No cities</option>
+                {% endfor %}
+            </select>
 
-<select name="city">
-<option value="">All Cities</option>
+            <button type="submit">
+                Search
+            </button>
 
-{% for city in cities %}
-<option value="{{ city }}">{{ city }}</option>
-{% empty %}
-<option disabled>No cities</option>
-{% endfor %}
+        </form>
 
-</select>
-
-<button type="submit">Search</button>
-
-</form>
-
-</div>
+    </div>
 
 </section>
 
-
+<!-- FEATURED -->
 <section class="featured">
 
-<h2>Top Rated Artisans</h2>
+    <h2>Top Rated Artisans</h2>
 
-<div class="cards">
+    <div class="cards">
 
-{% for artisan in top_artisans %}
+        {% for artisan in top_artisans %}
 
-<div class="card">
+            <div class="card">
 
-<h3>{{ artisan.name }}</h3>
+                <h3>{{ artisan.name }}</h3>
 
-<p>{{ artisan.service }}</p>
+                <p><strong>{{ artisan.service }}</strong></p>
 
-<p>{{ artisan.description }}</p>
+                <p>{{ artisan.description }}</p>
 
-<p>
+                <p>
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= artisan.rating %}
+                            ⭐
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    {% endfor %}
+                    ({{ artisan.rating }})
+                </p>
 
-{% for i in "12345" %}
-    {% if forloop.counter <= artisan.rating %}
-        ⭐
-    {% else %}
-        ☆
-    {% endif %}
-{% endfor %}
+                <a href="{% url 'profile' artisan.id %}">
+                    <button>
+                        View Profile
+                    </button>
+                </a>
 
-({{ artisan.rating }})
+            </div>
 
-</p>
+        {% empty %}
 
-<a href="{% url 'profile' artisan.id %}">
-<button>View Profile</button>
-</a>
+            <p style="text-align:center;">
+                No artisans available yet.
+            </p>
 
-</div>
+        {% endfor %}
 
-{% empty %}
-
-<p>No artisans available yet.</p>
-
-{% endfor %}
-
-</div>
+    </div>
 
 </section>
 
