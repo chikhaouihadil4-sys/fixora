@@ -27,7 +27,11 @@
         {% for artisan in artisans %}
             <div class="result-card">
                 <h3>{{ artisan.name }}</h3>
-                <p>Service: {{ artisan.service }}</p>
+                <p>Service:
+                    {% for service in artisan.services.all %}
+                        {{ service.name }}{% if not forloop.last %}, {% endif %}
+                   {% endfor %}
+                </p>
                 <p>City: {{ artisan.city }}</p>
                 <p>Phone: {{ artisan.phone }}</p>
                 <p>Experience: {{ artisan.experience }} years</p>

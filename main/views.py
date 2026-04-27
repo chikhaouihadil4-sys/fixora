@@ -215,41 +215,42 @@ def add_review(request, id):
 
 # ---------------- SEARCH ----------------
 def search_results(request):
-
-    service = request.GET.get('service')
-    city = request.GET.get('city')
+    
+    service = request.GET.get('service', '').strip()
+    city = request.GET.get('city', '').strip()
 
     artisans = Artisan.objects.filter(
-        is_approved=True,
+        status='accepted',
         is_blocked=False
     )
 
-    # 🔍 filter by service
     if service:
         artisans = artisans.filter(
             services__name__icontains=service
         )
 
-    # 🏙 filter by city
     if city:
         artisans = artisans.filter(
             city__icontains=city
         )
 
-    # ⭐ calculate rating
     for artisan in artisans:
-        avg = Review.objects.filter(
-            artisan=artisan
-        ).aggregate(Avg('rating'))['rating__avg']
+        try:
+            avg = Review.objects.filter(
+                artisan=artisan
+            ).aggregate(Avg('rating'))['rating__avg']
 
-        artisan.average_rating = round(avg, 1) if avg else 0
+            artisan.average_rating = round(avg, 1) if avg else 0
+
+        except Exception as e:
+            print("ERROR IN RATING:", e)
+            artisan.average_rating = 0
 
     return render(request, 'main/search_results.html', {
-        'artisans': artisans,
+        'artisans': artisans.distinct(),
         'service': service,
         'city': city
     })
-
 
 
 

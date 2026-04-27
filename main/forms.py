@@ -98,26 +98,25 @@ class ServiceRequestForm(forms.ModelForm):
         
         
 from django import forms
-from .models import Complaint, Artisan
-from django.contrib.auth.models import User
-
+from .models import Complaint
 
 class ComplaintForm(forms.ModelForm):
-    
+
     class Meta:
         model = Complaint
         fields = ['service', 'reason', 'description', 'attachment']
 
         widgets = {
-            'service': forms.TextInput(attrs={'class': 'form-control'}),
-            'reason': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'rows': 4, 'class': 'form-control'}),
+            'service': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+
+            'reason': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+
+            'description': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control'
+            }),
         }
-
-    def __init__(self, *args, **kwargs):
-        artisan = kwargs.pop('artisan', None)
-        super().__init__(*args, **kwargs)
-
-        # 🔥 هذا هو الحل
-        if artisan:
-            self.fields['service'].queryset = artisan.services.all()
