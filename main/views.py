@@ -120,6 +120,7 @@ def register_artisan(request):
 
 @csrf_protect
 
+@csrf_protect
 def login_user(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -145,10 +146,12 @@ def login_user(request):
             if artisan:
                 if artisan.is_blocked:
                     messages.error(request, "Account blocked")
+                    logout(request)
                     return redirect("login")
 
-                if not artisan.status != "accepted":
+                if artisan.status != "accepted":
                     messages.error(request, "Account not approved yet")
+                    logout(request)
                     return redirect("login")
 
                 return redirect("profile", id=artisan.id)
@@ -159,8 +162,6 @@ def login_user(request):
         return redirect("login")
 
     return render(request, "main/login.html")
-
-
 # ---------------- LOGOUT ----------------
 def logout_user(request):
     logout(request)
