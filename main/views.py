@@ -147,7 +147,7 @@ def login_user(request):
                     messages.error(request, "Account blocked")
                     return redirect("login")
 
-                if not artisan.is_approved:
+                if not artisan.status != "accepted":
                     messages.error(request, "Account not approved yet")
                     return redirect("login")
 
