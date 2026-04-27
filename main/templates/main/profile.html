@@ -37,6 +37,8 @@
 
 {% if artisan.image %}
     <img src="{{ artisan.image.url }}" alt="{{ artisan.name }}">
+{% else %}
+    <p>No Image</p>
 {% endif %}
 
 <h2>{{ artisan.name }}</h2>

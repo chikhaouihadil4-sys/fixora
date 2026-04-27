@@ -62,7 +62,7 @@ def register_artisan(request):
     if request.method == "POST":
 
         username = request.POST.get("username")
-        name = request.POST.get("name")
+        full_name = request.POST.get("name")
         email = request.POST.get("email")
         password = request.POST.get("password")
 
@@ -70,49 +70,49 @@ def register_artisan(request):
         phone = request.POST.get("phone")
         experience = request.POST.get("experience")
         description = request.POST.get("description")
-        image = request.FILES.get("image")
+
+        image = request.FILES.get("image")  # ← مهم جدًا
 
         count = int(request.POST.get("services_count", 0))
 
-        # التحقق من وجود username مسبقًا
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
             return redirect("register_artisan")
 
-        # إنشاء حساب المستخدم
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email already exists")
+            return redirect("register_artisan")
+
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password
         )
 
-        # إنشاء artisan بشكل صحيح
         artisan = Artisan.objects.create(
             user=user,
-            name=name,
+            name=full_name,
             email=email,
             city=city,
             phone=phone,
-            experience=int(experience) if experience else 0,
+            experience=experience or 0,
             description=description,
-            image=image,
-            status='pending',
+            image=image,  # ← مهم جدًا
+            status="pending",
             is_blocked=False
         )
 
-        # إنشاء الخدمات
         for i in range(count):
-            service_name = request.POST.get(f"service_{i}")
+            name = request.POST.get(f"service_{i}")
             price = request.POST.get(f"price_{i}")
 
-            if service_name:
+            if name:
                 Service.objects.create(
                     artisan=artisan,
-                    name=service_name,
+                    name=name,
                     price=price or 0
                 )
 
-        messages.success(request, "Artisan profile created successfully!")
         return redirect("home")
 
     return render(request, "main/register_artisan.html")
@@ -359,21 +359,20 @@ def send_complaint(request, target_type, id):
         target_user = get_object_or_404(User, id=id)
         target_artisan = None
 
-    form = ComplaintForm(
-        request.POST or None,
-        request.FILES or None,
-        artisan=target_artisan   # 🔥 مهم بزاف
-    )
-
     if request.method == "POST":
+        form = ComplaintForm(
+            request.POST,
+            request.FILES
+        )
 
         if form.is_valid():
             c = form.save(commit=False)
 
             c.user = request.user
-            c.artisan = target_artisan
+            c.artisan = target_artian
             c.target_user = target_user
             c.sender_type = "user"
+            c.status = "pending"
 
             c.save()
 
@@ -382,12 +381,17 @@ def send_complaint(request, target_type, id):
         else:
             print("ERRORS:", form.errors)
 
+    else:
+        form = ComplaintForm()
+
     return render(request, "main/send_complaint.html", {
         "form": form,
         "artisan": target_artisan,
         "user": target_user,
         "target_type": target_type
     })
+
+
 @login_required
 def complaints_history(request):
     complaints = Complaint.objects.filter(
@@ -399,7 +403,6 @@ def complaints_history(request):
     return render(request, "main/complaints_history.html", {
         "complaints": complaints
     })
-
 # ---------------- ADMIN DASHBOARD ----------------
 @staff_member_required
 def admin_dashboard(request):
