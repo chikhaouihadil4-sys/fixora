@@ -46,74 +46,80 @@
     <!-- USER LOGIN INFO -->
     <div class="fx-grid">
 
-        <div>
-            <label>Username</label>
-            <input type="text" name="username" required>
-        </div>
-
-        <div>
-            <label>Email</label>
-            <input type="email" name="email" required>
-        </div>
-
-        <div>
-            <label>Password</label>
-            <input type="password" name="password" required>
-        </div>
-
+    <div>
+        <label>Username</label>
+        <input type="text" name="username" required>
     </div>
 
-    <hr>
-
-    <!-- ARTISAN INFO -->
-    <div class="fx-grid">
-
-        <div>
-            <label>Full Name</label>
-            <input type="text" name="name" required>
-        </div>
-
-        <div>
-            <label>Phone</label>
-            <input type="text" name="phone" required>
-        </div>
-
-        <div>
-            <label>City</label>
-            <input type="text" name="city" required>
-        </div>
-
-        <div>
-            <label>Experience</label>
-            <input type="number" name="experience" required>
-        </div>
-
-        <div>
-            <label>Description</label>
-            <textarea name="description"></textarea>
-        </div>
-
-        <div>
-            <label>Profile Image</label>
-            <input type="file" name="image">
-        </div>
-
+    <div>
+        <label>Email</label>
+        <input type="email" name="email" required>
     </div>
 
-    <hr>
-
-    <!-- SERVICES -->
-    <label>How many services?</label>
-    <input type="number" id="services_count" name="services_count" min="1" value="1" onchange="generateServices()">
-
-    <div id="services_container"></div>
-
-    <br>
-
-    <button type="submit" class="fx-btn">Create Profile</button>
-</form>
+    <div>
+        <label>Password</label>
+        <input type="password" name="password" required>
+    </div>
 
 </div>
+
+<hr>
+
+<!-- ARTISAN INFO -->
+<div class="fx-grid">
+
+    <div>
+        <label>Full Name</label>
+        <input type="text" name="name" required>
+    </div>
+
+    <div>
+        <label>Phone</label>
+        <input type="text" name="phone" required>
+    </div>
+
+    <div>
+        <label>City</label>
+        <input type="text" name="city" required>
+    </div>
+
+    <div>
+        <label>Experience</label>
+        <input type="number" name="experience" required>
+    </div>
+
+    <div>
+        <label>Description</label>
+        <textarea name="description"></textarea>
+    </div>
+
+    <div>
+        <label>Profile Image</label>
+        <input type="file" name="image">
+    </div>
+
+</div>
+
+<hr>
+
+<!-- SERVICES -->
+<label>How many services?</label>
+<input
+    type="number"
+    id="services_count"
+    name="services_count"
+    min="1"
+    value="1"
+    onchange="generateServices()"
+>
+
+<div id="services_container"></div>
+
+<br>
+
+<button type="submit" class="fx-btn">
+    Create Profile
+</button>
 </section>
 
 <script>

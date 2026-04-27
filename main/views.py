@@ -62,6 +62,7 @@ def register_artisan(request):
     if request.method == "POST":
 
         username = request.POST.get("username")
+        name = request.POST.get("name")
         email = request.POST.get("email")
         password = request.POST.get("password")
 
@@ -69,44 +70,49 @@ def register_artisan(request):
         phone = request.POST.get("phone")
         experience = request.POST.get("experience")
         description = request.POST.get("description")
+        image = request.FILES.get("image")
 
         count = int(request.POST.get("services_count", 0))
 
-        # ✅ CHECK USERNAME
+        # التحقق من وجود username مسبقًا
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
             return redirect("register_artisan")
 
-        # ✅ CREATE USER
+        # إنشاء حساب المستخدم
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password
         )
 
+        # إنشاء artisan بشكل صحيح
         artisan = Artisan.objects.create(
             user=user,
-            name=username,
+            name=name,
             email=email,
             city=city,
             phone=phone,
-            experience=experience or 0,
+            experience=int(experience) if experience else 0,
             description=description,
-            is_approved=False,
+            image=image,
+            status='pending',
             is_blocked=False
         )
 
+        # إنشاء الخدمات
         for i in range(count):
-            name = request.POST.get(f"service_{i}")
+            service_name = request.POST.get(f"service_{i}")
             price = request.POST.get(f"price_{i}")
 
-            if name:
+            if service_name:
                 Service.objects.create(
                     artisan=artisan,
-                    name=name,
+                    name=service_name,
                     price=price or 0
                 )
 
+        messages.success(request, "Artisan profile created successfully!")
         return redirect("home")
 
     return render(request, "main/register_artisan.html")
