@@ -9,7 +9,7 @@ from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_protect
 from .models import Artisan, Review, Service, ServiceRequest, Complaint, BlackList 
 from .forms import ReviewForm, ServiceRequestForm, ComplaintForm
-from django.http import HttpResponse
+
 
 
 
