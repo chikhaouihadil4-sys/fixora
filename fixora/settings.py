@@ -3,7 +3,8 @@ Django settings for fixora project.
 """
 
 from pathlib import Path
-
+import os
+import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -95,11 +96,12 @@ WSGI_APPLICATION = 'fixora.wsgi.application'
 # DATABASE
 # -----------------------------
 
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL")
+    )
 }
 
 
