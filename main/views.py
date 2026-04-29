@@ -9,7 +9,7 @@ from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_protect
 from .models import Artisan, Review, Service, ServiceRequest, Complaint, BlackList 
 from .forms import ReviewForm, ServiceRequestForm, ComplaintForm
-
+from django.http import HttpResponse
 
 
 
@@ -118,7 +118,7 @@ def register_artisan(request):
     return render(request, "main/register_artisan.html")
 # ---------------- LOGIN ----------------
 
-@csrf_protect
+
 
 @csrf_protect
 def login_user(request):
@@ -352,24 +352,23 @@ def artisan_history(request):
 @login_required
 def send_complaint(request, target_type, id):
 
+    target_artisan = None
+    target_user = None
+
     if target_type == "artisan":
         target_artisan = get_object_or_404(Artisan, id=id)
-        target_user = None
-    else:
+
+    elif target_type == "user":
         target_user = get_object_or_404(User, id=id)
-        target_artisan = None
 
     if request.method == "POST":
-        form = ComplaintForm(
-            request.POST,
-            request.FILES
-        )
+        form = ComplaintForm(request.POST, request.FILES)
 
         if form.is_valid():
             c = form.save(commit=False)
 
             c.user = request.user
-            c.artisan = target_artian
+            c.artisan = target_artisan
             c.target_user = target_user
             c.sender_type = "user"
             c.status = "pending"
@@ -379,7 +378,7 @@ def send_complaint(request, target_type, id):
             return redirect("complaints_history")
 
         else:
-            print("ERRORS:", form.errors)
+            print(form.errors)
 
     else:
         form = ComplaintForm()
@@ -387,11 +386,11 @@ def send_complaint(request, target_type, id):
     return render(request, "main/send_complaint.html", {
         "form": form,
         "artisan": target_artisan,
-        "user": target_user,
+        "target_user": target_user,
         "target_type": target_type
     })
-
-
+ except Exception as e:
+        return HttpResponse(f"ERROR: {str(e)}")
 @login_required
 def complaints_history(request):
     complaints = Complaint.objects.filter(
