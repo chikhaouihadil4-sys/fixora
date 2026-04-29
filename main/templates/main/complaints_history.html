@@ -157,15 +157,14 @@ color:#721c24;
 </td>
 
 <td>
-    {% if complaint.artisan %}
-        {{ complaint.artisan.name }}
-    {% elif complaint.target_user %}
-        {{ complaint.target_user.username }}
+    {% if c.artisan %}
+        {{ c.artisan.name }}
+    {% elif c.target_user %}
+        {{ c.target_user.username }}
     {% else %}
         ---
     {% endif %}
 </td>
-
 <td>{{ c.service }}</td>
 
 <td>{{ c.reason }}</td>
