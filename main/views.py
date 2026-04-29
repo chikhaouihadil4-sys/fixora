@@ -351,45 +351,47 @@ def artisan_history(request):
 
 @login_required
 def send_complaint(request, target_type, id):
+    try:
+        target_artisan = None
+        target_user = None
 
-    target_artisan = None
-    target_user = None
+        if target_type == "artisan":
+            target_artisan = get_object_or_404(Artisan, id=id)
 
-    if target_type == "artisan":
-        target_artisan = get_object_or_404(Artisan, id=id)
+        elif target_type == "user":
+            target_user = get_object_or_404(User, id=id)
 
-    elif target_type == "user":
-        target_user = get_object_or_404(User, id=id)
+        if request.method == "POST":
+            form = ComplaintForm(request.POST, request.FILES)
 
-    if request.method == "POST":
-        form = ComplaintForm(request.POST, request.FILES)
+            if form.is_valid():
+                c = form.save(commit=False)
 
-        if form.is_valid():
-            c = form.save(commit=False)
+                c.user = request.user
+                c.artisan = target_artisan
+                c.target_user = target_user
+                c.sender_type = "user"
+                c.status = "pending"
 
-            c.user = request.user
-            c.artisan = target_artisan
-            c.target_user = target_user
-            c.sender_type = "user"
-            c.status = "pending"
+                c.save()
 
-            c.save()
+                return redirect("complaints_history")
 
-            return redirect("complaints_history")
+            else:
+                print(form.errors)
+                return HttpResponse(form.errors)
 
         else:
-            print(form.errors)
+            form = ComplaintForm()
 
-    else:
-        form = ComplaintForm()
+        return render(request, "main/send_complaint.html", {
+            "form": form,
+            "artisan": target_artisan,
+            "target_user": target_user,
+            "target_type": target_type
+        })
 
-    return render(request, "main/send_complaint.html", {
-        "form": form,
-        "artisan": target_artisan,
-        "target_user": target_user,
-        "target_type": target_type
-    })
- except Exception as e:
+    except Exception as e:
         return HttpResponse(f"ERROR: {str(e)}")
 @login_required
 def complaints_history(request):
