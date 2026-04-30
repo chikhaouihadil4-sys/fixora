@@ -604,3 +604,39 @@ header .btn {
 
 /* ===== REQUESTS PAGE (FIXORA STYLE) ===== */
 
+/* 🔥 FINAL FIX — FORCE NORMAL LAYOUT */
+
+body {
+    display: block !important;
+}
+
+/* نخلي requests مستقل */
+.requests-section {
+    display: block !important;
+    width: 100%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* grid */
+.requests-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* card */
+.request-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+/* 🔥 مهم — نحيد أي flex inheritance */
+.requests-section * {
+    align-self: auto !important;
+}
