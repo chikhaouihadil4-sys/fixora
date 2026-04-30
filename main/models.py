@@ -143,23 +143,4 @@ class BlackList(models.Model):
 
 
     
-    name = models.CharField(max_length=200)
-    message = models.TextField()
-    attachment = models.FileField(upload_to='complaints/', null=True, blank=True)
-
-    # الطرف 1: user
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='complaints_made')
-
-    # الطرف 2: artisan
-    artisan = models.ForeignKey('Artisan', on_delete=models.CASCADE, null=True, blank=True, related_name='complaints_about')
-
-    # شكون الشاكي (مهم جدًا)
-    sender_type = models.CharField(
-        max_length=10,
-        choices=[
-            ('user', 'User'),
-            ('artisan', 'Artisan')
-        ]
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True)
+    

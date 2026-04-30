@@ -202,13 +202,24 @@ def profile(request, id):
 def add_review(request, id):
     artisan = get_object_or_404(Artisan, id=id)
 
+    # ✅ تحقق من وجود طلب مقبول
+    has_request = ServiceRequest.objects.filter(
+        user=request.user,
+        artisan=artisan,
+        status="accepted"
+    ).exists()
+
+    if not has_request:
+        messages.error(request, "You must request the service first")
+        return redirect('request_service', id=artisan.id)
+
     if request.method == "POST":
         form = ReviewForm(request.POST)
 
         if form.is_valid():
             review = form.save(commit=False)
             review.artisan = artisan
-            review.user = request.user
+            review.user_name = request.user.username
             review.save()
 
             avg = Review.objects.filter(artisan=artisan).aggregate(Avg('rating'))['rating__avg']
@@ -337,8 +348,10 @@ def edit_profile(request):
 @login_required
 def user_history(request):
     requests = ServiceRequest.objects.filter(
-    user=request.user
+        user=request.user,
+        status__in=["accepted", "completed"]
     ).order_by('-created_at')
+
     return render(request, 'main/user_history.html', {'requests': requests})
 
 
@@ -349,9 +362,12 @@ def artisan_history(request):
     if not artisan:
         return render(request, 'main/artisan_history.html', {'requests': []})
 
-    requests = ServiceRequest.objects.filter(artisan=artisan).order_by('-created_at')
-    return render(request, 'main/artisan_history.html', {'requests': requests})
+    requests = ServiceRequest.objects.filter(
+        artisan=artisan,
+        status__in=["accepted", "completed"]
+    ).order_by('-created_at')
 
+    return render(request, 'main/artisan_history.html', {'requests': requests})
 # ---------------- COMPLAINTS ----------------
 
 @login_required
@@ -372,8 +388,10 @@ def send_complaint(request, target_type, id):
             complaint = form.save(commit=False)
 
             complaint.user = request.user
-            complaint.artisan = target_artisan
-            complaint.target_user = target_user
+            if target_type == "artisan":
+                complaint.artisan = target_artisan
+            elif target_type == "user":
+                complaint.target_user = target_user
             complaint.sender_type = "user"
             complaint.status = "pending"
 
@@ -381,8 +399,7 @@ def send_complaint(request, target_type, id):
 
             return redirect("complaints_history")
 
-        else:
-            return HttpResponse(form.errors)
+       
 
     else:
         form = ComplaintForm()
