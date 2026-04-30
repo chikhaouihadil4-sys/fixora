@@ -168,10 +168,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import os
 from django.contrib.auth.models import User
 
-if os.environ.get('RENDER') == 'true':
+if os.environ.get('RENDER'):
     if not User.objects.filter(username='admin').exists():
         User.objects.create_superuser(
-            username='adminn',
-            email='admin3@gmail.com',
-            password='hadil260706'
+            username='admin',
+            email='admin@gmail.com',
+            password='admin123'
         )
