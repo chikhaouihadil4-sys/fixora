@@ -488,40 +488,41 @@ def reject_request(request, id):
 
 
 # ---------------- COMPLAINTS ACTIONS ----------------
-@staff_member_required
+@login_required
 def accept_complaint(request, id):
+
+    # 🔒 غير admin
+    if not request.user.is_staff:
+        return redirect('home')
+
     complaint = get_object_or_404(Complaint, id=id)
     complaint.status = "accepted"
     complaint.save()
 
+    # 🔴 إذا الشكوى ضد artisan
     if complaint.artisan:
         complaint.artisan.is_blocked = True
         complaint.artisan.save()
 
-        BlackList.objects.get_or_create(
-            artisan=complaint.artisan,
-            defaults={"reason": "Blocked via complaint"}
-        )
-
-    if complaint.user:
-        complaint.user.is_active = False
-        complaint.user.save()
-
-        BlackList.objects.get_or_create(
-            user=complaint.user,
-            defaults={"reason": "Blocked via complaint"}
-        )
+    # 🔴 إذا الشكوى ضد user
+    if complaint.target_user:
+        # ⚠️ ما نحبسوش admin
+        if not complaint.target_user.is_staff:
+            complaint.target_user.is_active = False
+            complaint.target_user.save()
 
     return redirect("admin_dashboard")
-
-
-@staff_member_required
+@login_required
 def reject_complaint(request, id):
+
+    if not request.user.is_staff:
+        return redirect('home')
+
     complaint = get_object_or_404(Complaint, id=id)
     complaint.status = "rejected"
     complaint.save()
-    return redirect("admin_dashboard")
 
+    return redirect("admin_dashboard")
 
 # ---------------- BLOCK SYSTEM ----------------
 @staff_member_required

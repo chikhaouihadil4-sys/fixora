@@ -1,29 +1,35 @@
-"""
-Django settings for fixora project.
-"""
-
 from pathlib import Path
 import os
 import dj_database_url
-BASE_DIR = Path(__file__).resolve().parent.parent
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # -----------------------------
 # SECURITY
 # -----------------------------
 
-SECRET_KEY = 'django-insecure-0rs(+19$t0r%%85rh!&*fu^+^3$+v5lbabvugun$tlz&s%z'
+SECRET_KEY = 'django-insecure-change-this-key'
 
-DEBUG = False
+# ✅ خليها True في local
+DEBUG = True
 
+# ✅ يخدم local + render
 ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
     "fixora-8odh.onrender.com",
     ".onrender.com"
 ]
 
+# ✅ حل مشكل 400 و CSRF
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "https://fixora-8odh.onrender.com"
+]
 
 # -----------------------------
-# INSTALLED APPS
+# APPS
 # -----------------------------
 
 INSTALLED_APPS = [
@@ -37,32 +43,29 @@ INSTALLED_APPS = [
     'main',
 ]
 
-
 # -----------------------------
 # MIDDLEWARE
 # -----------------------------
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-
-    # مهم جدًا للـ static files
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+
     'django.middleware.csrf.CsrfViewMiddleware',
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 
 # -----------------------------
 # URLS
 # -----------------------------
 
 ROOT_URLCONF = 'fixora.urls'
-
 
 # -----------------------------
 # TEMPLATES
@@ -84,26 +87,21 @@ TEMPLATES = [
     },
 ]
 
-
 # -----------------------------
 # WSGI
 # -----------------------------
 
 WSGI_APPLICATION = 'fixora.wsgi.application'
 
-
 # -----------------------------
 # DATABASE
 # -----------------------------
-
-
 
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
     )
 }
-
 
 # -----------------------------
 # PASSWORD VALIDATION
@@ -116,19 +114,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # -----------------------------
 # INTERNATIONALIZATION
 # -----------------------------
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
 
 # -----------------------------
 # STATIC FILES
@@ -140,11 +133,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# مهم جدًا في Render
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 
 # -----------------------------
 # MEDIA FILES
@@ -152,7 +143,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 # -----------------------------
 # LOGIN
@@ -162,9 +152,26 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+# -----------------------------
+# SECURITY FIX LOCAL
+# -----------------------------
+
+# ❗ مهم باش ما يجيكش 400 في localhost
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 
 # -----------------------------
 # DEFAULT AUTO FIELD
 # -----------------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+import os
+from django.contrib.auth.models import User
+
+if os.environ.get('RENDER') == 'true':
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='adminn',
+            email='admin3@gmail.com',
+            password='hadil260706'
+        )
