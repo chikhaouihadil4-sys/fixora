@@ -71,10 +71,11 @@ def register_artisan(request):
         experience = request.POST.get("experience")
         description = request.POST.get("description")
 
-        image = request.FILES.get("image")  # ← مهم جدًا
+        image = request.FILES.get("image")  # ✅ مهم
 
         count = int(request.POST.get("services_count", 0))
 
+        # ---------- VALIDATION ----------
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
             return redirect("register_artisan")
@@ -83,25 +84,28 @@ def register_artisan(request):
             messages.error(request, "Email already exists")
             return redirect("register_artisan")
 
+        # ---------- CREATE USER ----------
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password
         )
 
+        # ---------- CREATE ARTISAN ----------
         artisan = Artisan.objects.create(
             user=user,
             name=full_name,
             email=email,
             city=city,
             phone=phone,
-            experience=experience or 0,
+            experience=experience if experience else 0,
             description=description,
-            image=image,  # ← مهم جدًا
+            image=image,  # ✅ الصورة هنا
             status="pending",
             is_blocked=False
         )
 
+        # ---------- SERVICES ----------
         for i in range(count):
             name = request.POST.get(f"service_{i}")
             price = request.POST.get(f"price_{i}")
@@ -110,9 +114,10 @@ def register_artisan(request):
                 Service.objects.create(
                     artisan=artisan,
                     name=name,
-                    price=price or 0
+                    price=price if price else 0
                 )
 
+        messages.success(request, "Account created successfully!")
         return redirect("home")
 
     return render(request, "main/register_artisan.html")

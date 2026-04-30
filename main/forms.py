@@ -32,16 +32,9 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class ArtisanRegisterForm(forms.Form):
-    username = forms.CharField()
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-
-    services_count = forms.IntegerField(min_value=1, max_value=10)
-
+class ArtisanRegisterForm(forms.ModelForm):
+    
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
         model = Artisan
         fields = [
             'name',
@@ -74,7 +67,6 @@ class ArtisanRegisterForm(forms.Form):
                 'rows': 4
             }),
         }
-
 
 class ServiceRequestForm(forms.ModelForm):
     class Meta:
