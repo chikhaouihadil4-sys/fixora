@@ -5,57 +5,122 @@
 <title>Service Requests - Fixora</title>
 
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+}
+
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.logo{
+    font-size:34px;
+    font-weight:bold;
+}
+
+.requests-section{
+    max-width:1100px;
+    margin:50px auto;
+    padding:20px;
+}
+
+.requests-section h1{
+    text-align:center;
+    color:#1e3a8a;
+    margin-bottom:35px;
+}
+
+.requests-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.request-box{
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.request-box p{
+    margin:12px 0;
+}
+
+.request-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.request-actions a{
+    flex:1;
+    text-align:center;
+    padding:10px;
+    text-decoration:none;
+    color:white;
+    border-radius:8px;
+}
+
+.btn-accept{
+    background:#1e3a8a;
+}
+
+.btn-reject{
+    background:#dc2626;
+}
+
+.status.pending{color:orange;font-weight:bold;}
+.status.accepted{color:green;font-weight:bold;}
+.status.rejected{color:red;font-weight:bold;}
+</style>
 
 </head>
 
 <body>
 
 <header>
-<div class="logo">
-<span style="font-family:'Lucida Handwriting', cursive; font-size:40px;">F</span>
-<span style="font-size:28px;">ixora</span>
-</div>
+    <div class="logo">Fixora</div>
 </header>
 
-<section class="requests-section NO-CONTAINER">
+<section class="requests-section">
 
 <h1>Service Requests</h1>
 
 <div class="requests-grid">
 
 {% for r in requests %}
-
 <div class="request-box">
 
-    <p><b>Name:</b> {{ r.name }}</p>
-    <p><b>Phone:</b> {{ r.phone }}</p>
-    <p><b>Message:</b> {{ r.message }}</p>
+<p><b>Name:</b> {{ r.name }}</p>
+<p><b>Phone:</b> {{ r.phone }}</p>
+<p><b>Message:</b> {{ r.message }}</p>
 
-    <p>
-        <b>Status:</b> 
-        <span class="status {{ r.status }}">
-            {{ r.status }}
-        </span>
-    </p>
+<p>
+<b>Status:</b>
+<span class="status {{ r.status }}">{{ r.status }}</span>
+</p>
 
-    <p><b>Date:</b> {{ r.created_at }}</p>
+<p><b>Date:</b> {{ r.created_at }}</p>
 
-    <div class="request-actions">
-        <a href="{% url 'accept_request' r.id %}" class="btn-accept">Accept</a>
-        <a href="{% url 'reject_request' r.id %}" class="btn-reject">Reject</a>
-    </div>
-
+<div class="request-actions">
+<a href="{% url 'accept_request' r.id %}" class="btn-accept">Accept</a>
+<a href="{% url 'reject_request' r.id %}" class="btn-reject">Reject</a>
 </div>
 
+</div>
 {% empty %}
-
 <p>No requests yet</p>
-
 {% endfor %}
 
 </div>
-
 </section>
 
 </body>
