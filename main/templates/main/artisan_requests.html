@@ -99,7 +99,7 @@ header{
 {% for r in requests %}
 <div class="request-box">
 
-<p><b>Name:</b> {{ r.name }}</p>
+<p><b>Name:</b> {{ r.user.get_full_name|default:r.user.username }}</p>
 <p><b>Phone:</b> {{ r.phone }}</p>
 <p><b>Message:</b> {{ r.message }}</p>
 
