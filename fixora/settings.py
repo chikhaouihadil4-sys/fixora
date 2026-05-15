@@ -167,14 +167,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # AUTO CREATE ADMIN
 # -----------------------------
 
+
+
 User = get_user_model()
 
 try:
-    if not User.objects.filter(username='hadil').exists():
-        User.objects.create_superuser(
-            'hadil',
-            'h.chikhaoui232339031410@cu-aflou.edu.dz',
-            'hadil260706ch'
-        )
+    user, created = User.objects.get_or_create(
+        username='hadil',
+        defaults={
+            'email': 'h.chikhaoui232339031410@cu-aflou.edu.dz',
+            'is_staff': True,
+            'is_superuser': True,
+        }
+    )
+
+    user.set_password('hadil260706ch')
+    user.is_staff = True
+    user.is_superuser = True
+    user.save()
+
 except Exception:
     pass
