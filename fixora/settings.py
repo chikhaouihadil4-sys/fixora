@@ -172,7 +172,7 @@ User = get_user_model()
 try:
     if not User.objects.filter(username='admin').exists():
         User.objects.create_superuser(
-            'hadi',
+            'hadil',
             'h.chikhaoui232339031410@cu-aflou.edu.dz',
             'hadil260706ch'
         )
