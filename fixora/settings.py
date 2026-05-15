@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import dj_database_url
-from django.contrib.auth import get_user_model
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -162,29 +161,3 @@ SESSION_COOKIE_SECURE = False
 # -----------------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# -----------------------------
-# AUTO CREATE ADMIN
-# -----------------------------
-
-
-
-User = get_user_model()
-
-try:
-    user, created = User.objects.get_or_create(
-        username='hadil',
-        defaults={
-            'email': 'h.chikhaoui232339031410@cu-aflou.edu.dz',
-            'is_staff': True,
-            'is_superuser': True,
-        }
-    )
-
-    user.set_password('hadil260706ch')
-    user.is_staff = True
-    user.is_superuser = True
-    user.save()
-
-except Exception:
-    pass
