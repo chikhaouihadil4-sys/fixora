@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import dj_database_url
+from django.contrib.auth import get_user_model
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,10 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-change-this-key'
 
-# ✅ خليها True في local
 DEBUG = True
 
-# ✅ يخدم local + render
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
@@ -21,7 +20,6 @@ ALLOWED_HOSTS = [
     ".onrender.com"
 ]
 
-# ✅ حل مشكل 400 و CSRF
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
@@ -99,7 +97,7 @@ WSGI_APPLICATION = 'fixora.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL")
+        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
     )
 }
 
@@ -156,7 +154,6 @@ LOGOUT_REDIRECT_URL = 'home'
 # SECURITY FIX LOCAL
 # -----------------------------
 
-# ❗ مهم باش ما يجيكش 400 في localhost
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
@@ -165,16 +162,19 @@ SESSION_COOKIE_SECURE = False
 # -----------------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-from django.contrib.auth import get_user_model
+
+# -----------------------------
+# AUTO CREATE ADMIN
+# -----------------------------
 
 User = get_user_model()
 
 try:
     if not User.objects.filter(username='admin').exists():
         User.objects.create_superuser(
-            'admin',
-            'admin@gmail.com',
-            'admin123'
+            'hadi',
+            'h.chikhaoui232339031410@cu-aflou.edu.dz',
+            'hadil260706ch'
         )
 except Exception:
     pass
