@@ -170,7 +170,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 User = get_user_model()
 
 try:
-    if not User.objects.filter(username='admin').exists():
+    if not User.objects.filter(username='hadil').exists():
         User.objects.create_superuser(
             'hadil',
             'h.chikhaoui232339031410@cu-aflou.edu.dz',
