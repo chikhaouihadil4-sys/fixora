@@ -2,208 +2,1326 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<title>My Complaints - Fixora</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>My Complaints - Fixora</title>
 
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#f5f7fb;
-}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 50px;
-background:#1e3a8a;
-color:white;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.logo{
-font-size:36px;
-display:flex;
-align-items:center;
-gap:5px;
-}
+        :root {
+            --blue-950: #0f172a;
+            --blue-900: #172554;
+            --blue-800: #1e3a8a;
+            --blue-700: #1d4ed8;
+            --blue-600: #2563eb;
+            --blue-500: #3b82f6;
+            --blue-100: #dbeafe;
+            --blue-50: #eff6ff;
 
-.logo span:first-child{
-font-family:'Lucida Handwriting', cursive;
-font-size:48px;
-}
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --slate-50: #f8fafc;
 
-.container{
-width:85%;
-margin:50px auto;
-}
+            --green: #16a34a;
+            --green-bg: #ecfdf3;
 
-h2{
-color:#1e3a8a;
-text-align:center;
-margin-bottom:20px;
-}
+            --orange: #b45309;
+            --orange-bg: #fff7ed;
 
-table{
-width:100%;
-background:white;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
-border-collapse:collapse;
-}
+            --red: #b42318;
+            --red-bg: #fef3f2;
 
-th{
-background:#1e3a8a;
-color:white;
-padding:15px;
-}
+            --white: #ffffff;
 
-td{
-padding:15px;
-border-bottom:1px solid #eee;
-text-align:center;
-}
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
 
-tr:hover{
-background:#f1f5ff;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-a{
-color:#1e3a8a;
-font-weight:bold;
-text-decoration:none;
-}
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
 
-.badge{
-padding:5px 10px;
-border-radius:6px;
-background:#f59e0b;
-color:white;
-font-size:12px;
-}
-/* Status */
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
 
-.status{
-padding:5px 10px;
-border-radius:8px;
-font-size:13px;
-font-weight:bold;
-text-transform:capitalize;
-}
+            background:
+                radial-gradient(
+                    circle at 10% 0%,
+                    rgba(37, 99, 235, 0.055),
+                    transparent 28%
+                ),
+                #f8fafc;
 
-.status.pending{
-background:#fff3cd;
-color:#856404;
-}
+            color: var(--slate-900);
 
-.status.accepted{
-background:#d4edda;
-color:#155724;
-}
+            -webkit-font-smoothing: antialiased;
+        }
 
-.status.rejected{
-background:#f8d7da;
-color:#721c24;
-}
-</style>
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        header {
+            height: 74px;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            background: rgba(255, 255, 255, 0.92);
+
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+
+            color: var(--blue-600);
+
+            letter-spacing: -2px;
+
+            transition: 0.2s ease;
+        }
+
+        .logo:hover {
+            opacity: 0.85;
+        }
+
+        .logo span:first-child {
+            font-family: "Lucida Handwriting", cursive;
+
+            font-size: 40px;
+
+            line-height: 1;
+        }
+
+        .logo span:last-child {
+            margin-left: -3px;
+
+            font-size: 29px;
+            font-weight: 800;
+
+            line-height: 1;
+        }
+
+        .header-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--slate-500);
+
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .header-title::before {
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--green);
+        }
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .page {
+            width: min(1240px, 92%);
+
+            margin: 0 auto;
+
+            padding: 54px 0 90px;
+        }
+
+        /* =========================================
+           PAGE HEADER
+        ========================================= */
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 30px;
+
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            margin-bottom: 10px;
+
+            color: var(--blue-600);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .page-header h1 {
+            margin-bottom: 8px;
+
+            color: var(--slate-900);
+
+            font-size: clamp(30px, 4vw, 43px);
+            font-weight: 780;
+
+            letter-spacing: -1.8px;
+            line-height: 1.08;
+        }
+
+        .page-header p {
+            max-width: 560px;
+
+            color: var(--slate-500);
+
+            font-size: 14px;
+
+            line-height: 1.65;
+        }
+
+        .complaint-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 10px 13px;
+
+            color: var(--slate-600);
+
+            background: var(--white);
+
+            border: 1px solid var(--slate-200);
+
+            border-radius: 10px;
+
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #f59e0b;
+
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+        }
+
+        /* =========================================
+           MAIN PANEL
+        ========================================= */
+
+        .complaints-area {
+            overflow: hidden;
+
+            background: var(--white);
+
+            border: 1px solid var(--slate-200);
+
+            border-radius: var(--radius-xl);
+
+            box-shadow:
+                0 18px 45px rgba(15, 23, 42, 0.055),
+                0 2px 8px rgba(15, 23, 42, 0.025);
+        }
+
+        /* =========================================
+           PANEL HEADER
+        ========================================= */
+
+        .table-top {
+            min-height: 74px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 17px 22px;
+
+            border-bottom: 1px solid var(--slate-100);
+        }
+
+        .table-top-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .table-icon {
+            width: 38px;
+            height: 38px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: var(--blue-50);
+
+            border: 1px solid var(--blue-100);
+
+            color: var(--blue-600);
+
+            font-size: 16px;
+        }
+
+        .table-top h2 {
+            margin-bottom: 3px;
+
+            color: var(--slate-900);
+
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .table-top p {
+            color: var(--slate-400);
+
+            font-size: 11px;
+
+            line-height: 1.4;
+        }
+
+        .secure-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            padding: 7px 10px;
+
+            color: #157347;
+
+            background: var(--green-bg);
+
+            border: 1px solid #d1fae5;
+
+            border-radius: 8px;
+
+            font-size: 10px;
+            font-weight: 750;
+
+            white-space: nowrap;
+        }
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .table-scroll {
+            width: 100%;
+
+            overflow-x: auto;
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--slate-300) transparent;
+        }
+
+        .table-scroll::-webkit-scrollbar {
+            height: 7px;
+        }
+
+        .table-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: var(--slate-300);
+
+            border-radius: 20px;
+        }
+
+        table {
+            width: 100%;
+
+            min-width: 900px;
+
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        thead {
+            background: #f8fafc;
+        }
+
+        th {
+            padding: 13px 17px;
+
+            color: var(--slate-500);
+
+            text-align: left;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            letter-spacing: 0.75px;
+            text-transform: uppercase;
+
+            border-bottom: 1px solid var(--slate-200);
+
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px 17px;
+
+            color: var(--slate-600);
+
+            font-size: 12px;
+
+            vertical-align: middle;
+
+            border-bottom: 1px solid var(--slate-100);
+        }
+
+        tbody tr {
+            transition:
+                background 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        tbody tr:hover {
+            background: #fbfdff;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* =========================================
+           PEOPLE
+        ========================================= */
+
+        .person {
+            min-width: 145px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .person-avatar {
+            width: 36px;
+            height: 36px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #eff6ff,
+                    #dbeafe
+                );
+
+            border: 1px solid #dbeafe;
+
+            color: var(--blue-600);
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .person-info {
+            min-width: 0;
+        }
+
+        .person-info strong {
+            display: block;
+
+            max-width: 135px;
+
+            overflow: hidden;
+
+            color: var(--slate-700);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .person-info span {
+            display: block;
+
+            margin-top: 3px;
+
+            color: var(--slate-400);
+
+            font-size: 9px;
+        }
+
+        /* =========================================
+           SERVICE
+        ========================================= */
+
+        .service {
+            max-width: 140px;
+
+            color: var(--slate-700);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            line-height: 1.45;
+
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================================
+           REASON
+        ========================================= */
+
+        .reason {
+            max-width: 210px;
+
+            color: var(--slate-500);
+
+            font-size: 11px;
+
+            line-height: 1.55;
+
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================================
+           FILE
+        ========================================= */
+
+        .file-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+
+            min-height: 30px;
+
+            padding: 6px 9px;
+
+            color: var(--blue-600);
+
+            background: var(--blue-50);
+
+            border: 1px solid var(--blue-100);
+
+            border-radius: 8px;
+
+            font-size: 9px;
+            font-weight: 750;
+
+            white-space: nowrap;
+
+            transition:
+                background 0.18s ease,
+                border-color 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .file-btn:hover {
+            background: #e0ecff;
+
+            border-color: #c7dbff;
+
+            transform: translateY(-1px);
+        }
+
+        .no-file {
+            color: var(--slate-400);
+
+            font-size: 10px;
+        }
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            min-height: 28px;
+
+            padding: 6px 9px;
+
+            border-radius: 8px;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            letter-spacing: 0.1px;
+
+            text-transform: capitalize;
+
+            white-space: nowrap;
+        }
+
+        .status::before {
+            content: "";
+
+            width: 5px;
+            height: 5px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+        .status.pending {
+            color: var(--orange);
+
+            background: var(--orange-bg);
+
+            border: 1px solid #fed7aa;
+        }
+
+        .status.accepted {
+            color: #157347;
+
+            background: var(--green-bg);
+
+            border: 1px solid #d1fae5;
+        }
+
+        .status.rejected {
+            color: var(--red);
+
+            background: var(--red-bg);
+
+            border: 1px solid #fecaca;
+        }
+
+        /* =========================================
+           DATE
+        ========================================= */
+
+        .date {
+            display: inline-block;
+
+            color: var(--slate-500);
+
+            font-size: 10px;
+
+            white-space: nowrap;
+        }
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-state {
+            padding: 78px 25px 82px;
+
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 62px;
+            height: 62px;
+
+            margin: 0 auto 17px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #eff6ff,
+                    #dbeafe
+                );
+
+            border: 1px solid var(--blue-100);
+
+            color: var(--blue-600);
+
+            font-size: 23px;
+
+            box-shadow:
+                0 8px 25px rgba(37, 99, 235, 0.08);
+        }
+
+        .empty-state h3 {
+            margin-bottom: 7px;
+
+            color: var(--slate-900);
+
+            font-size: 18px;
+            font-weight: 750;
+
+            letter-spacing: -0.3px;
+        }
+
+        .empty-state p {
+            color: var(--slate-400);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        /* =========================================
+           TABLET
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            header {
+                padding: 0 5%;
+            }
+
+            .page {
+                width: 93%;
+
+                padding-top: 44px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+            }
+
+            .page-header h1 {
+                font-size: 36px;
+            }
+
+            .complaint-badge {
+                margin-top: 4px;
+            }
+        }
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            header {
+                height: 68px;
+
+                padding: 0 5%;
+            }
+
+            .logo span:first-child {
+                font-size: 34px;
+            }
+
+            .logo span:last-child {
+                font-size: 25px;
+            }
+
+            .header-title {
+                display: none;
+            }
+
+            .page {
+                width: 94%;
+
+                padding: 36px 0 65px;
+            }
+
+            .page-header {
+                flex-direction: column;
+
+                gap: 16px;
+
+                margin-bottom: 22px;
+            }
+
+            .eyebrow {
+                margin-bottom: 8px;
+
+                font-size: 10px;
+            }
+
+            .page-header h1 {
+                margin-bottom: 7px;
+
+                font-size: 31px;
+
+                letter-spacing: -1.2px;
+            }
+
+            .page-header p {
+                font-size: 13px;
+            }
+
+            .complaint-badge {
+                width: 100%;
+
+                justify-content: center;
+
+                padding: 10px;
+            }
+
+            .complaints-area {
+                border-radius: 15px;
+            }
+
+            .table-top {
+                min-height: auto;
+
+                padding: 15px;
+            }
+
+            .table-top-left {
+                align-items: flex-start;
+            }
+
+            .table-icon {
+                width: 35px;
+                height: 35px;
+
+                font-size: 14px;
+            }
+
+            .table-top h2 {
+                font-size: 13px;
+            }
+
+            .table-top p {
+                font-size: 10px;
+            }
+
+            .secure-label {
+                padding: 6px 8px;
+
+                font-size: 9px;
+            }
+
+            table {
+                min-width: 860px;
+            }
+
+            th {
+                padding: 12px 14px;
+
+                font-size: 8px;
+            }
+
+            td {
+                padding: 14px;
+            }
+        }
+
+        /* =========================================
+           SMALL PHONES
+        ========================================= */
+
+        @media (max-width: 390px) {
+
+            header {
+                height: 64px;
+            }
+
+            .logo span:first-child {
+                font-size: 31px;
+            }
+
+            .logo span:last-child {
+                font-size: 23px;
+            }
+
+            .page {
+                width: 92%;
+
+                padding-top: 30px;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .page-header p {
+                font-size: 12px;
+            }
+
+            .table-top {
+                padding: 13px;
+            }
+
+            .table-top-left {
+                gap: 9px;
+            }
+
+            .table-icon {
+                width: 32px;
+                height: 32px;
+            }
+
+            .secure-label {
+                font-size: 8px;
+            }
+
+            .empty-state {
+                padding: 60px 18px;
+            }
+        }
+
+        /* =========================================
+           TOUCH DEVICES
+        ========================================= */
+
+        @media (hover: none) {
+
+            .file-btn:hover {
+                transform: none;
+
+                background: var(--blue-50);
+
+                border-color: var(--blue-100);
+            }
+
+            tbody tr:hover {
+                background: transparent;
+            }
+        }
+
+        /* =========================================
+           REDUCED MOTION
+        ========================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-<div class="logo">
-<span>F</span>
-<span>ixora</span>
-</div>
-<h3>My Complaints</h3>
+    <!-- =========================================
+         HEADER
+    ========================================= -->
 
-</header>
+    <header>
 
-<div class="container">
+        <a href="{% url 'home' %}" class="logo">
 
-<h2>Complaints History</h2>
+            <span>F</span>
+            <span>ixora</span>
 
-<table>
+        </a>
 
-<thead>
-<tr>
-<th>Complainant</th>
-<th>Against</th>
-<th>Service</th>
-<th>Reason</th>
-<th>File</th>
-<th>Status</th>
-<th>Date</th>
-</tr>
-</thead>
+        <div class="header-title">
+            Complaint Management
+        </div>
 
-<tbody>
+    </header>
 
-{% for c in complaints %}
 
-<tr>
+    <!-- =========================================
+         MAIN
+    ========================================= -->
 
-<td>
-{% if c.sender_type == "user" %}
-    {{ c.user.username }}
-{% else %}
-    {{ c.artisan.name }}
-{% endif %}
-</td>
+    <main class="page">
 
-<td>
-{% if c.artisan %}
-    Artisan: {{ c.artisan.name }}
-{% elif c.target_user %}
-    User: {{ c.target_user.username }}
-{% else %}
-    Unknown
-{% endif %}
-</td>
-<td>{{ c.service }}</td>
+        <!-- PAGE HEADER -->
 
-<td>{{ c.reason }}</td>
+        <div class="page-header">
 
-<td>
-{% if c.attachment %}
-<a class="file-btn" href="{{ c.attachment.url }}">View</a>
-{% else %}
-No File
-{% endif %}
-</td>
+            <div>
 
-<td>
-<span class="status {{ c.status }}">
-{{ c.status }}
-</span>
-</td>
+                <div class="eyebrow">
+                    FIXORA SUPPORT
+                </div>
 
-<td>{{ c.created_at|date:"d M Y" }}</td>
+                <h1>
+                    My Complaints
+                </h1>
 
-</tr>
+                <p>
+                    Track your submitted complaints and their current status.
+                </p>
 
-{% empty %}
+            </div>
 
-<tr>
-<td colspan="7">No complaints yet</td>
-</tr>
+            <div class="complaint-badge">
 
-{% endfor %}
+                <span class="badge-dot"></span>
 
-</tbody>
+                Complaint activity
 
-</table>
+            </div>
 
-</div>
+        </div>
 
-</table>
 
-</div>
+        <!-- =====================================
+             COMPLAINTS AREA
+        ====================================== -->
+
+        <section class="complaints-area">
+
+            <!-- PANEL HEADER -->
+
+            <div class="table-top">
+
+                <div class="table-top-left">
+
+                    <div class="table-icon">
+                        ⚑
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Complaints History
+                        </h2>
+
+                        <p>
+                            Review the details and status of your reports.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="secure-label">
+                    🔒 Private
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 TABLE
+            ================================== -->
+
+            <div class="table-scroll">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Complainant
+                            </th>
+
+                            <th>
+                                Against
+                            </th>
+
+                            <th>
+                                Service
+                            </th>
+
+                            <th>
+                                Reason
+                            </th>
+
+                            <th>
+                                File
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for c in complaints %}
+
+                        <tr>
+
+                            <!-- COMPLAINANT -->
+
+                            <td>
+
+                                <div class="person">
+
+                                    <div class="person-avatar">
+
+                                        {% if c.sender_type == "user" %}
+
+                                            {{ c.user.username|first|upper }}
+
+                                        {% else %}
+
+                                            {{ c.artisan.name|first|upper }}
+
+                                        {% endif %}
+
+                                    </div>
+
+                                    <div class="person-info">
+
+                                        <strong>
+
+                                            {% if c.sender_type == "user" %}
+
+                                                {{ c.user.username }}
+
+                                            {% else %}
+
+                                                {{ c.artisan.name }}
+
+                                            {% endif %}
+
+                                        </strong>
+
+                                        <span>
+                                            Complainant
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- AGAINST -->
+
+                            <td>
+
+                                <div class="person">
+
+                                    <div class="person-avatar">
+
+                                        {% if c.sender_type == "user" %}
+
+                                            {{ c.artisan.name|first|upper }}
+
+                                        {% else %}
+
+                                            {{ c.user.username|first|upper }}
+
+                                        {% endif %}
+
+                                    </div>
+
+                                    <div class="person-info">
+
+                                        <strong>
+
+                                            {% if c.sender_type == "user" %}
+
+                                                {{ c.artisan.name }}
+
+                                            {% else %}
+
+                                                {{ c.user.username }}
+
+                                            {% endif %}
+
+                                        </strong>
+
+                                        <span>
+                                            Reported party
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- SERVICE -->
+
+                            <td>
+
+                                <div class="service">
+                                    {{ c.service }}
+                                </div>
+
+                            </td>
+
+
+                            <!-- REASON -->
+
+                            <td>
+
+                                <div class="reason">
+                                    {{ c.reason }}
+                                </div>
+
+                            </td>
+
+
+                            <!-- FILE -->
+
+                            <td>
+
+                                {% if c.attachment %}
+
+                                    <a
+                                        class="file-btn"
+                                        href="{{ c.attachment.url }}"
+                                    >
+                                        📎 View File
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="no-file">
+                                        No File
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                <span class="status {{ c.status }}">
+                                    {{ c.status }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+
+                                <span class="date">
+                                    {{ c.created_at|date:"d M Y" }}
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="7">
+
+                                <div class="empty-state">
+
+                                    <div class="empty-icon">
+                                        ✓
+                                    </div>
+
+                                    <h3>
+                                        No complaints yet
+                                    </h3>
+
+                                    <p>
+                                        Your submitted complaints will appear here.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </body>
+
 </html>

@@ -1,150 +1,1571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Request Service - Fixora</title>
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#1e3a8a;
-}
+    <title>Request Service - Fixora</title>
 
-/* Header */
-header{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    color:white;
-}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-/* Logo */
-.logo{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
+    <style>
+        :root {
+            --fx-blue: #2563eb;
+            --fx-blue-dark: #1d4ed8;
+            --fx-blue-deep: #172554;
+            --fx-blue-light: #eff6ff;
+            --fx-navy: #0f172a;
+            --fx-text: #334155;
+            --fx-muted: #64748b;
+            --fx-soft: #94a3b8;
+            --fx-border: #e2e8f0;
+            --fx-border-light: #eef2f7;
+            --fx-bg: #f8fafc;
+            --fx-white: #ffffff;
+            --fx-green: #16a34a;
+            --fx-green-light: #f0fdf4;
+            --fx-red: #dc2626;
+            --fx-red-light: #fef2f2;
+            --fx-radius-sm: 8px;
+            --fx-radius-md: 12px;
+            --fx-radius-lg: 16px;
+            --fx-radius-xl: 22px;
+            --fx-radius-2xl: 28px;
+        }
 
-.logo span:first-child{
-    font-family:'Lucida Handwriting', cursive;
-    font-size:48px;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-.logo span:last-child{
-    font-size:36px;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* Center container */
-.wrapper{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    padding:30px;
-}
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
 
-/* Card */
-.card{
-    background:#f4f6f9;
-    padding:40px;
-    border-radius:20px;
-    width:420px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.15);
-}
+            background:
+                radial-gradient(
+                    circle at 85% 15%,
+                    rgba(37, 99, 235, .045),
+                    transparent 25%
+                ),
+                var(--fx-bg);
 
-/* Inputs */
-input, textarea, select{
-    width:100%;
-    padding:12px;
-    margin-bottom:15px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    font-size:15px;
-    outline:none;
-}
+            color: var(--fx-text);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
 
-/* Button */
-button{
-    width:100%;
-    padding:14px;
-    background:#1e3a8a;
-    color:white;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
 
-button:hover{
-    background:#163172;
-}
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
 
-/* Labels */
-label{
-    font-weight:bold;
-    display:block;
-    margin-bottom:5px;
-    color:#1e3a8a;
-}
+        /* =========================================
+           HEADER
+        ========================================= */
 
-h2{
-    text-align:center;
-    margin-bottom:20px;
-    color:#1e3a8a;
-}
-</style>
+        .fx-header {
+            height: 74px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 clamp(18px, 5vw, 72px);
+
+            background: rgba(255, 255, 255, .88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(226, 232, 240, .85);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            box-shadow: 0 1px 8px rgba(15, 23, 42, .025);
+        }
+
+        /* =========================================
+           LOGO
+        ========================================= */
+
+        .fx-logo {
+            display: inline-flex;
+            align-items: center;
+
+            text-decoration: none;
+            color: var(--fx-navy);
+
+            user-select: none;
+        }
+
+        .fx-logo-f {
+            font-family: "Lucida Handwriting", cursive;
+
+            font-size: 39px;
+            font-weight: 700;
+
+            line-height: .9;
+
+            color: var(--fx-blue);
+
+            margin-right: 1px;
+        }
+
+        .fx-logo-name {
+            font-size: 28px;
+            font-weight: 800;
+
+            letter-spacing: -1.5px;
+        }
+
+        /* =========================================
+           BACK BUTTON
+        ========================================= */
+
+        .fx-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            text-decoration: none;
+
+            color: var(--fx-text);
+
+            background: var(--fx-white);
+
+            border: 1px solid var(--fx-border);
+
+            border-radius: 10px;
+
+            padding: 10px 14px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition:
+                background .2s ease,
+                color .2s ease,
+                border-color .2s ease,
+                transform .2s ease;
+        }
+
+        .fx-back:hover {
+            color: var(--fx-blue);
+
+            background: var(--fx-blue-light);
+
+            border-color: #bfdbfe;
+
+            transform: translateY(-1px);
+        }
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .fx-page {
+            min-height: calc(100vh - 74px);
+
+            padding:
+                clamp(34px, 5vw, 62px)
+                clamp(18px, 5vw, 72px)
+                70px;
+        }
+
+        .fx-container {
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        /* =========================================
+           PAGE INTRO
+        ========================================= */
+
+        .fx-page-header {
+            margin-bottom: 30px;
+        }
+
+        .fx-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 14px;
+
+            padding: 7px 11px;
+
+            background: var(--fx-blue-light);
+
+            color: var(--fx-blue);
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 999px;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: .75px;
+            text-transform: uppercase;
+        }
+
+        .fx-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--fx-blue);
+
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, .08);
+        }
+
+        .fx-page-header h1 {
+            max-width: 760px;
+
+            margin: 0 0 9px;
+
+            color: var(--fx-navy);
+
+            font-size: clamp(29px, 3.5vw, 39px);
+            line-height: 1.12;
+
+            letter-spacing: -1.5px;
+        }
+
+        .fx-page-header h1 strong {
+            color: var(--fx-blue);
+            font-weight: 800;
+        }
+
+        .fx-page-header p {
+            max-width: 650px;
+
+            margin: 0;
+
+            color: var(--fx-muted);
+
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* =========================================
+           MAIN WORKSPACE
+        ========================================= */
+
+        .fx-request-layout {
+            display: grid;
+
+            grid-template-columns: 330px minmax(0, 1fr);
+
+            min-height: 610px;
+
+            background: var(--fx-white);
+
+            border: 1px solid var(--fx-border);
+
+            border-radius: var(--fx-radius-2xl);
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 70px rgba(15, 23, 42, .075),
+                0 5px 18px rgba(15, 23, 42, .035);
+        }
+
+        /* =========================================
+           ARTISAN PANEL
+        ========================================= */
+
+        .fx-artisan-panel {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 36px 31px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 95% 8%,
+                    rgba(96, 165, 250, .27),
+                    transparent 27%
+                ),
+                radial-gradient(
+                    circle at 0% 100%,
+                    rgba(59, 130, 246, .2),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    150deg,
+                    #0f172a 0%,
+                    #172554 52%,
+                    #1d4ed8 100%
+                );
+        }
+
+        .fx-artisan-panel::before {
+            content: "";
+
+            position: absolute;
+
+            width: 340px;
+            height: 340px;
+
+            right: -190px;
+            top: 30px;
+
+            border: 1px solid rgba(255,255,255,.09);
+
+            border-radius: 50%;
+        }
+
+        .fx-artisan-panel::after {
+            content: "";
+
+            position: absolute;
+
+            width: 190px;
+            height: 190px;
+
+            left: -120px;
+            bottom: 80px;
+
+            border: 1px solid rgba(255,255,255,.055);
+
+            border-radius: 50%;
+        }
+
+        .fx-artisan-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .fx-artisan-label {
+            margin-bottom: 19px;
+
+            color: rgba(255,255,255,.55);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: 1.1px;
+
+            text-transform: uppercase;
+        }
+
+        /* =========================================
+           AVATAR
+        ========================================= */
+
+        .fx-artisan-avatar {
+            width: 76px;
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 21px;
+
+            border-radius: 21px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.18),
+                    rgba(255,255,255,.07)
+                );
+
+            border: 1px solid rgba(255,255,255,.17);
+
+            color: white;
+
+            font-size: 27px;
+            font-weight: 800;
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,.13);
+
+            backdrop-filter: blur(8px);
+        }
+
+        .fx-artisan-panel h2 {
+            margin: 0 0 10px;
+
+            color: white;
+
+            font-size: 25px;
+            line-height: 1.2;
+
+            letter-spacing: -.7px;
+
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .fx-artisan-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 25px;
+
+            color: #bfdbfe;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .fx-status-dot {
+            width: 7px;
+            height: 7px;
+
+            flex: 0 0 7px;
+
+            border-radius: 50%;
+
+            background: #4ade80;
+
+            box-shadow:
+                0 0 0 4px rgba(74, 222, 128, .12);
+        }
+
+        .fx-artisan-message {
+            max-width: 245px;
+
+            margin: 0;
+
+            color: rgba(255,255,255,.66);
+
+            font-size: 12.5px;
+            line-height: 1.75;
+        }
+
+        /* =========================================
+           PROCESS
+        ========================================= */
+
+        .fx-process {
+            position: relative;
+            z-index: 2;
+
+            margin-top: 36px;
+            padding-top: 24px;
+
+            border-top: 1px solid rgba(255,255,255,.12);
+        }
+
+        .fx-process-title {
+            margin-bottom: 17px;
+
+            color: rgba(255,255,255,.9);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: .9px;
+
+            text-transform: uppercase;
+        }
+
+        .fx-process-step {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            margin-bottom: 13px;
+        }
+
+        .fx-process-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .fx-step-number {
+            width: 27px;
+            height: 27px;
+
+            flex: 0 0 27px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background: rgba(255,255,255,.09);
+
+            border: 1px solid rgba(255,255,255,.08);
+
+            color: rgba(255,255,255,.8);
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .fx-process-step span {
+            color: rgba(255,255,255,.61);
+
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        /* =========================================
+           FORM AREA
+        ========================================= */
+
+        .fx-form-area {
+            min-width: 0;
+
+            padding: 40px 42px;
+        }
+
+        .fx-form-top {
+            margin-bottom: 29px;
+        }
+
+        .fx-form-top h2 {
+            margin: 0 0 7px;
+
+            color: var(--fx-navy);
+
+            font-size: 23px;
+            line-height: 1.25;
+
+            letter-spacing: -.7px;
+        }
+
+        .fx-form-top p {
+            max-width: 570px;
+
+            margin: 0;
+
+            color: var(--fx-muted);
+
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        /* =========================================
+           FORM
+        ========================================= */
+
+        .fx-form {
+            display: flex;
+            flex-direction: column;
+
+            gap: 21px;
+        }
+
+        .fx-field {
+            min-width: 0;
+        }
+
+        .fx-field label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: var(--fx-navy);
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* Django generated fields */
+
+        .fx-field input,
+        .fx-field textarea,
+        .fx-field select,
+        .fx-field > input,
+        .fx-field > textarea,
+        .fx-field > select {
+            width: 100%;
+            max-width: 100%;
+
+            display: block;
+
+            padding: 13px 14px;
+
+            border: 1px solid var(--fx-border);
+
+            border-radius: 12px;
+
+            outline: none;
+
+            background: #fff;
+
+            color: var(--fx-navy);
+
+            font-family: inherit;
+            font-size: 14px;
+
+            box-shadow:
+                0 1px 2px rgba(15,23,42,.02);
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
+        }
+
+        .fx-field input {
+            min-height: 47px;
+        }
+
+        .fx-field select {
+            min-height: 47px;
+
+            cursor: pointer;
+        }
+
+        .fx-field textarea {
+            min-height: 145px;
+
+            resize: vertical;
+
+            line-height: 1.65;
+        }
+
+        .fx-field input::placeholder,
+        .fx-field textarea::placeholder {
+            color: #a8b3c2;
+        }
+
+        .fx-field input:hover,
+        .fx-field textarea:hover,
+        .fx-field select:hover {
+            border-color: #cbd5e1;
+        }
+
+        .fx-field input:focus,
+        .fx-field textarea:focus,
+        .fx-field select:focus {
+            border-color: var(--fx-blue);
+
+            background: #fff;
+
+            box-shadow:
+                0 0 0 4px rgba(37,99,235,.08),
+                0 2px 5px rgba(15,23,42,.03);
+        }
+
+        /* =========================================
+           DJANGO ERRORS
+        ========================================= */
+
+        .fx-error {
+            margin-top: 8px;
+
+            padding: 9px 11px;
+
+            border: 1px solid #fecaca;
+
+            border-radius: 9px;
+
+            background: var(--fx-red-light);
+
+            color: var(--fx-red);
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .fx-error ul {
+            margin: 0;
+            padding-left: 17px;
+        }
+
+        .fx-error li {
+            margin: 2px 0;
+        }
+
+        /* =========================================
+           INFO BOX
+        ========================================= */
+
+        .fx-form-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+
+            margin-top: 1px;
+
+            padding: 13px 14px;
+
+            background: var(--fx-blue-light);
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 12px;
+
+            color: #1e40af;
+
+            font-size: 11px;
+            line-height: 1.65;
+        }
+
+        .fx-form-info strong {
+            font-weight: 800;
+        }
+
+        .fx-info-icon {
+            width: 23px;
+            height: 23px;
+
+            min-width: 23px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-top: 1px;
+
+            border-radius: 7px;
+
+            background: white;
+
+            color: var(--fx-blue);
+
+            font-size: 12px;
+            font-weight: 900;
+
+            box-shadow: 0 1px 3px rgba(37,99,235,.08);
+        }
+
+        /* =========================================
+           SUBMIT AREA
+        ========================================= */
+
+        .fx-submit {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding-top: 3px;
+        }
+
+        .fx-secure {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--fx-soft);
+
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .fx-secure-icon {
+            width: 25px;
+            height: 25px;
+
+            min-width: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 7px;
+
+            background: var(--fx-green-light);
+
+            color: var(--fx-green);
+
+            font-size: 11px;
+            font-weight: 900;
+
+            border: 1px solid #dcfce7;
+        }
+
+        /* =========================================
+           SUBMIT BUTTON
+        ========================================= */
+
+        .fx-submit button {
+            min-height: 47px;
+
+            border: none;
+            border-radius: 11px;
+
+            padding: 0 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--fx-blue),
+                    #1d4ed8
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            letter-spacing: .05px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px rgba(37,99,235,.2);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                filter .2s ease;
+        }
+
+        .fx-submit button:hover {
+            transform: translateY(-2px);
+
+            filter: brightness(.98);
+
+            box-shadow:
+                0 15px 32px rgba(37,99,235,.27);
+        }
+
+        .fx-submit button:active {
+            transform: translateY(0);
+        }
+
+        .fx-submit button:focus-visible,
+        .fx-back:focus-visible {
+            outline: 3px solid rgba(37,99,235,.2);
+            outline-offset: 3px;
+        }
+
+        /* =========================================
+           TABLET
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .fx-request-layout {
+                grid-template-columns: 290px minmax(0, 1fr);
+            }
+
+            .fx-artisan-panel {
+                padding: 32px 26px;
+            }
+
+            .fx-form-area {
+                padding: 34px 30px;
+            }
+
+            .fx-artisan-avatar {
+                width: 68px;
+                height: 68px;
+            }
+
+            .fx-process {
+                margin-top: 28px;
+            }
+        }
+
+        /* =========================================
+           MOBILE / TABLET STACK
+        ========================================= */
+
+        @media (max-width: 760px) {
+
+            .fx-request-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .fx-artisan-panel {
+                min-height: auto;
+
+                padding: 28px 27px;
+            }
+
+            .fx-artisan-panel::before {
+                width: 260px;
+                height: 260px;
+
+                right: -150px;
+            }
+
+            .fx-artisan-avatar {
+                width: 64px;
+                height: 64px;
+
+                margin-bottom: 17px;
+
+                border-radius: 18px;
+
+                font-size: 24px;
+            }
+
+            .fx-artisan-panel h2 {
+                font-size: 23px;
+            }
+
+            .fx-artisan-message {
+                max-width: 600px;
+            }
+
+            .fx-process {
+                display: none;
+            }
+
+            .fx-form-area {
+                padding: 30px 27px 32px;
+            }
+        }
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 600px) {
+
+            .fx-header {
+                height: 66px;
+
+                padding:
+                    0
+                    4.5%;
+            }
+
+            .fx-logo-f {
+                font-size: 34px;
+            }
+
+            .fx-logo-name {
+                font-size: 25px;
+            }
+
+            .fx-back {
+                padding: 8px 10px;
+
+                font-size: 10.5px;
+
+                border-radius: 9px;
+            }
+
+            .fx-page {
+                min-height: calc(100vh - 66px);
+
+                padding:
+                    25px 4%
+                    45px;
+            }
+
+            .fx-page-header {
+                margin-bottom: 23px;
+            }
+
+            .fx-eyebrow {
+                margin-bottom: 12px;
+
+                padding: 6px 9px;
+
+                font-size: 9px;
+            }
+
+            .fx-page-header h1 {
+                font-size: 28px;
+
+                letter-spacing: -1px;
+            }
+
+            .fx-page-header p {
+                font-size: 12px;
+
+                line-height: 1.65;
+            }
+
+            .fx-request-layout {
+                border-radius: 20px;
+
+                box-shadow:
+                    0 18px 45px rgba(15,23,42,.07);
+            }
+
+            .fx-artisan-panel {
+                padding: 25px 22px;
+            }
+
+            .fx-artisan-label {
+                margin-bottom: 16px;
+
+                font-size: 9px;
+            }
+
+            .fx-artisan-avatar {
+                width: 60px;
+                height: 60px;
+
+                margin-bottom: 15px;
+
+                border-radius: 17px;
+
+                font-size: 22px;
+            }
+
+            .fx-artisan-panel h2 {
+                margin-bottom: 8px;
+
+                font-size: 21px;
+            }
+
+            .fx-artisan-status {
+                margin-bottom: 18px;
+
+                font-size: 10px;
+            }
+
+            .fx-artisan-message {
+                font-size: 11.5px;
+            }
+
+            .fx-form-area {
+                padding: 25px 20px 26px;
+            }
+
+            .fx-form-top {
+                margin-bottom: 24px;
+            }
+
+            .fx-form-top h2 {
+                font-size: 20px;
+            }
+
+            .fx-form-top p {
+                font-size: 12px;
+            }
+
+            .fx-form {
+                gap: 19px;
+            }
+
+            .fx-field label {
+                font-size: 11px;
+
+                margin-bottom: 7px;
+            }
+
+            .fx-field input,
+            .fx-field select,
+            .fx-field textarea {
+                font-size: 13px;
+
+                border-radius: 11px;
+            }
+
+            .fx-field input,
+            .fx-field select {
+                min-height: 46px;
+
+                padding: 12px;
+            }
+
+            .fx-field textarea {
+                min-height: 135px;
+
+                padding: 12px;
+            }
+
+            .fx-form-info {
+                padding: 12px;
+
+                font-size: 10.5px;
+            }
+
+            .fx-submit {
+                flex-direction: column;
+                align-items: stretch;
+
+                gap: 13px;
+            }
+
+            .fx-secure {
+                justify-content: center;
+
+                font-size: 9.5px;
+            }
+
+            .fx-submit button {
+                width: 100%;
+
+                min-height: 49px;
+
+                font-size: 12px;
+            }
+        }
+
+        /* =========================================
+           SMALL PHONES
+        ========================================= */
+
+        @media (max-width: 390px) {
+
+            .fx-header {
+                padding: 0 4%;
+            }
+
+            .fx-logo-f {
+                font-size: 31px;
+            }
+
+            .fx-logo-name {
+                font-size: 23px;
+            }
+
+            .fx-back {
+                padding: 7px 9px;
+
+                font-size: 10px;
+            }
+
+            .fx-page {
+                padding-left: 3.5%;
+                padding-right: 3.5%;
+            }
+
+            .fx-page-header h1 {
+                font-size: 25px;
+            }
+
+            .fx-artisan-panel {
+                padding: 23px 19px;
+            }
+
+            .fx-form-area {
+                padding: 23px 17px 24px;
+            }
+
+            .fx-form-info {
+                gap: 8px;
+
+                font-size: 10px;
+            }
+
+            .fx-info-icon {
+                width: 21px;
+                height: 21px;
+                min-width: 21px;
+            }
+        }
+
+        /* =========================================
+           LANDSCAPE PHONES
+        ========================================= */
+
+        @media (max-width: 850px) and (orientation: landscape) {
+
+            .fx-header {
+                height: 62px;
+            }
+
+            .fx-page {
+                padding-top: 25px;
+            }
+
+            .fx-artisan-panel {
+                padding-top: 24px;
+                padding-bottom: 24px;
+            }
+
+            .fx-form-area {
+                padding-top: 25px;
+                padding-bottom: 25px;
+            }
+        }
+
+        /* =========================================
+           TOUCH DEVICES
+        ========================================= */
+
+        @media (hover: none) {
+
+            .fx-back:hover {
+                transform: none;
+            }
+
+            .fx-submit button:hover {
+                transform: none;
+                filter: none;
+            }
+        }
+
+        /* =========================================
+           REDUCED MOTION
+        ========================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">
-        <span>F</span>
-        <span>ixora</span>
-    </div>
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="fx-header">
+
+    <a href="{% url 'home' %}" class="fx-logo">
+
+        <span class="fx-logo-f">F</span>
+
+        <span class="fx-logo-name">
+            ixora
+        </span>
+
+    </a>
+
+    <a href="{% url 'home' %}" class="fx-back">
+        ← Back to Home
+    </a>
+
 </header>
 
-<div class="wrapper">
 
-    <p style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">
-        Request a service from <b>{{ artisan.name }}</b>
-    </p>
+<!-- =========================================
+     MAIN PAGE
+========================================= -->
 
-    <div class="card">
+<main class="fx-page">
 
-        <h2>Request Service</h2>
+    <div class="fx-container">
 
-        <form method="POST">
-            {% csrf_token %}
+        <!-- =====================================
+             PAGE INTRO
+        ====================================== -->
 
-            <!-- SERVICE -->
-            <label>Service</label>
-            {{ form.service }}
-            <div style="color:red">{{ form.service.errors }}</div>
+        <div class="fx-page-header">
 
-            <!-- PHONE -->
-            <label>Phone</label>
-            {{ form.phone }}
-            <div style="color:red">{{ form.phone.errors }}</div>
+            <div class="fx-eyebrow">
+                <span class="fx-dot"></span>
+                Service request
+            </div>
 
-            <!-- MESSAGE -->
-            <label>Message</label>
-            {{ form.message }}
-            <div style="color:red">{{ form.message.errors }}</div>
+            <h1>
+                Request a service from
+                <strong>{{ artisan.name }}</strong>
+            </h1>
 
-            <button type="submit">
-                Request Service
-            </button>
-        </form>
+            <p>
+                Tell the artisan what you need and provide the details
+                required to get started.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
+             REQUEST WORKSPACE
+        ====================================== -->
+
+        <div class="fx-request-layout">
+
+
+            <!-- =================================
+                 ARTISAN PANEL
+            ================================== -->
+
+            <aside class="fx-artisan-panel">
+
+                <div class="fx-artisan-content">
+
+                    <div class="fx-artisan-label">
+                        Selected artisan
+                    </div>
+
+
+                    <!-- Avatar -->
+
+                    <div class="fx-artisan-avatar">
+                        {{ artisan.name|first|upper }}
+                    </div>
+
+
+                    <!-- Name -->
+
+                    <h2>
+                        {{ artisan.name }}
+                    </h2>
+
+
+                    <!-- Status -->
+
+                    <div class="fx-artisan-status">
+
+                        <span class="fx-status-dot"></span>
+
+                        Available for requests
+
+                    </div>
+
+
+                    <!-- Description -->
+
+                    <p class="fx-artisan-message">
+
+                        You're about to send a service request directly
+                        to this professional through Fixora.
+
+                    </p>
+
+
+                    <!-- Process -->
+
+                    <div class="fx-process">
+
+                        <div class="fx-process-title">
+                            How it works
+                        </div>
+
+
+                        <div class="fx-process-step">
+
+                            <div class="fx-step-number">
+                                01
+                            </div>
+
+                            <span>
+                                Choose the service
+                            </span>
+
+                        </div>
+
+
+                        <div class="fx-process-step">
+
+                            <div class="fx-step-number">
+                                02
+                            </div>
+
+                            <span>
+                                Describe what you need
+                            </span>
+
+                        </div>
+
+
+                        <div class="fx-process-step">
+
+                            <div class="fx-step-number">
+                                03
+                            </div>
+
+                            <span>
+                                Wait for the artisan's response
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================
+                 FORM AREA
+            ================================== -->
+
+            <section class="fx-form-area">
+
+                <div class="fx-form-top">
+
+                    <h2>
+                        Tell us about your request
+                    </h2>
+
+                    <p>
+                        Complete the information below so the artisan
+                        can understand your needs.
+                    </p>
+
+                </div>
+
+
+                <!-- =================================
+                     DJANGO FORM
+                ================================== -->
+
+                <form method="POST" class="fx-form">
+
+                    {% csrf_token %}
+
+
+                    <!-- =================================
+                         SERVICE
+                    ================================== -->
+
+                    <div class="fx-field">
+
+                        <label>
+                            Service
+                        </label>
+
+                        {{ form.service }}
+
+                        {% if form.service.errors %}
+
+                            <div class="fx-error">
+                                {{ form.service.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- =================================
+                         PHONE
+                    ================================== -->
+
+                    <div class="fx-field">
+
+                        <label>
+                            Phone
+                        </label>
+
+                        {{ form.phone }}
+
+                        {% if form.phone.errors %}
+
+                            <div class="fx-error">
+                                {{ form.phone.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- =================================
+                         MESSAGE
+                    ================================== -->
+
+                    <div class="fx-field">
+
+                        <label>
+                            Message
+                        </label>
+
+                        {{ form.message }}
+
+                        {% if form.message.errors %}
+
+                            <div class="fx-error">
+                                {{ form.message.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- =================================
+                         INFORMATION
+                    ================================== -->
+
+                    <div class="fx-form-info">
+
+                        <div class="fx-info-icon">
+                            i
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Give useful details
+                            </strong>
+
+                            <br>
+
+                            Mention the problem, location details,
+                            preferred timing, or anything else that
+                            can help the artisan understand the request.
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================
+                         SUBMIT
+                    ================================== -->
+
+                    <div class="fx-submit">
+
+                        <div class="fx-secure">
+
+                            <div class="fx-secure-icon">
+                                ✓
+                            </div>
+
+                            <span>
+                                Your request is sent securely.
+                            </span>
+
+                        </div>
+
+
+                        <button type="submit">
+                            Send Service Request →
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
 
     </div>
-</div>
+
+</main>
 
 </body>
 </html>

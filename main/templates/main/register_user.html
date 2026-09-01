@@ -2,51 +2,1325 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#2563eb">
+
     <title>Register - Fixora</title>
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        :root {
+            --fx-blue: #2563eb;
+            --fx-blue-dark: #1d4ed8;
+            --fx-blue-light: #eff6ff;
+            --fx-blue-soft: #f8fbff;
+
+            --fx-navy: #0f172a;
+            --fx-text: #334155;
+            --fx-muted: #64748b;
+
+            --fx-border: #e2e8f0;
+            --fx-border-light: #eef2f7;
+
+            --fx-bg: #f8fafc;
+            --fx-white: #ffffff;
+
+            --fx-green: #16a34a;
+            --fx-red: #dc2626;
+
+            --fx-shadow: 0 24px 70px rgba(15, 23, 42, .10);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-width: 320px;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(37, 99, 235, .045),
+                    transparent 25%
+                ),
+                var(--fx-bg);
+
+            color: var(--fx-text);
+
+            overflow-x: hidden;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .fx-register-page {
+            min-height: 100vh;
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(430px, 48%)
+                minmax(0, 52%);
+        }
+
+
+        /* =====================================================
+           LEFT SIDE
+        ===================================================== */
+
+        .fx-register-left {
+            position: relative;
+
+            min-height: 100vh;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 85% 12%,
+                    rgba(96, 165, 250, .30),
+                    transparent 27%
+                ),
+                radial-gradient(
+                    circle at 5% 88%,
+                    rgba(59, 130, 246, .18),
+                    transparent 28%
+                ),
+                linear-gradient(
+                    145deg,
+                    #0f172a 0%,
+                    #172554 48%,
+                    #1d4ed8 100%
+                );
+
+            color: white;
+
+            padding:
+                clamp(35px, 5vw, 65px)
+                clamp(35px, 7vw, 90px);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .fx-register-left::before {
+            content: "";
+
+            position: absolute;
+
+            width: 470px;
+            height: 470px;
+
+            border: 1px solid rgba(255,255,255,.10);
+
+            border-radius: 50%;
+
+            right: -220px;
+            top: 55px;
+        }
+
+        .fx-register-left::after {
+            content: "";
+
+            position: absolute;
+
+            width: 330px;
+            height: 330px;
+
+            border: 1px solid rgba(255,255,255,.07);
+
+            border-radius: 50%;
+
+            left: -190px;
+            bottom: -150px;
+        }
+
+        .fx-left-content,
+        .fx-left-bottom {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           BRAND
+        ===================================================== */
+
+        .fx-brand {
+            display: inline-flex;
+            align-items: center;
+
+            width: fit-content;
+
+            text-decoration: none;
+
+            color: white;
+        }
+
+        .fx-brand-f {
+            font-family: "Lucida Handwriting", cursive;
+
+            font-size: 43px;
+
+            line-height: 1;
+
+            color: #93c5fd;
+        }
+
+        .fx-brand-name {
+            margin-left: 1px;
+
+            font-size: 31px;
+
+            font-weight: 800;
+
+            letter-spacing: -1.2px;
+        }
+
+
+        /* =====================================================
+           LEFT CONTENT
+        ===================================================== */
+
+        .fx-left-main {
+            max-width: 590px;
+
+            margin-top: clamp(65px, 9vh, 105px);
+        }
+
+        .fx-badge {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 8px 12px;
+
+            border-radius: 999px;
+
+            background: rgba(255,255,255,.09);
+
+            border: 1px solid rgba(255,255,255,.12);
+
+            color: #dbeafe;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .7px;
+        }
+
+        .fx-badge-dot {
+            width: 7px;
+            height: 7px;
+
+            flex: 0 0 7px;
+
+            border-radius: 50%;
+
+            background: #60a5fa;
+
+            box-shadow:
+                0 0 0 4px rgba(96,165,250,.10);
+        }
+
+        .fx-left-main h1 {
+            margin:
+                22px 0 18px;
+
+            max-width: 650px;
+
+            font-size:
+                clamp(43px, 4.3vw, 68px);
+
+            line-height: 1.02;
+
+            letter-spacing: -3px;
+        }
+
+        .fx-left-main h1 span {
+            color: #93c5fd;
+        }
+
+        .fx-left-main > p {
+            margin: 0;
+
+            max-width: 500px;
+
+            color: rgba(255,255,255,.70);
+
+            font-size: 16px;
+
+            line-height: 1.75;
+        }
+
+
+        /* =====================================================
+           BENEFITS
+        ===================================================== */
+
+        .fx-benefits {
+            margin-top: 44px;
+
+            max-width: 550px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+        .fx-benefit {
+            display: flex;
+
+            gap: 12px;
+
+            align-items: flex-start;
+
+            min-width: 0;
+        }
+
+        .fx-benefit-icon {
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,.10);
+
+            border: 1px solid rgba(255,255,255,.08);
+
+            font-size: 15px;
+        }
+
+        .fx-benefit strong {
+            display: block;
+
+            margin-bottom: 4px;
+
+            font-size: 13px;
+
+            line-height: 1.3;
+        }
+
+        .fx-benefit span {
+            display: block;
+
+            color: rgba(255,255,255,.55);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+        .fx-left-bottom {
+            color: rgba(255,255,255,.42);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           RIGHT SIDE
+        ===================================================== */
+
+        .fx-register-right {
+            min-height: 100vh;
+
+            background: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding:
+                55px
+                clamp(30px, 8vw, 105px);
+        }
+
+        .fx-register-content {
+            width: 100%;
+
+            max-width: 470px;
+        }
+
+
+        /* =====================================================
+           FORM HEADER
+        ===================================================== */
+
+        .fx-form-header {
+            margin-bottom: 29px;
+        }
+
+        .fx-form-header h2 {
+            margin: 0 0 9px;
+
+            color: var(--fx-navy);
+
+            font-size: 33px;
+
+            line-height: 1.15;
+
+            letter-spacing: -1.4px;
+        }
+
+        .fx-form-header p {
+            margin: 0;
+
+            color: var(--fx-muted);
+
+            font-size: 14px;
+
+            line-height: 1.65;
+        }
+
+
+        /* =====================================================
+           ERROR
+        ===================================================== */
+
+        .fx-error {
+            margin-bottom: 18px;
+
+            padding: 12px 14px;
+
+            border-radius: 11px;
+
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: var(--fx-red);
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .fx-form {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+        .fx-field {
+            min-width: 0;
+        }
+
+        .fx-field label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: var(--fx-navy);
+
+            font-size: 12px;
+
+            font-weight: 750;
+        }
+
+        .fx-field input {
+            width: 100%;
+
+            height: 51px;
+
+            padding:
+                0 15px;
+
+            border:
+                1px solid var(--fx-border);
+
+            border-radius: 12px;
+
+            background: #ffffff;
+
+            color: var(--fx-navy);
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
+        }
+
+        .fx-field input::placeholder {
+            color: #94a3b8;
+        }
+
+        .fx-field input:hover {
+            border-color: #cbd5e1;
+        }
+
+        .fx-field input:focus {
+            border-color: var(--fx-blue);
+
+            box-shadow:
+                0 0 0 4px rgba(37,99,235,.08);
+        }
+
+
+        /* =====================================================
+           PASSWORD NOTE
+        ===================================================== */
+
+        .fx-password-note {
+            margin-top: 7px;
+
+            color: var(--fx-muted);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           SUBMIT
+        ===================================================== */
+
+        .fx-submit {
+            width: 100%;
+
+            min-height: 52px;
+
+            margin-top: 4px;
+
+            padding: 13px 18px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: var(--fx-blue);
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 25px rgba(37,99,235,.20);
+
+            transition:
+                background .2s ease,
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .fx-submit:hover {
+            background: var(--fx-blue-dark);
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 16px 30px rgba(37,99,235,.25);
+        }
+
+        .fx-submit:active {
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           LOGIN SWITCH
+        ===================================================== */
+
+        .fx-switch-auth {
+            margin:
+                24px 0 0;
+
+            padding-top: 23px;
+
+            border-top:
+                1px solid var(--fx-border);
+
+            text-align: center;
+
+            color: var(--fx-muted);
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .fx-switch-auth a {
+            color: var(--fx-blue);
+
+            font-weight: 800;
+
+            text-decoration: none;
+        }
+
+        .fx-switch-auth a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           MESSAGES
+        ===================================================== */
+
+        .fx-messages {
+            margin-top: 16px;
+        }
+
+        .fx-alert {
+            margin-top: 8px;
+
+            padding: 11px 13px;
+
+            border-radius: 10px;
+
+            background: #eff6ff;
+
+            border:
+                1px solid #bfdbfe;
+
+            color: #1d4ed8;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           TRUST
+        ===================================================== */
+
+        .fx-trust {
+            margin-top: 27px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 8px;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+            text-align: center;
+        }
+
+        .fx-trust-icon {
+            width: 24px;
+            height: 24px;
+
+            flex: 0 0 24px;
+
+            border-radius: 7px;
+
+            background: #f0fdf4;
+
+            color: var(--fx-green);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 1050px) {
+
+            .fx-register-page {
+                grid-template-columns:
+                    minmax(360px, 45%)
+                    minmax(0, 55%);
+            }
+
+            .fx-register-left {
+                padding:
+                    40px 6%;
+            }
+
+            .fx-left-main {
+                margin-top: 65px;
+            }
+
+            .fx-left-main h1 {
+                font-size: 48px;
+
+                letter-spacing: -2px;
+            }
+
+            .fx-left-main > p {
+                font-size: 14px;
+            }
+
+            .fx-benefits {
+                gap: 14px;
+            }
+
+            .fx-register-right {
+                padding:
+                    45px 6%;
+            }
+        }
+
+
+        /* =====================================================
+           TABLET / SMALL LAPTOP
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .fx-register-page {
+                grid-template-columns: 1fr;
+            }
+
+            .fx-register-left {
+                min-height: auto;
+
+                padding:
+                    35px 7%
+                    42px;
+            }
+
+            .fx-left-main {
+                margin-top: 55px;
+            }
+
+            .fx-left-main h1 {
+                max-width: 650px;
+
+                font-size:
+                    clamp(42px, 7vw, 55px);
+            }
+
+            .fx-left-main > p {
+                max-width: 620px;
+
+                font-size: 15px;
+            }
+
+            .fx-benefits {
+                max-width: 650px;
+            }
+
+            .fx-left-bottom {
+                display: none;
+            }
+
+            .fx-register-right {
+                min-height: auto;
+
+                padding:
+                    55px 7%
+                    65px;
+            }
+
+            .fx-register-content {
+                max-width: 560px;
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .fx-register-left {
+                padding:
+                    27px 6%
+                    32px;
+            }
+
+            .fx-brand-f {
+                font-size: 36px;
+            }
+
+            .fx-brand-name {
+                font-size: 27px;
+            }
+
+            .fx-left-main {
+                margin-top: 42px;
+            }
+
+            .fx-badge {
+                font-size: 10px;
+
+                padding:
+                    7px 10px;
+            }
+
+            .fx-left-main h1 {
+                margin:
+                    18px 0 15px;
+
+                font-size:
+                    clamp(35px, 10vw, 43px);
+
+                line-height: 1.03;
+
+                letter-spacing: -1.7px;
+            }
+
+            .fx-left-main > p {
+                font-size: 13px;
+
+                line-height: 1.7;
+            }
+
+            .fx-benefits {
+                display: none;
+            }
+
+            .fx-register-right {
+                padding:
+                    39px 6%
+                    48px;
+            }
+
+            .fx-form-header {
+                margin-bottom: 25px;
+            }
+
+            .fx-form-header h2 {
+                font-size: 28px;
+
+                letter-spacing: -1px;
+            }
+
+            .fx-form-header p {
+                font-size: 13px;
+            }
+
+            .fx-form {
+                gap: 16px;
+            }
+
+            .fx-field input {
+                height: 50px;
+
+                font-size: 14px;
+            }
+
+            .fx-submit {
+                min-height: 51px;
+            }
+
+            .fx-switch-auth {
+                margin-top: 21px;
+
+                padding-top: 20px;
+            }
+
+            .fx-trust {
+                margin-top: 23px;
+
+                font-size: 10.5px;
+            }
+        }
+
+
+        /* =====================================================
+           SMALL PHONES
+        ===================================================== */
+
+        @media (max-width: 390px) {
+
+            .fx-register-left {
+                padding:
+                    23px 15px
+                    29px;
+            }
+
+            .fx-brand-f {
+                font-size: 33px;
+            }
+
+            .fx-brand-name {
+                font-size: 24px;
+            }
+
+            .fx-left-main {
+                margin-top: 36px;
+            }
+
+            .fx-left-main h1 {
+                font-size: 34px;
+
+                letter-spacing: -1.4px;
+            }
+
+            .fx-left-main > p {
+                font-size: 12.5px;
+            }
+
+            .fx-register-right {
+                padding:
+                    34px 15px
+                    40px;
+            }
+
+            .fx-form-header h2 {
+                font-size: 26px;
+            }
+
+            .fx-form-header p {
+                font-size: 12.5px;
+            }
+
+            .fx-field label {
+                font-size: 11.5px;
+            }
+
+            .fx-field input {
+                height: 49px;
+
+                padding:
+                    0 13px;
+            }
+
+            .fx-submit {
+                min-height: 50px;
+
+                font-size: 13px;
+            }
+        }
+
+
+        /* =====================================================
+           TOUCH DEVICES
+        ===================================================== */
+
+        @media (hover: none) {
+
+            .fx-submit:hover {
+                transform: none;
+            }
+
+            .fx-field input:hover {
+                border-color: var(--fx-border);
+            }
+        }
+
+
+        /* =====================================================
+           REDUCED MOTION
+        ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+    </style>
 </head>
+
 
 <body>
 
-<section class="register-wrapper">
+<section class="fx-register-page">
 
-    <div class="register-left">
-        <h1>Join Fixora</h1>
-        <p>Find trusted local artisans easily and securely.</p>
+
+    <!-- =====================================================
+         LEFT BRANDING
+    ====================================================== -->
+
+    <div class="fx-register-left">
+
+        <div class="fx-left-content">
+
+            <a href="{% url 'home' %}" class="fx-brand">
+
+                <span class="fx-brand-f">
+                    F
+                </span>
+
+                <span class="fx-brand-name">
+                    ixora
+                </span>
+
+            </a>
+
+
+            <div class="fx-left-main">
+
+                <div class="fx-badge">
+
+                    <span class="fx-badge-dot"></span>
+
+                    Fixora Marketplace
+
+                </div>
+
+
+                <h1>
+                    Your next service
+                    starts <span>here.</span>
+                </h1>
+
+
+                <p>
+                    Create your Fixora account and connect with trusted
+                    local artisans for the services you need.
+                </p>
+
+
+                <div class="fx-benefits">
+
+
+                    <div class="fx-benefit">
+
+                        <div class="fx-benefit-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Trusted professionals
+                            </strong>
+
+                            <span>
+                                Find skilled artisans near you.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="fx-benefit">
+
+                        <div class="fx-benefit-icon">
+                            ⌕
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Easy discovery
+                            </strong>
+
+                            <span>
+                                Search by service and location.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="fx-benefit">
+
+                        <div class="fx-benefit-icon">
+                            ★
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Real reviews
+                            </strong>
+
+                            <span>
+                                Make better decisions with ratings.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="fx-benefit">
+
+                        <div class="fx-benefit-icon">
+                            ↗
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Simple requests
+                            </strong>
+
+                            <span>
+                                Contact artisans directly.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="fx-left-bottom">
+            © Fixora — Connecting people with trusted local services.
+        </div>
+
     </div>
 
-    <div class="register-right">
-        <div class="register-card">
-            <h2>Create Account</h2>
+
+    <!-- =====================================================
+         RIGHT REGISTER FORM
+    ====================================================== -->
+
+    <div class="fx-register-right">
+
+        <div class="fx-register-content">
+
+
+            <div class="fx-form-header">
+
+                <h2>
+                    Create your account
+                </h2>
+
+                <p>
+                    Sign up in less than a minute and start finding
+                    the right professional for your needs.
+                </p>
+
+            </div>
+
+
             {% if error %}
-              <p style="color:red;">{{ error }}</p>
+
+                <div class="fx-error">
+                    {{ error }}
+                </div>
+
             {% endif %}
-            <!-- الفورم مربوطة مع Django -->
-            <form method="POST">
+
+
+            <form
+                method="POST"
+                class="fx-form"
+            >
+
                 {% csrf_token %}
 
-                <input type="text" name="name" placeholder="Full Name" required>
 
-                <input type="email" name="email" placeholder="Email Address" required>
+                <!-- FULL NAME -->
 
-                <input type="password" name="password" placeholder="Password" required>
+                <div class="fx-field">
 
-                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                    <label>
+                        Full Name
+                    </label>
 
-                <button type="submit">Register</button>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="fx-field">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="fx-field">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <div class="fx-password-note">
+                        Choose a password that is difficult to guess.
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="fx-field">
+
+                    <label>
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        placeholder="Repeat your password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="fx-submit"
+                >
+                    Create Account →
+                </button>
+
             </form>
 
-            <p class="switch-auth">
+
+            <!-- LOGIN -->
+
+            <p class="fx-switch-auth">
+
                 Already have an account?
-                <a href="{% url 'login' %}">Login</a>
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
             </p>
-               {% if messages %}
+
+
+            <!-- MESSAGES -->
+
+            {% if messages %}
+
+                <div class="fx-messages">
+
                     {% for message in messages %}
-                        <div class="alert">{{ message }}</div>
+
+                        <div class="fx-alert">
+                            {{ message }}
+                        </div>
+
                     {% endfor %}
-                {% endif %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- TRUST -->
+
+            <div class="fx-trust">
+
+                <div class="fx-trust-icon">
+                    ✓
+                </div>
+
+                <span>
+                    Your account information is handled securely.
+                </span>
+
+            </div>
+
+
         </div>
+
     </div>
 
 </section>

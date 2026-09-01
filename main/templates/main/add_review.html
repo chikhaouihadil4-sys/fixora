@@ -3,197 +3,1316 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#2563eb">
+
 <title>Add Review - Fixora</title>
 
 {% load static %}
 
-    <!-- CSS FILE -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <!-- LOGO ICON -->
-    <link rel="icon" type="image/png" href="{% static 'logo.png' %}">
-
-    <!-- SEO -->
-    <meta property="og:title" content="Fixora - Services Platform">
-    <meta property="og:description" content="Find trusted local artisans easily">
-    <meta property="og:image" content="https://fixora-8odh.onrender.com/static/logo.png">
-    <meta property="og:type" content="website">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <style>
 
-/* الصفحة */
-body{
-margin:0;
-font-family:Arial;
-background:#f4f6f9;
+/* =========================================================
+   FIXORA — REVIEW PAGE
+   UI ONLY — BACKEND / DJANGO LOGIC UNCHANGED
+========================================================= */
+
+*{
+    box-sizing:border-box;
 }
 
-/* الهيدر */
+:root{
+    --fx-blue:#2563eb;
+    --fx-blue-dark:#1d4ed8;
+    --fx-blue-deep:#172554;
+    --fx-blue-soft:#eff6ff;
+
+    --fx-navy:#0f172a;
+    --fx-text:#172033;
+    --fx-muted:#64748b;
+
+    --fx-border:#e2e8f0;
+    --fx-border-soft:#edf2f7;
+
+    --fx-bg:#f8fafc;
+    --fx-white:#ffffff;
+
+    --fx-gold:#f5b301;
+
+    --fx-radius-sm:8px;
+    --fx-radius-md:12px;
+    --fx-radius-lg:16px;
+    --fx-radius-xl:22px;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 85% 10%,
+            rgba(37,99,235,.06),
+            transparent 30%
+        ),
+        var(--fx-bg);
+
+    color:var(--fx-text);
+
+    overflow-x:hidden;
+}
+
+button,
+input,
+textarea{
+    font:inherit;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 60px;
-background:#1e3a8a;
-color:white;
+    height:74px;
+
+    padding:0 clamp(18px, 5vw, 72px);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:rgba(255,255,255,.92);
+
+    border-bottom:1px solid rgba(226,232,240,.9);
+
+    position:sticky;
+    top:0;
+    z-index:100;
+
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    color:var(--fx-navy);
+
+    font-size:25px;
+    font-weight:800;
+
+    letter-spacing:-.8px;
+}
+
+.logo span:first-child{
+    width:38px;
+    height:38px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:11px;
+
+    background:var(--fx-blue);
+    color:#fff;
+
+    font-size:21px !important;
+    font-weight:800 !important;
+
+    box-shadow:
+        0 7px 18px rgba(37,99,235,.22);
+
+    font-family:inherit !important;
+}
+
+nav{
+    display:flex;
+    align-items:center;
 }
 
 nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:9px 14px;
+
+    border-radius:9px;
+
+    color:var(--fx-navy);
+
+    text-decoration:none;
+
+    font-size:13px;
+    font-weight:700;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
 }
 
-/* الكارد */
-.review-section{
-display:flex;
-justify-content:center;
-align-items:center;
-padding:60px 20px;
+nav a:hover{
+    color:var(--fx-blue);
+    background:var(--fx-blue-soft);
 }
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.review-section{
+    width:min(1120px, calc(100% - 40px));
+
+    min-height:calc(100vh - 74px);
+
+    margin:0 auto;
+
+    padding:54px 0 72px;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(280px, 350px)
+        minmax(0, 1fr);
+
+    gap:24px;
+
+    align-items:stretch;
+}
+
+
+/* =========================================================
+   ARTISAN PANEL
+========================================================= */
+
+.artisan-panel{
+    position:relative;
+
+    min-height:470px;
+
+    padding:32px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    overflow:hidden;
+
+    border-radius:var(--fx-radius-xl);
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(59,130,246,.25),
+            transparent 32%
+        ),
+        linear-gradient(
+            145deg,
+            #172554 0%,
+            #102a56 55%,
+            #0f172a 100%
+        );
+
+    color:#fff;
+
+    box-shadow:
+        0 20px 45px rgba(15,23,42,.12);
+}
+
+.artisan-panel::before{
+    content:"";
+
+    position:absolute;
+
+    width:270px;
+    height:270px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:50%;
+
+    top:-145px;
+    right:-115px;
+}
+
+.artisan-panel::after{
+    content:"";
+
+    position:absolute;
+
+    width:210px;
+    height:210px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:50%;
+
+    bottom:-125px;
+    left:-100px;
+}
+
+.panel-content,
+.panel-bottom{
+    position:relative;
+    z-index:2;
+}
+
+
+/* small eyebrow */
+
+.small-label{
+    display:inline-flex;
+    align-items:center;
+
+    width:max-content;
+
+    margin-bottom:30px;
+
+    padding:7px 10px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.07);
+
+    color:#bfdbfe;
+
+    font-size:10px;
+    font-weight:800;
+
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+}
+
+
+/* avatar */
+
+.artisan-avatar{
+    width:76px;
+    height:76px;
+
+    margin-bottom:22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #e8f0ff
+        );
+
+    color:var(--fx-blue);
+
+    font-size:29px;
+    font-weight:800;
+
+    box-shadow:
+        0 12px 28px rgba(0,0,0,.16);
+}
+
+
+/* artisan name */
+
+.artisan-panel h2{
+    margin:0 0 11px;
+
+    color:#fff;
+
+    font-size:28px;
+    line-height:1.18;
+
+    letter-spacing:-.8px;
+
+    overflow-wrap:anywhere;
+}
+
+.artisan-panel p{
+    max-width:280px;
+
+    margin:0;
+
+    color:#cbd7ec;
+
+    font-size:13px;
+    line-height:1.7;
+}
+
+
+/* panel bottom */
+
+.panel-bottom{
+    padding-top:28px;
+}
+
+.panel-divider{
+    height:1px;
+
+    margin-bottom:19px;
+
+    background:rgba(255,255,255,.11);
+}
+
+.panel-note{
+    display:flex;
+    align-items:flex-start;
+    gap:11px;
+
+    color:#d9e4f4;
+
+    font-size:11px;
+    line-height:1.6;
+}
+
+.panel-note-icon{
+    width:27px;
+    height:27px;
+
+    min-width:27px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:rgba(255,255,255,.1);
+
+    color:#bfdbfe;
+
+    font-size:12px;
+    font-weight:800;
+}
+
+
+/* =========================================================
+   REVIEW CARD
+========================================================= */
 
 .review-card{
-background:white;
-padding:40px;
-width:420px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-text-align:center;
+    min-width:0;
+
+    padding:38px;
+
+    background:#fff;
+
+    border:1px solid var(--fx-border);
+
+    border-radius:var(--fx-radius-xl);
+
+    box-shadow:
+        0 15px 45px rgba(15,23,42,.055);
 }
 
-.review-card h1{
-color:#1e3a8a;
-margin-bottom:10px;
+
+/* heading */
+
+.review-heading{
+    margin-bottom:30px;
 }
 
-.review-card p{
-color:#555;
-margin-bottom:25px;
+.review-heading h1{
+    margin:0 0 9px;
+
+    color:var(--fx-navy);
+
+    font-size:30px;
+    line-height:1.15;
+
+    letter-spacing:-1px;
 }
 
-/* inputs */
-.review-card input,
-.review-card textarea{
-width:100%;
-padding:12px;
-margin-bottom:15px;
-border-radius:8px;
-border:1px solid #ddd;
-font-size:14px;
+.review-heading p{
+    max-width:610px;
+
+    margin:0;
+
+    color:var(--fx-muted);
+
+    font-size:13px;
+    line-height:1.7;
+
+    overflow-wrap:anywhere;
 }
 
-.review-card textarea{
-height:110px;
-resize:none;
+
+/* =========================================================
+   FIELD LABEL
+========================================================= */
+
+.field-label{
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#344054;
+
+    font-size:12px;
+    font-weight:750;
 }
 
-/* زر */
-.fx-btn{
-width:100%;
-padding:14px;
-background:#1e3a8a;
-color:white;
-border:none;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-transition:0.3s;
+
+/* =========================================================
+   USER FIELD
+========================================================= */
+
+.user-field{
+    width:100%;
+
+    height:46px;
+
+    margin-bottom:25px;
+
+    padding:0 14px;
+
+    border:1px solid var(--fx-border);
+
+    border-radius:10px;
+
+    background:#f8fafc;
+
+    color:#64748b;
+
+    font-size:13px;
+
+    outline:none;
+
+    cursor:not-allowed;
 }
 
-.fx-btn:hover{
-background:#16306f;
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.rating-section{
+    margin-bottom:25px;
+
+    padding:25px 20px 23px;
+
+    text-align:center;
+
+    border:1px solid #e5ebf7;
+
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fbfdff,
+            #f8faff
+        );
 }
 
-/* ⭐⭐⭐ STARS SYSTEM ⭐⭐⭐ */
+.rating-section h3{
+    margin:0 0 6px;
+
+    color:var(--fx-navy);
+
+    font-size:15px;
+    font-weight:800;
+}
+
+.rating-section p{
+    margin:0 0 18px;
+
+    color:var(--fx-muted);
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
 
 .stars{
-display:flex;
-flex-direction: row-reverse;
-justify-content:center;
-gap:5px;
-font-size:35px;
-margin-bottom:20px;
+    display:flex;
+    flex-direction:row-reverse;
+    justify-content:center;
+    align-items:center;
+
+    gap:6px;
+
+    margin:0 auto;
 }
 
 .stars input{
-display:none;
+    position:absolute;
+
+    opacity:0;
+
+    pointer-events:none;
 }
 
 .stars label{
-color:#ccc;
-cursor:pointer;
-transition:0.2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:42px;
+    height:42px;
+
+    color:#d5dbe5;
+
+    cursor:pointer;
+
+    font-size:39px;
+    line-height:1;
+
+    border-radius:10px;
+
+    transition:
+        color .15s ease,
+        transform .15s ease,
+        background .15s ease;
 }
 
-/* hover effect */
 .stars label:hover,
 .stars label:hover ~ label{
-color:gold;
+    color:var(--fx-gold);
+    transform:translateY(-2px) scale(1.05);
 }
 
-/* checked effect (fixed) */
 .stars input:checked + label,
 .stars input:checked + label ~ label{
-color:gold;
+    color:var(--fx-gold);
+}
+
+.stars input:focus-visible + label{
+    outline:3px solid rgba(37,99,235,.18);
+    outline-offset:2px;
+}
+
+
+/* =========================================================
+   COMMENT
+========================================================= */
+
+.comment-section{
+    margin-bottom:25px;
+}
+
+.comment-section textarea{
+    width:100%;
+    min-height:150px;
+
+    display:block;
+
+    padding:14px 15px;
+
+    resize:vertical;
+
+    border:1px solid var(--fx-border);
+
+    border-radius:11px;
+
+    background:#fff;
+
+    color:var(--fx-text);
+
+    font-family:inherit;
+    font-size:13px;
+
+    line-height:1.65;
+
+    outline:none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.comment-section textarea::placeholder{
+    color:#98a2b3;
+}
+
+.comment-section textarea:hover{
+    border-color:#cbd5e1;
+}
+
+.comment-section textarea:focus{
+    border-color:#93b4ff;
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.08);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.review-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:22px;
+
+    padding-top:22px;
+
+    border-top:1px solid var(--fx-border);
+}
+
+.review-hint{
+    max-width:300px;
+
+    color:var(--fx-muted);
+
+    font-size:11px;
+    line-height:1.55;
+}
+
+
+/* button */
+
+.fx-btn{
+    min-height:46px;
+
+    padding:0 23px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:var(--fx-blue);
+
+    color:#fff;
+
+    font-family:inherit;
+
+    font-size:13px;
+    font-weight:750;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 8px 18px rgba(37,99,235,.18);
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.fx-btn:hover{
+    background:var(--fx-blue-dark);
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 11px 23px rgba(37,99,235,.23);
+}
+
+.fx-btn:active{
+    transform:translateY(0);
+}
+
+.fx-btn:focus-visible{
+    outline:3px solid rgba(37,99,235,.2);
+    outline-offset:3px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:900px){
+
+    .review-section{
+        width:min(680px, calc(100% - 32px));
+
+        grid-template-columns:1fr;
+
+        padding-top:38px;
+    }
+
+    .artisan-panel{
+        min-height:300px;
+
+        padding:28px;
+    }
+
+    .artisan-panel p{
+        max-width:520px;
+    }
+
+    .panel-bottom{
+        padding-top:25px;
+    }
+
+    .review-card{
+        padding:30px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:620px){
+
+    header{
+        height:68px;
+
+        padding:0 16px;
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+    .logo span:first-child{
+        width:34px;
+        height:34px;
+
+        border-radius:10px;
+
+        font-size:19px !important;
+    }
+
+    nav a{
+        padding:8px 11px;
+
+        font-size:12px;
+    }
+
+    .review-section{
+        width:100%;
+
+        padding:
+            22px 14px
+            45px;
+
+        gap:15px;
+    }
+
+    .artisan-panel{
+        min-height:275px;
+
+        padding:23px;
+
+        border-radius:17px;
+    }
+
+    .small-label{
+        margin-bottom:22px;
+
+        font-size:9px;
+    }
+
+    .artisan-avatar{
+        width:62px;
+        height:62px;
+
+        margin-bottom:17px;
+
+        border-radius:16px;
+
+        font-size:24px;
+    }
+
+    .artisan-panel h2{
+        font-size:23px;
+    }
+
+    .artisan-panel p{
+        font-size:12px;
+    }
+
+    .panel-bottom{
+        padding-top:20px;
+    }
+
+    .panel-note{
+        font-size:10px;
+    }
+
+    .review-card{
+        padding:24px 18px;
+
+        border-radius:16px;
+    }
+
+    .review-heading{
+        margin-bottom:24px;
+    }
+
+    .review-heading h1{
+        font-size:24px;
+
+        letter-spacing:-.7px;
+    }
+
+    .review-heading p{
+        font-size:12px;
+    }
+
+    .user-field{
+        height:44px;
+
+        margin-bottom:21px;
+    }
+
+    .rating-section{
+        padding:22px 10px 20px;
+
+        margin-bottom:22px;
+    }
+
+    .rating-section h3{
+        font-size:14px;
+    }
+
+    .rating-section p{
+        margin-bottom:15px;
+    }
+
+    .stars{
+        gap:2px;
+    }
+
+    .stars label{
+        width:38px;
+        height:38px;
+
+        font-size:34px;
+    }
+
+    .comment-section textarea{
+        min-height:135px;
+
+        font-size:12px;
+    }
+
+    .review-footer{
+        flex-direction:column;
+        align-items:stretch;
+
+        gap:15px;
+
+        padding-top:20px;
+    }
+
+    .review-hint{
+        max-width:none;
+
+        font-size:10px;
+    }
+
+    .fx-btn{
+        width:100%;
+
+        min-height:47px;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media(max-width:390px){
+
+    header{
+        padding:0 12px;
+    }
+
+    .logo{
+        gap:7px;
+        font-size:20px;
+    }
+
+    .logo span:first-child{
+        width:32px;
+        height:32px;
+
+        font-size:18px !important;
+    }
+
+    nav a{
+        padding:7px 9px;
+        font-size:11px;
+    }
+
+    .review-section{
+        padding-left:10px;
+        padding-right:10px;
+    }
+
+    .artisan-panel{
+        padding:20px;
+    }
+
+    .review-card{
+        padding:21px 15px;
+    }
+
+    .review-heading h1{
+        font-size:22px;
+    }
+
+    .stars{
+        gap:0;
+    }
+
+    .stars label{
+        width:35px;
+        height:35px;
+
+        font-size:31px;
+    }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media(hover:none){
+
+    nav a:hover{
+        background:transparent;
+        color:var(--fx-navy);
+    }
+
+    .fx-btn:hover{
+        transform:none;
+    }
+
+    .stars label:hover,
+    .stars label:hover ~ label{
+        transform:none;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    html{
+        scroll-behavior:auto;
+    }
+
+    *,
+    *::before,
+    *::after{
+        transition:none !important;
+        animation:none !important;
+    }
 }
 
 </style>
 
 </head>
 
+
 <body>
+
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
 
 <header>
 
-<div class="logo">
-<span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
-<span style="font-size:36px;">ixora</span>
-</div>
+    <div class="logo">
+        <span>F</span>
+        <span>ixora</span>
+    </div>
 
-<nav>
-<a href="{% url 'home' %}">Home</a>
-</nav>
+    <nav>
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+    </nav>
 
 </header>
 
 
+
+<!-- =======================================================
+     REVIEW WORKSPACE
+======================================================= -->
+
 <section class="review-section">
 
-<div class="review-card">
 
-<h1>Add Review for {{ artisan.name }}</h1>
+    <!-- ===================================================
+         ARTISAN IDENTITY
+    ==================================================== -->
 
-<p>Share your experience with this artisan</p>
+    <aside class="artisan-panel">
 
-<form method="POST">
+        <div class="panel-content">
 
-{% csrf_token %}
+            <div class="small-label">
+                Your Service Experience
+            </div>
 
-<input type="text" name="user_name" value="{{ request.user.username }}" readonly>
 
-<!-- ⭐⭐⭐ STARS -->
+            <div class="artisan-avatar">
+                {{ artisan.name|first|upper }}
+            </div>
 
-<div class="stars">
 
-<input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
-<input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
-<input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
-<input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
-<input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+            <h2>
+                {{ artisan.name }}
+            </h2>
 
-</div>
 
-<textarea name="comment" placeholder="Write your review..." required></textarea>
+            <p>
+                Share your experience and help other Fixora
+                clients make better decisions.
+            </p>
 
-<button type="submit" class="fx-btn" style="margin-top:10px;">
-Submit Review
-</button>
+        </div>
 
-</form>
 
-</div>
+        <div class="panel-bottom">
+
+            <div class="panel-divider"></div>
+
+
+            <div class="panel-note">
+
+                <div class="panel-note-icon">
+                    ✓
+                </div>
+
+                <span>
+                    Your feedback helps build trust between
+                    customers and service professionals.
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ===================================================
+         REVIEW FORM
+    ==================================================== -->
+
+    <div class="review-card">
+
+
+        <div class="review-heading">
+
+            <h1>
+                Rate your experience
+            </h1>
+
+            <p>
+                Tell us what you thought about your service with
+                {{ artisan.name }}.
+            </p>
+
+        </div>
+
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+
+            <!-- ===========================================
+                 USER
+            ============================================ -->
+
+            <label class="field-label">
+                Your Name
+            </label>
+
+            <input
+                type="text"
+                name="user_name"
+                value="{{ request.user.username }}"
+                readonly
+                class="user-field"
+            >
+
+
+
+            <!-- ===========================================
+                 RATING
+            ============================================ -->
+
+            <div class="rating-section">
+
+                <h3>
+                    How would you rate the service?
+                </h3>
+
+                <p>
+                    Select a rating from 1 to 5 stars
+                </p>
+
+
+                <div class="stars">
+
+
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="5"
+                        id="star5"
+                    >
+
+                    <label for="star5">
+                        ★
+                    </label>
+
+
+
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="4"
+                        id="star4"
+                    >
+
+                    <label for="star4">
+                        ★
+                    </label>
+
+
+
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="3"
+                        id="star3"
+                    >
+
+                    <label for="star3">
+                        ★
+                    </label>
+
+
+
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="2"
+                        id="star2"
+                    >
+
+                    <label for="star2">
+                        ★
+                    </label>
+
+
+
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="1"
+                        id="star1"
+                    >
+
+                    <label for="star1">
+                        ★
+                    </label>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================================
+                 COMMENT
+            ============================================ -->
+
+            <div class="comment-section">
+
+                <label class="field-label">
+                    Your Review
+                </label>
+
+
+                <textarea
+                    name="comment"
+                    placeholder="Write about your experience with this artisan..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+
+            <!-- ===========================================
+                 ACTION
+            ============================================ -->
+
+            <div class="review-footer">
+
+
+                <div class="review-hint">
+                    Please keep your review honest,
+                    respectful and based on your actual experience.
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="fx-btn"
+                >
+                    Submit Review
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+    </div>
+
 
 </section>
+
 
 </body>
 </html>

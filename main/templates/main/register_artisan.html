@@ -2,147 +2,1971 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+
 <title>Register as Artisan - Fixora</title>
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <style>
-.fx-grid input, .fx-grid textarea, .fx-grid select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
+:root {
+    --fx-blue: #2563eb;
+    --fx-blue-dark: #1d4ed8;
+    --fx-blue-light: #eff6ff;
+    --fx-blue-soft: #f8fbff;
+
+    --fx-navy: #0f172a;
+    --fx-text: #334155;
+    --fx-muted: #64748b;
+
+    --fx-border: #e2e8f0;
+    --fx-border-light: #edf2f7;
+
+    --fx-bg: #f8fafc;
+    --fx-white: #ffffff;
+
+    --fx-green: #16a34a;
+    --fx-red: #ef4444;
+
+    --fx-shadow-sm: 0 4px 18px rgba(15, 23, 42, .04);
+    --fx-shadow-md: 0 12px 35px rgba(15, 23, 42, .07);
+    --fx-shadow-lg: 0 24px 70px rgba(15, 23, 42, .10);
+
+    --fx-radius-sm: 9px;
+    --fx-radius-md: 12px;
+    --fx-radius-lg: 18px;
+    --fx-radius-xl: 24px;
+    --fx-radius-2xl: 28px;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 85% 10%,
+            rgba(37, 99, 235, .045),
+            transparent 25%
+        ),
+        var(--fx-bg);
+
+    color: var(--fx-text);
+    overflow-x: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.fx-header {
+    height: 76px;
+
+    background: rgba(255, 255, 255, .94);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(226, 232, 240, .9);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 clamp(18px, 5vw, 72px);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.fx-logo {
+    display: inline-flex;
+    align-items: center;
+
+    text-decoration: none;
+    color: var(--fx-navy);
+
+    font-weight: 800;
+    letter-spacing: -1px;
+
+    white-space: nowrap;
+}
+
+.fx-logo-f {
+    font-family: "Lucida Handwriting", cursive;
+    font-size: 40px;
+    color: var(--fx-blue);
+    line-height: 1;
+}
+
+.fx-logo-text {
+    font-size: 29px;
+    margin-left: 2px;
+}
+
+.fx-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fx-nav a {
+    text-decoration: none;
+    color: var(--fx-text);
+
+    font-size: 14px;
+    font-weight: 650;
+
+    padding: 10px 15px;
+    border-radius: 10px;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.fx-nav a:hover {
+    background: var(--fx-blue-light);
+    color: var(--fx-blue);
+}
+
+.fx-login {
+    border: 1px solid var(--fx-border);
+    background: #fff;
+}
+
+.fx-login:hover {
+    border-color: #bfdbfe;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.fx-page {
+    min-height: calc(100vh - 76px);
+
+    padding:
+        clamp(30px, 5vw, 58px)
+        clamp(18px, 5vw, 72px)
+        70px;
+}
+
+.fx-register-layout {
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: minmax(270px, 350px) minmax(0, 1fr);
+
+    gap: clamp(22px, 3vw, 36px);
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   LEFT SIDEBAR
+========================================================= */
+
+.fx-sidebar {
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(59, 130, 246, .22),
+            transparent 32%
+        ),
+        linear-gradient(
+            145deg,
+            #0f172a 0%,
+            #172554 52%,
+            #1d4ed8 100%
+        );
+
+    color: white;
+
+    border-radius: var(--fx-radius-2xl);
+
+    padding: 36px 30px;
+
+    position: sticky;
+    top: 104px;
+
+    overflow: hidden;
+
+    box-shadow: var(--fx-shadow-lg);
+}
+
+.fx-sidebar::before {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border: 1px solid rgba(255, 255, 255, .10);
+    border-radius: 50%;
+
+    right: -125px;
+    top: -105px;
+}
+
+.fx-sidebar::after {
+    content: "";
+
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    border: 1px solid rgba(255, 255, 255, .07);
+    border-radius: 50%;
+
+    left: -115px;
+    bottom: -85px;
+}
+
+.fx-sidebar-content {
+    position: relative;
+    z-index: 2;
+}
+
+.fx-mini-logo {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 15px;
+
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.12);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 23px;
+    font-weight: 800;
+
+    margin-bottom: 30px;
+
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.fx-sidebar h2 {
+    font-size: clamp(27px, 2.5vw, 32px);
+    line-height: 1.12;
+
+    letter-spacing: -1.2px;
+
+    margin: 0 0 14px;
+}
+
+.fx-sidebar > .fx-sidebar-content > p {
+    color: rgba(255,255,255,.72);
+
+    line-height: 1.7;
+    font-size: 14px;
+
+    margin: 0 0 32px;
+    max-width: 290px;
+}
+
+.fx-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.fx-benefit {
+    display: flex;
+    gap: 13px;
+    align-items: flex-start;
+
+    min-width: 0;
+}
+
+.fx-benefit-icon {
+    flex: 0 0 36px;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,.11);
+    border: 1px solid rgba(255,255,255,.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+}
+
+.fx-benefit strong {
+    display: block;
+
+    font-size: 14px;
+    line-height: 1.3;
+
+    margin-bottom: 4px;
+}
+
+.fx-benefit span {
+    display: block;
+
+    color: rgba(255,255,255,.61);
+
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   FORM AREA
+========================================================= */
+
+.fx-form-area {
+    min-width: 0;
+}
+
+.fx-title-row {
+    margin-bottom: 27px;
+}
+
+.fx-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    color: var(--fx-blue);
+    background: var(--fx-blue-light);
+
+    padding: 7px 11px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: .7px;
+
+    margin-bottom: 14px;
+}
+
+.fx-eyebrow-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+    background: var(--fx-blue);
+
+    box-shadow: 0 0 0 4px rgba(37,99,235,.08);
+}
+
+.fx-title-row h1 {
+    margin: 0 0 8px;
+
+    color: var(--fx-navy);
+
+    font-size: clamp(29px, 3vw, 38px);
+    line-height: 1.15;
+
+    letter-spacing: -1.4px;
+}
+
+.fx-subtitle {
+    color: var(--fx-muted);
+
+    margin: 0;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM SECTIONS
+========================================================= */
+
+.fx-section {
+    background: var(--fx-white);
+
+    border: 1px solid var(--fx-border);
+
+    border-radius: var(--fx-radius-lg);
+
+    margin-bottom: 18px;
+
+    overflow: hidden;
+
+    box-shadow: var(--fx-shadow-sm);
+}
+
+.fx-section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 20px 24px;
+
+    border-bottom: 1px solid var(--fx-border-light);
+}
+
+.fx-number {
+    flex: 0 0 36px;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 11px;
+
+    background: var(--fx-blue-light);
+    color: var(--fx-blue);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.fx-section-header h3 {
+    margin: 0 0 3px;
+
+    color: var(--fx-navy);
+
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.fx-section-header p {
+    margin: 0;
+
+    color: var(--fx-muted);
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.fx-section-body {
+    padding: 25px;
+}
+
+
+/* =========================================================
+   GRID / FIELDS
+========================================================= */
+
+.fx-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 19px;
+}
+
+.fx-field {
+    min-width: 0;
+}
+
+.fx-field.full {
+    grid-column: 1 / -1;
+}
+
+.fx-field label {
+    display: block;
+
+    color: var(--fx-navy);
+
+    font-size: 13px;
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+.fx-required {
+    color: var(--fx-red);
+}
+
+.fx-grid input,
+.fx-grid textarea,
+.fx-grid select,
+.fx-field input,
+.fx-field textarea,
+.fx-field select {
+    width: 100%;
+    min-width: 0;
+
+    border: 1px solid var(--fx-border);
+
+    background: #fff;
+
+    border-radius: var(--fx-radius-md);
+
+    padding: 13px 14px;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    color: var(--fx-navy);
+
+    outline: none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.fx-grid input::placeholder,
+.fx-grid textarea::placeholder,
+.fx-grid select::placeholder,
+.fx-field input::placeholder,
+.fx-field textarea::placeholder,
+.fx-field select::placeholder {
+    color: #94a3b8;
+}
+
+.fx-grid input:hover,
+.fx-grid textarea:hover,
+.fx-grid select:hover,
+.fx-field input:hover,
+.fx-field textarea:hover,
+.fx-field select:hover {
+    border-color: #cbd5e1;
+}
+
+.fx-grid input:focus,
+.fx-grid textarea:focus,
+.fx-grid select:focus,
+.fx-field input:focus,
+.fx-field textarea:focus,
+.fx-field select:focus {
+    border-color: var(--fx-blue);
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.08);
+
+    background: #fff;
+}
+
+.fx-field textarea {
+    min-height: 125px;
+
+    resize: vertical;
+
+    line-height: 1.65;
+}
+
+.fx-hint {
+    display: block;
+
+    margin-top: 6px;
+
+    font-size: 11px;
+    line-height: 1.5;
+
+    color: var(--fx-muted);
+}
+
+
+/* =========================================================
+   UPLOAD
+========================================================= */
+
+.fx-upload input[type="file"] {
+    padding: 9px;
+
+    cursor: pointer;
+
+    background: var(--fx-bg);
+}
+
+.fx-upload input[type="file"]::file-selector-button {
+    border: 0;
+
+    background: var(--fx-blue-light);
+    color: var(--fx-blue);
+
+    border-radius: 8px;
+
+    padding: 8px 11px;
+
+    margin-right: 10px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.fx-services-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+.fx-services-description {
+    color: var(--fx-muted);
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    margin: 0;
+
+    max-width: 520px;
+}
+
+.fx-count-field {
+    width: 150px;
+
+    flex: 0 0 150px;
+}
+
+.fx-count-field label {
+    display: block;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    color: var(--fx-muted);
+
+    margin-bottom: 7px;
+
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.fx-count-field input {
+    width: 100%;
+
+    border: 1px solid var(--fx-border);
+
+    border-radius: 11px;
+
+    padding: 11px 12px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: .2s ease;
+}
+
+.fx-count-field input:focus {
+    border-color: var(--fx-blue);
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.08);
+}
+
+#services_container {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
+}
+
 .service-box {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-top: 10px;
+    min-width: 0;
+
+    border: 1px solid var(--fx-border);
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #fbfdff 100%
+        );
+
+    padding: 19px;
+
+    margin: 0;
+
+    border-radius: 15px;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+}
+
+.service-box:hover {
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 9px 28px rgba(37,99,235,.07);
+
+    transform: translateY(-1px);
+}
+
+.service-box h4 {
+    margin: 0 0 17px;
+
+    color: var(--fx-navy);
+
+    font-size: 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.service-box h4::before {
+    content: "";
+
+    width: 8px;
+    height: 8px;
+
+    flex: 0 0 8px;
+
+    border-radius: 50%;
+
+    background: var(--fx-blue);
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.08);
+}
+
+.service-box label {
+    display: block;
+
+    color: var(--fx-muted);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    margin: 10px 0 6px;
+
+    text-transform: uppercase;
+    letter-spacing: .3px;
+}
+
+.service-box input {
+    width: 100%;
+    min-width: 0;
+
+    border: 1px solid var(--fx-border);
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    padding: 11px 12px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    color: var(--fx-navy);
+
+    transition: .2s ease;
+}
+
+.service-box input:focus {
+    border-color: var(--fx-blue);
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,.07);
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.fx-submit-area {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 8px 2px 25px;
+}
+
+.fx-security {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--fx-muted);
+
+    font-size: 12px;
+    line-height: 1.5;
+
+    min-width: 0;
+}
+
+.fx-security-icon {
+    flex: 0 0 30px;
+
+    width: 30px;
+    height: 30px;
+
+    background: #f0fdf4;
+    color: var(--fx-green);
+
+    border-radius: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 800;
+}
+
+.fx-btn {
+    border: none;
+
+    background: var(--fx-blue);
+    color: white;
+
+    padding: 14px 24px;
+
+    min-width: 205px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,.22);
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.fx-btn:hover {
+    background: var(--fx-blue-dark);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 14px 30px rgba(37,99,235,.28);
+}
+
+.fx-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .fx-register-layout {
+        grid-template-columns:
+            minmax(250px, 300px)
+            minmax(0, 1fr);
+
+        gap: 24px;
+    }
+
+    .fx-sidebar {
+        padding: 30px 24px;
+    }
+
+    .fx-sidebar h2 {
+        font-size: 27px;
+    }
+
+    .fx-sidebar > .fx-sidebar-content > p {
+        font-size: 13px;
+    }
+
+    .fx-section-body {
+        padding: 22px;
+    }
+
+    .fx-section-header {
+        padding: 19px 22px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .fx-page {
+        padding:
+            32px 4%
+            55px;
+    }
+
+    .fx-register-layout {
+        grid-template-columns: 1fr;
+
+        max-width: 760px;
+    }
+
+    .fx-sidebar {
+        position: relative;
+        top: auto;
+
+        border-radius: 22px;
+
+        padding: 28px;
+    }
+
+    .fx-sidebar h2 {
+        max-width: 600px;
+    }
+
+    .fx-sidebar > .fx-sidebar-content > p {
+        max-width: 600px;
+        margin-bottom: 25px;
+    }
+
+    .fx-benefits {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 15px;
+    }
+
+    .fx-benefit {
+        padding: 4px 0;
+    }
+
+    .fx-title-row {
+        margin-bottom: 24px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .fx-header {
+        height: 68px;
+
+        padding:
+            0 4%;
+    }
+
+    .fx-logo-f {
+        font-size: 34px;
+    }
+
+    .fx-logo-text {
+        font-size: 25px;
+    }
+
+    .fx-nav {
+        gap: 5px;
+    }
+
+    .fx-nav a {
+        font-size: 13px;
+        padding: 9px 11px;
+    }
+
+    .fx-nav a:first-child {
+        display: none;
+    }
+
+    .fx-login {
+        padding-left: 13px !important;
+        padding-right: 13px !important;
+    }
+
+    .fx-page {
+        padding:
+            24px 4%
+            45px;
+    }
+
+    .fx-register-layout {
+        width: 100%;
+    }
+
+    .fx-sidebar {
+        padding: 25px 21px;
+
+        border-radius: 20px;
+    }
+
+    .fx-mini-logo {
+        width: 44px;
+        height: 44px;
+
+        margin-bottom: 22px;
+    }
+
+    .fx-sidebar h2 {
+        font-size: 25px;
+
+        letter-spacing: -.8px;
+    }
+
+    .fx-sidebar > .fx-sidebar-content > p {
+        font-size: 13px;
+        line-height: 1.65;
+
+        margin-bottom: 23px;
+    }
+
+    .fx-benefits {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+    }
+
+    .fx-benefit-icon {
+        width: 34px;
+        height: 34px;
+
+        flex-basis: 34px;
+    }
+
+    .fx-benefit strong {
+        font-size: 13px;
+    }
+
+    .fx-benefit span {
+        font-size: 11.5px;
+    }
+
+    .fx-title-row {
+        margin-bottom: 21px;
+    }
+
+    .fx-eyebrow {
+        margin-bottom: 12px;
+    }
+
+    .fx-title-row h1 {
+        font-size: 28px;
+        letter-spacing: -1px;
+    }
+
+    .fx-subtitle {
+        font-size: 13px;
+    }
+
+    .fx-section {
+        border-radius: 17px;
+
+        margin-bottom: 15px;
+    }
+
+    .fx-section-header {
+        padding: 17px;
+
+        gap: 11px;
+    }
+
+    .fx-number {
+        width: 34px;
+        height: 34px;
+
+        flex-basis: 34px;
+
+        border-radius: 10px;
+
+        font-size: 12px;
+    }
+
+    .fx-section-header h3 {
+        font-size: 14px;
+    }
+
+    .fx-section-header p {
+        font-size: 11px;
+    }
+
+    .fx-section-body {
+        padding: 17px;
+    }
+
+    .fx-grid {
+        grid-template-columns: 1fr;
+
+        gap: 17px;
+    }
+
+    .fx-field.full {
+        grid-column: auto;
+    }
+
+    .fx-field label {
+        font-size: 12px;
+    }
+
+    .fx-grid input,
+    .fx-grid textarea,
+    .fx-grid select,
+    .fx-field input,
+    .fx-field textarea,
+    .fx-field select {
+        padding: 12px;
+
+        font-size: 14px;
+
+        border-radius: 11px;
+    }
+
+    .fx-field textarea {
+        min-height: 130px;
+    }
+
+    .fx-services-top {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 15px;
+    }
+
+    .fx-services-description {
+        font-size: 12px;
+    }
+
+    .fx-count-field {
+        width: 100%;
+        flex-basis: auto;
+    }
+
+    #services_container {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .service-box {
+        padding: 16px;
+
+        border-radius: 13px;
+    }
+
+    .service-box h4 {
+        font-size: 13px;
+
+        margin-bottom: 15px;
+    }
+
+    .service-box input {
+        font-size: 13px;
+        padding: 11px;
+    }
+
+    .fx-submit-area {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 14px;
+
+        padding:
+            5px 0
+            15px;
+    }
+
+    .fx-security {
+        justify-content: flex-start;
+
+        font-size: 11px;
+    }
+
+    .fx-btn {
+        width: 100%;
+
+        min-width: 0;
+
+        min-height: 50px;
+
+        padding: 14px 18px;
+
+        border-radius: 12px;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 390px) {
+
+    .fx-header {
+        padding: 0 14px;
+    }
+
+    .fx-logo-f {
+        font-size: 31px;
+    }
+
+    .fx-logo-text {
+        font-size: 23px;
+    }
+
+    .fx-nav a {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .fx-page {
+        padding:
+            20px 12px
+            38px;
+    }
+
+    .fx-sidebar {
+        padding: 22px 18px;
+    }
+
+    .fx-sidebar h2 {
+        font-size: 23px;
+    }
+
+    .fx-title-row h1 {
+        font-size: 25px;
+    }
+
+    .fx-section-header {
+        padding: 15px;
+    }
+
+    .fx-section-body {
+        padding: 15px;
+    }
+
+    .fx-number {
+        width: 31px;
+        height: 31px;
+
+        flex-basis: 31px;
+
+        font-size: 11px;
+    }
+
+    .fx-section-header h3 {
+        font-size: 13px;
+    }
+
+    .fx-section-header p {
+        font-size: 10.5px;
+    }
+
+    .fx-security {
+        align-items: flex-start;
+    }
+
+    .fx-security-icon {
+        width: 28px;
+        height: 28px;
+
+        flex-basis: 28px;
+    }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) {
+
+    .fx-nav a:hover,
+    .service-box:hover,
+    .fx-btn:hover {
+        transform: none;
+    }
+
+    .service-box:hover {
+        border-color: var(--fx-border);
+        box-shadow: none;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">
-        <span style="font-family: 'Lucida Handwriting', cursive; font-size:48px;">F</span>
-        <span style="font-size:36px;">ixora</span>
-    </div>
-    <nav>
-        <a href="{% url 'home' %}">Home</a>
-        <a href="{% url 'login' %}">Login</a>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="fx-header">
+
+    <a href="{% url 'home' %}" class="fx-logo">
+        <span class="fx-logo-f">F</span>
+        <span class="fx-logo-text">ixora</span>
+    </a>
+
+    <nav class="fx-nav">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <a href="{% url 'login' %}" class="fx-login">
+            Login
+        </a>
+
     </nav>
+
 </header>
 
-<section class="fx-register">
-<div class="fx-card">
 
-<h1>Register as an Artisan</h1>
-<p class="fx-sub">Create your professional profile and start receiving requests.</p>
+<!-- =========================================================
+     PAGE
+========================================================= -->
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
+<main class="fx-page">
 
-    <!-- USER LOGIN INFO -->
-    <div class="fx-grid">
+<div class="fx-register-layout">
 
-        <div>
-            <label>Username</label>
-            <input type="text" name="username" required>
+
+    <!-- =====================================================
+         LEFT SIDEBAR
+    ====================================================== -->
+
+    <aside class="fx-sidebar">
+
+        <div class="fx-sidebar-content">
+
+            <div class="fx-mini-logo">
+                F
+            </div>
+
+            <h2>
+                Build your professional presence.
+            </h2>
+
+            <p>
+                Join Fixora and make your services visible to customers
+                looking for trusted professionals.
+            </p>
+
+
+            <div class="fx-benefits">
+
+
+                <div class="fx-benefit">
+
+                    <div class="fx-benefit-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Professional profile
+                        </strong>
+
+                        <span>
+                            Show your skills, experience and services.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="fx-benefit">
+
+                    <div class="fx-benefit-icon">
+                        ⌕
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Get discovered
+                        </strong>
+
+                        <span>
+                            Reach customers searching for your specialty.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="fx-benefit">
+
+                    <div class="fx-benefit-icon">
+                        ★
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Build your reputation
+                        </strong>
+
+                        <span>
+                            Collect reviews and grow customer trust.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="fx-benefit">
+
+                    <div class="fx-benefit-icon">
+                        ↗
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Grow your business
+                        </strong>
+
+                        <span>
+                            Receive service requests directly through Fixora.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
         </div>
 
-        <div>
-            <label>Email</label>
-            <input type="email" name="email" required>
+    </aside>
+
+
+    <!-- =====================================================
+         FORM AREA
+    ====================================================== -->
+
+    <section class="fx-form-area">
+
+
+        <div class="fx-title-row">
+
+            <div class="fx-eyebrow">
+
+                <span class="fx-eyebrow-dot"></span>
+
+                Artisan registration
+
+            </div>
+
+            <h1>
+                Create your artisan profile
+            </h1>
+
+            <p class="fx-subtitle">
+                Complete your information to start offering your services on Fixora.
+            </p>
+
         </div>
 
-        <div>
-            <label>Password</label>
-            <input type="password" name="password" required>
-        </div>
 
-    </div>
+        <form method="POST" enctype="multipart/form-data">
 
-    <hr>
+            {% csrf_token %}
 
-    <!-- ARTISAN INFO -->
-    <div class="fx-grid">
 
-        <div>
-            <label>Full Name</label>
-            <input type="text" name="name" required>
-        </div>
+            <!-- =================================================
+                 ACCOUNT INFORMATION
+            ================================================== -->
 
-        <div>
-            <label>Phone</label>
-            <input type="text" name="phone" required>
-        </div>
+            <section class="fx-section">
 
-        <div>
-            <label>City</label>
-            <input type="text" name="city" required>
-        </div>
+                <div class="fx-section-header">
 
-        <div>
-            <label>Experience</label>
-            <input type="number" name="experience" required>
-        </div>
+                    <div class="fx-number">
+                        01
+                    </div>
 
-        <div>
-            <label>Description</label>
-            <textarea name="description"></textarea>
-        </div>
+                    <div>
 
-        <div>
-            <label>Profile Image</label>
-            <input type="file" name="image">
-        </div>
+                        <h3>
+                            Account information
+                        </h3>
 
-    </div>
+                        <p>
+                            Create the credentials you will use to access Fixora.
+                        </p>
 
-<!-- SERVICES -->
-<label>How many services?</label>
-<input
-    type="number"
-    id="services_count"
-    name="services_count"
-    min="1"
-    value="1"
-    onchange="generateServices()"
->
+                    </div>
 
-<div id="services_container"></div>
+                </div>
 
-<br>
 
-<button type="submit" class="fx-btn">
-    Create Profile
-</button>
-</section>
+                <div class="fx-section-body">
+
+                    <div class="fx-grid">
+
+
+                        <div class="fx-field">
+
+                            <label>
+                                Username
+                                <span class="fx-required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="username"
+                                placeholder="Choose a username"
+                                autocomplete="username"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="fx-field">
+
+                            <label>
+                                Email
+                                <span class="fx-required">*</span>
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="fx-field">
+
+                            <label>
+                                Password
+                                <span class="fx-required">*</span>
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Create a secure password"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <span class="fx-hint">
+                                Use a strong password to protect your account.
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PROFESSIONAL PROFILE
+            ================================================== -->
+
+            <section class="fx-section">
+
+                <div class="fx-section-header">
+
+                    <div class="fx-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Professional profile
+                        </h3>
+
+                        <p>
+                            Tell customers who you are and what you do.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="fx-section-body">
+
+                    <div class="fx-grid">
+
+
+                        <div class="fx-field">
+
+                            <label>
+                                Full Name
+                                <span class="fx-required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Your full name"
+                                autocomplete="name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="fx-field">
+
+                            <label>
+                                Phone
+                                <span class="fx-required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone"
+                                placeholder="05 XX XX XX XX"
+                                autocomplete="tel"
+                                inputmode="tel"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="fx-field">
+
+                            <label>
+                                City
+                                <span class="fx-required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="city"
+                                placeholder="Your city"
+                                autocomplete="address-level2"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="fx-field">
+
+                            <label>
+                                Experience
+                                <span class="fx-required">*</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                name="experience"
+                                min="0"
+                                placeholder="Years of experience"
+                                inputmode="numeric"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="fx-field full">
+
+                            <label>
+                                Description
+                            </label>
+
+                            <textarea
+                                name="description"
+                                placeholder="Describe your expertise, the type of work you provide, and what makes your service different..."
+                            ></textarea>
+
+                            <span class="fx-hint">
+                                A clear description helps customers understand your expertise.
+                            </span>
+
+                        </div>
+
+
+                        <div class="fx-field full fx-upload">
+
+                            <label>
+                                Profile Image
+                            </label>
+
+                            <input
+                                type="file"
+                                name="image"
+                                accept="image/*"
+                            >
+
+                            <span class="fx-hint">
+                                Add a professional photo or profile image.
+                                JPG, PNG or WEBP recommended.
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SERVICES
+            ================================================== -->
+
+            <section class="fx-section">
+
+                <div class="fx-section-header">
+
+                    <div class="fx-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Your services
+                        </h3>
+
+                        <p>
+                            Add the services you want to offer to customers.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="fx-section-body">
+
+
+                    <div class="fx-services-top">
+
+                        <p class="fx-services-description">
+                            Add each service separately and specify its starting price.
+                        </p>
+
+
+                        <div class="fx-count-field">
+
+                            <label>
+                                Number of services
+                            </label>
+
+                            <input
+                                type="number"
+                                id="services_count"
+                                name="services_count"
+                                min="1"
+                                value="1"
+                                onchange="generateServices()"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="services_container"></div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SUBMIT
+            ================================================== -->
+
+            <div class="fx-submit-area">
+
+
+                <div class="fx-security">
+
+                    <div class="fx-security-icon">
+                        ✓
+                    </div>
+
+                    <span>
+                        Your information is used to create your Fixora profile.
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="fx-btn"
+                >
+                    Create Artisan Profile →
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+</div>
+
+</main>
+
+
+<!-- =========================================================
+     SERVICES JAVASCRIPT
+========================================================= -->
 
 <script>
+
 function generateServices() {
-    let count = document.getElementById("services_count").value;
-    let container = document.getElementById("services_container");
+
+    let count = parseInt(
+        document.getElementById("services_count").value
+    ) || 1;
+
+    if (count < 1) {
+        count = 1;
+    }
+
+    let container =
+        document.getElementById("services_container");
 
     container.innerHTML = "";
 
     for (let i = 0; i < count; i++) {
+
         container.innerHTML += `
             <div class="service-box">
-                <h4>Service ${i+1}</h4>
 
-                <label>Name</label>
-                <input type="text" name="service_${i}" required>
+                <h4>
+                    Service ${i + 1}
+                </h4>
 
-                <label>Price</label>
-                <input type="number" name="price_${i}" required>
+                <label>
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    name="service_${i}"
+                    placeholder="e.g. Plumbing repair"
+                    required
+                >
+
+                <label>
+                    Price
+                </label>
+
+                <input
+                    type="number"
+                    name="price_${i}"
+                    placeholder="Price in DA"
+                    min="0"
+                    inputmode="numeric"
+                    required
+                >
+
             </div>
         `;
     }
 }
 
 generateServices();
+
 </script>
 
 </body>

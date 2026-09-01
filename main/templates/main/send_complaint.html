@@ -1,154 +1,1183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Send Complaint - Fixora</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="color-scheme" content="light">
 
-<style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#1e3a8a;
-}
+    <title>Send Complaint - Fixora</title>
 
-/* HEADER */
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px 50px;
-    background:#0f2557;
-    color:white;
-}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-/* LOGO */
-.logo{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
+    <style>
+        :root {
+            --fx-blue: #2563eb;
+            --fx-blue-dark: #1d4ed8;
+            --fx-blue-deep: #172554;
+            --fx-blue-soft: #eff6ff;
+            --fx-blue-line: #dbeafe;
 
-.logo span:first-child{
-    font-family:'Lucida Handwriting', cursive;
-    font-size:48px;
-}
+            --fx-text: #0f172a;
+            --fx-text-2: #334155;
+            --fx-muted: #64748b;
+            --fx-muted-2: #94a3b8;
 
-.logo span:last-child{
-    font-size:36px;
-}
+            --fx-border: #e2e8f0;
+            --fx-border-soft: #edf2f7;
+            --fx-bg: #f8fafc;
+            --fx-white: #ffffff;
 
-/* CENTER */
-.wrapper{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:40px;
-}
+            --fx-green: #15803d;
+            --fx-green-bg: #f0fdf4;
 
-/* CARD */
-.card{
-    width:420px;
-    background:#f4f6f9;
-    padding:40px;
-    border-radius:18px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.25);
-}
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 22px;
+        }
 
-/* TITLE */
-.card h2{
-    text-align:center;
-    color:#1e3a8a;
-    margin-bottom:25px;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* INPUTS */
-input, textarea, select{
-    width:100%;
-    padding:12px;
-    margin-bottom:15px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    outline:none;
-    font-size:15px;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* LABEL */
-label{
-    font-weight:bold;
-    color:#1e3a8a;
-    display:block;
-    margin-bottom:6px;
-}
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
 
-/* BUTTON */
-button{
-    width:100%;
-    padding:14px;
-    background:#1e3a8a;
-    color:white;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
 
-button:hover{
-    background:#142a63;
-}
+            background:
+                radial-gradient(
+                    circle at 10% 5%,
+                    rgba(37, 99, 235, 0.045),
+                    transparent 30%
+                ),
+                var(--fx-bg);
 
-/* ERROR */
-.error{
-    color:red;
-    font-size:13px;
-    margin-bottom:10px;
-}
-</style>
+            color: var(--fx-text);
+            -webkit-font-smoothing: antialiased;
+        }
 
+        a {
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .fx-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 clamp(20px, 5vw, 72px);
+
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .fx-logo {
+            display: inline-flex;
+            align-items: center;
+
+            color: var(--fx-blue);
+
+            letter-spacing: -2.2px;
+            line-height: 1;
+
+            transition: opacity 0.2s ease;
+        }
+
+        .fx-logo:hover {
+            opacity: 0.85;
+        }
+
+        .fx-logo-mark {
+            font-family: "Lucida Handwriting", cursive;
+            font-size: 38px;
+            font-weight: 700;
+        }
+
+        .fx-logo-text {
+            margin-left: -3px;
+
+            font-size: 28px;
+            font-weight: 850;
+            letter-spacing: -1.8px;
+        }
+
+        .fx-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fx-header-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--fx-muted);
+
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .fx-header-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+            box-shadow: 0 0 0 4px #dcfce7;
+        }
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .fx-page {
+            width: min(1180px, calc(100% - 40px));
+            min-height: calc(100vh - 72px);
+
+            margin: 0 auto;
+
+            display: grid;
+            grid-template-columns: minmax(280px, 0.8fr) minmax(480px, 1.2fr);
+
+            align-items: center;
+
+            gap: clamp(45px, 7vw, 90px);
+
+            padding: 65px 0 75px;
+        }
+
+        /* =====================================================
+           INTRO
+        ===================================================== */
+
+        .fx-intro {
+            padding-bottom: 8px;
+        }
+
+        .fx-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 7px 11px;
+
+            border: 1px solid var(--fx-blue-line);
+            border-radius: 7px;
+
+            background: var(--fx-blue-soft);
+            color: var(--fx-blue);
+
+            font-size: 10px;
+            font-weight: 850;
+            letter-spacing: 1.1px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 20px;
+        }
+
+        .fx-eyebrow-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--fx-blue);
+        }
+
+        .fx-intro h1 {
+            max-width: 510px;
+
+            color: var(--fx-text);
+
+            font-size: clamp(38px, 4.5vw, 58px);
+            line-height: 1.03;
+
+            letter-spacing: -2.8px;
+
+            margin-bottom: 20px;
+        }
+
+        .fx-intro h1 span {
+            color: var(--fx-blue);
+        }
+
+        .fx-intro-description {
+            max-width: 500px;
+
+            color: var(--fx-muted);
+
+            font-size: 14px;
+            line-height: 1.8;
+
+            margin-bottom: 34px;
+        }
+
+        /* =====================================================
+           SUPPORT ITEMS
+        ===================================================== */
+
+        .fx-support-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+
+            max-width: 500px;
+        }
+
+        .fx-support-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            padding: 11px 0;
+        }
+
+        .fx-support-icon {
+            width: 42px;
+            height: 42px;
+
+            flex: 0 0 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid var(--fx-border);
+            border-radius: 11px;
+
+            background: var(--fx-white);
+
+            font-size: 16px;
+
+            box-shadow:
+                0 3px 10px rgba(15, 23, 42, 0.035);
+        }
+
+        .fx-support-copy strong {
+            display: block;
+
+            color: var(--fx-text-2);
+
+            font-size: 12px;
+            font-weight: 750;
+
+            margin-bottom: 3px;
+        }
+
+        .fx-support-copy p {
+            color: var(--fx-muted-2);
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           FORM CARD
+        ===================================================== */
+
+        .fx-form-card {
+            position: relative;
+
+            background: var(--fx-white);
+
+            border: 1px solid var(--fx-border);
+            border-radius: var(--radius-xl);
+
+            padding: clamp(25px, 3vw, 36px);
+
+            box-shadow:
+                0 25px 60px rgba(15, 23, 42, 0.07),
+                0 5px 18px rgba(15, 23, 42, 0.025);
+
+            overflow: hidden;
+        }
+
+        .fx-form-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 3px;
+
+            background: linear-gradient(
+                90deg,
+                var(--fx-blue),
+                #60a5fa
+            );
+        }
+
+        /* =====================================================
+           FORM HEADER
+        ===================================================== */
+
+        .fx-form-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding-bottom: 23px;
+            margin-bottom: 25px;
+
+            border-bottom: 1px solid var(--fx-border-soft);
+        }
+
+        .fx-form-header h2 {
+            color: var(--fx-text);
+
+            font-size: 20px;
+            font-weight: 780;
+
+            letter-spacing: -0.5px;
+
+            margin-bottom: 5px;
+        }
+
+        .fx-form-header p {
+            color: var(--fx-muted-2);
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .fx-secure-badge {
+            flex-shrink: 0;
+
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            padding: 7px 10px;
+
+            border: 1px solid #dcfce7;
+            border-radius: 7px;
+
+            background: var(--fx-green-bg);
+            color: var(--fx-green);
+
+            font-size: 9px;
+            font-weight: 750;
+
+            white-space: nowrap;
+        }
+
+        /* =====================================================
+           FORM FIELDS
+        ===================================================== */
+
+        .fx-field {
+            margin-bottom: 21px;
+        }
+
+        .fx-field-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+
+            color: var(--fx-text-2);
+
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .fx-required {
+            color: var(--fx-blue);
+            font-size: 10px;
+        }
+
+        .fx-form-card input,
+        .fx-form-card textarea,
+        .fx-form-card select {
+            width: 100%;
+
+            border: 1px solid #dce3ec;
+            border-radius: 10px;
+
+            outline: none;
+
+            background: #fbfcfe;
+            color: var(--fx-text-2);
+
+            padding: 13px 14px;
+
+            font-size: 12px;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .fx-form-card input::placeholder,
+        .fx-form-card textarea::placeholder {
+            color: #a8b2c1;
+        }
+
+        .fx-form-card input:hover,
+        .fx-form-card textarea:hover,
+        .fx-form-card select:hover {
+            border-color: #cbd5e1;
+        }
+
+        .fx-form-card input:focus,
+        .fx-form-card textarea:focus,
+        .fx-form-card select:focus {
+            background: #ffffff;
+
+            border-color: var(--fx-blue);
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.09);
+        }
+
+        .fx-form-card textarea {
+            min-height: 145px;
+
+            resize: vertical;
+
+            line-height: 1.65;
+        }
+
+        /* =====================================================
+           FILE INPUT
+        ===================================================== */
+
+        .fx-file-wrapper {
+            position: relative;
+        }
+
+        .fx-form-card input[type="file"] {
+            padding: 8px;
+
+            background: #fbfcfe;
+
+            cursor: pointer;
+        }
+
+        .fx-form-card input[type="file"]::file-selector-button {
+            border: 0;
+
+            padding: 8px 12px;
+
+            margin-right: 9px;
+
+            border-radius: 7px;
+
+            background: var(--fx-blue-soft);
+            color: var(--fx-blue);
+
+            font-size: 10px;
+            font-weight: 750;
+
+            cursor: pointer;
+
+            transition: background 0.2s ease;
+        }
+
+        .fx-form-card input[type="file"]::file-selector-button:hover {
+            background: #dbeafe;
+        }
+
+        .fx-file-hint {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            margin-top: 7px;
+
+            color: var(--fx-muted-2);
+
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           SUBMIT
+        ===================================================== */
+
+        .fx-submit {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+
+            border: 0;
+            border-radius: 10px;
+
+            background: var(--fx-blue);
+            color: white;
+
+            padding: 14px 20px;
+
+            font-size: 12px;
+            font-weight: 780;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px rgba(37, 99, 235, 0.18);
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .fx-submit:hover {
+            background: var(--fx-blue-dark);
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 11px 25px rgba(37, 99, 235, 0.23);
+        }
+
+        .fx-submit:active {
+            transform: translateY(0);
+        }
+
+        .fx-submit-arrow {
+            font-size: 15px;
+            line-height: 1;
+        }
+
+        /* =====================================================
+           FORM FOOTER
+        ===================================================== */
+
+        .fx-form-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+
+            margin-top: 15px;
+
+            color: var(--fx-muted-2);
+
+            font-size: 9px;
+        }
+
+        .fx-form-footer-icon {
+            font-size: 11px;
+        }
+
+        /* =====================================================
+           RESPONSIVE — TABLET
+        ===================================================== */
+
+        @media (max-width: 950px) {
+
+            .fx-page {
+                grid-template-columns: 1fr;
+
+                width: min(720px, calc(100% - 40px));
+
+                gap: 35px;
+
+                padding: 48px 0 65px;
+            }
+
+            .fx-intro {
+                text-align: center;
+            }
+
+            .fx-intro h1,
+            .fx-intro-description,
+            .fx-support-list {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .fx-intro h1 {
+                font-size: 44px;
+            }
+
+            .fx-support-list {
+                text-align: left;
+            }
+
+            .fx-form-card {
+                width: 100%;
+            }
+        }
+
+        /* =====================================================
+           RESPONSIVE — MOBILE
+        ===================================================== */
+
+        @media (max-width: 650px) {
+
+            .fx-header {
+                height: 66px;
+
+                padding: 0 18px;
+            }
+
+            .fx-logo-mark {
+                font-size: 34px;
+            }
+
+            .fx-logo-text {
+                font-size: 25px;
+            }
+
+            .fx-header-label {
+                display: none;
+            }
+
+            .fx-page {
+                width: calc(100% - 28px);
+
+                padding: 34px 0 45px;
+
+                gap: 28px;
+            }
+
+            .fx-eyebrow {
+                margin-bottom: 15px;
+            }
+
+            .fx-intro h1 {
+                font-size: 36px;
+
+                letter-spacing: -1.8px;
+
+                margin-bottom: 15px;
+            }
+
+            .fx-intro-description {
+                font-size: 13px;
+                line-height: 1.7;
+
+                margin-bottom: 25px;
+            }
+
+            .fx-support-list {
+                gap: 8px;
+            }
+
+            .fx-support-item {
+                padding: 8px 0;
+            }
+
+            .fx-support-icon {
+                width: 38px;
+                height: 38px;
+                flex-basis: 38px;
+            }
+
+            .fx-form-card {
+                padding: 22px 18px;
+
+                border-radius: 15px;
+            }
+
+            .fx-form-header {
+                flex-direction: column;
+
+                gap: 12px;
+
+                padding-bottom: 19px;
+                margin-bottom: 21px;
+            }
+
+            .fx-secure-badge {
+                align-self: flex-start;
+            }
+
+            .fx-field {
+                margin-bottom: 18px;
+            }
+
+            .fx-form-card input,
+            .fx-form-card textarea,
+            .fx-form-card select {
+                font-size: 13px;
+
+                padding: 12px 13px;
+            }
+
+            .fx-form-card textarea {
+                min-height: 130px;
+            }
+
+            .fx-submit {
+                padding: 13px 17px;
+            }
+        }
+
+        /* =====================================================
+           RESPONSIVE — SMALL PHONES
+        ===================================================== */
+
+        @media (max-width: 390px) {
+
+            .fx-header {
+                padding: 0 14px;
+            }
+
+            .fx-logo-mark {
+                font-size: 31px;
+            }
+
+            .fx-logo-text {
+                font-size: 23px;
+            }
+
+            .fx-page {
+                width: calc(100% - 22px);
+
+                padding-top: 28px;
+            }
+
+            .fx-intro h1 {
+                font-size: 32px;
+            }
+
+            .fx-intro-description {
+                font-size: 12px;
+            }
+
+            .fx-form-card {
+                padding: 19px 15px;
+            }
+
+            .fx-form-header h2 {
+                font-size: 18px;
+            }
+
+            .fx-form-card input,
+            .fx-form-card textarea,
+            .fx-form-card select {
+                padding: 11px 12px;
+            }
+
+            .fx-form-card textarea {
+                min-height: 120px;
+            }
+        }
+
+        /* =====================================================
+           TOUCH DEVICES
+        ===================================================== */
+
+        @media (hover: none) {
+
+            .fx-submit:hover {
+                transform: none;
+            }
+
+            .fx-form-card input:hover,
+            .fx-form-card textarea:hover,
+            .fx-form-card select:hover {
+                border-color: #dce3ec;
+            }
+        }
+
+        /* =====================================================
+           REDUCED MOTION
+        ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">
-        <span>F</span>
-        <span>ixora</span>
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="fx-header">
+
+    <a href="{% url 'home' %}" class="fx-logo" aria-label="Fixora Home">
+
+        <span class="fx-logo-mark">F</span>
+
+        <span class="fx-logo-text">ixora</span>
+
+    </a>
+
+
+    <div class="fx-header-right">
+
+        <div class="fx-header-label">
+
+            <span class="fx-header-dot"></span>
+
+            Customer Support &amp; Complaints
+
+        </div>
+
     </div>
 
-    <h3>Send Complaint</h3>
 </header>
 
-<div class="wrapper">
 
-    <div class="card">
+<!-- =========================================================
+     MAIN
+========================================================= -->
 
-        <h2>Complaint Form</h2>
+<main class="fx-page">
 
-        <form method="POST" enctype="multipart/form-data">
-           {% csrf_token %}
 
-              <label>Service</label>
+    <!-- =====================================================
+         INTRO
+    ====================================================== -->
+
+    <section class="fx-intro">
+
+        <div class="fx-eyebrow">
+
+            <span class="fx-eyebrow-dot"></span>
+
+            FIXORA SUPPORT
+
+        </div>
+
+
+        <h1>
+
+            We’re here to
+
+            <span>listen.</span>
+
+        </h1>
+
+
+        <p class="fx-intro-description">
+
+            If something went wrong with a service, let us know.
+            Your complaint helps us improve the Fixora experience
+            and maintain a trusted professional community.
+
+        </p>
+
+
+        <div class="fx-support-list">
+
+
+            <div class="fx-support-item">
+
+                <div class="fx-support-icon">
+                    🛡️
+                </div>
+
+                <div class="fx-support-copy">
+
+                    <strong>
+                        Your complaint matters
+                    </strong>
+
+                    <p>
+                        Every report is reviewed carefully.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="fx-support-item">
+
+                <div class="fx-support-icon">
+                    📋
+                </div>
+
+                <div class="fx-support-copy">
+
+                    <strong>
+                        Give us the details
+                    </strong>
+
+                    <p>
+                        Describe what happened as clearly as possible.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="fx-support-item">
+
+                <div class="fx-support-icon">
+                    📎
+                </div>
+
+                <div class="fx-support-copy">
+
+                    <strong>
+                        Add supporting evidence
+                    </strong>
+
+                    <p>
+                        You can attach a relevant file if needed.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FORM
+    ====================================================== -->
+
+    <section class="fx-form-card">
+
+
+        <div class="fx-form-header">
+
+            <div>
+
+                <h2>
+                    Submit a complaint
+                </h2>
+
+                <p>
+                    Please provide the information below.
+                </p>
+
+            </div>
+
+
+            <div class="fx-secure-badge">
+
+                🔒 Secure submission
+
+            </div>
+
+        </div>
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- SERVICE -->
+
+            <div class="fx-field">
+
+                <label
+                    for="{{ form.service.id_for_label }}"
+                    class="fx-field-label"
+                >
+
+                    <span>
+                        Service
+                    </span>
+
+                    <span class="fx-required">
+                        Required
+                    </span>
+
+                </label>
+
                 {{ form.service }}
 
-               <label>Reason</label>
-                 {{ form.reason }}
+            </div>
 
-                 <label>Description</label>
-                  {{ form.description }}
 
-                  <label>Attachment</label>
-                  {{ form.attachment }}
+            <!-- REASON -->
 
-            <button type="submit">Send Complaint</button>
+            <div class="fx-field">
+
+                <label
+                    for="{{ form.reason.id_for_label }}"
+                    class="fx-field-label"
+                >
+
+                    <span>
+                        Reason
+                    </span>
+
+                    <span class="fx-required">
+                        Required
+                    </span>
+
+                </label>
+
+                {{ form.reason }}
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="fx-field">
+
+                <label
+                    for="{{ form.description.id_for_label }}"
+                    class="fx-field-label"
+                >
+
+                    <span>
+                        Description
+                    </span>
+
+                    <span class="fx-required">
+                        Required
+                    </span>
+
+                </label>
+
+                {{ form.description }}
+
+            </div>
+
+
+            <!-- ATTACHMENT -->
+
+            <div class="fx-field">
+
+                <label
+                    for="{{ form.attachment.id_for_label }}"
+                    class="fx-field-label"
+                >
+
+                    <span>
+                        Attachment
+                    </span>
+
+                    <span style="color:#94a3b8;font-size:10px;">
+                        Optional
+                    </span>
+
+                </label>
+
+
+                <div class="fx-file-wrapper">
+
+                    {{ form.attachment }}
+
+                </div>
+
+
+                <div class="fx-file-hint">
+
+                    <span>📎</span>
+
+                    <span>
+                        Attach a photo, document, or other relevant file if necessary.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="fx-submit"
+            >
+
+                <span>
+                    Send Complaint
+                </span>
+
+                <span class="fx-submit-arrow">
+                    →
+                </span>
+
+            </button>
+
+
+            <!-- SECURITY NOTE -->
+
+            <div class="fx-form-footer">
+
+                <span class="fx-form-footer-icon">
+                    🔐
+                </span>
+
+                <span>
+                    Your information is handled securely.
+                </span>
+
+            </div>
+
+
         </form>
 
-    </div>
 
-</div>
+    </section>
+
+
+</main>
+
 
 </body>
 </html>

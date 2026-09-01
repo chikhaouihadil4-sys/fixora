@@ -1,111 +1,1808 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Profile - Fixora</title>
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ artisan.name }} | Fixora</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --navy: #0f172a;
+            --text: #334155;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --soft-blue: #eff6ff;
+            --green: #16a34a;
+            --gold: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .fx-navbar {
+            height: 72px;
+            background: rgba(255,255,255,0.94);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(226,232,240,0.8);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+
+        .fx-logo {
+            display: flex;
+            align-items: center;
+            color: var(--navy);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .fx-logo-f {
+            font-family: "Lucida Handwriting", cursive;
+            font-size: 42px;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .fx-logo-text {
+            font-size: 30px;
+        }
+
+
+        .fx-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .fx-nav-link {
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 9px 14px;
+            border-radius: 9px;
+
+            transition: 0.2s ease;
+        }
+
+        .fx-nav-link:hover {
+            color: var(--primary);
+            background: var(--soft-blue);
+        }
+
+
+        .fx-logout {
+            color: #dc2626;
+        }
+
+        .fx-logout:hover {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+
+        /* =====================================================
+           PROFILE HERO
+        ===================================================== */
+
+        .profile-hero {
+            position: relative;
+
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(37,99,235,0.10),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #f8fbff 55%,
+                    #eef5ff 100%
+                );
+
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .hero-container {
+            max-width: 1240px;
+            margin: auto;
+
+            padding: 55px 28px 45px;
+
+            display: grid;
+            grid-template-columns: 180px 1fr auto;
+
+            gap: 35px;
+
+            align-items: center;
+        }
+
+
+        /* PROFILE IMAGE */
+
+        .profile-photo {
+            width: 170px;
+            height: 170px;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            background: #dbeafe;
+
+            border: 6px solid white;
+
+            box-shadow:
+                0 20px 45px rgba(15,23,42,0.13);
+
+            position: relative;
+        }
+
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 65px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dbeafe,
+                    #eff6ff
+                );
+        }
+
+
+        /* PROFILE INFO */
+
+        .hero-info {
+            min-width: 0;
+        }
+
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            color: #166534;
+            background: #f0fdf4;
+
+            border: 1px solid #bbf7d0;
+
+            padding: 6px 11px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 13px;
+        }
+
+
+        .trust-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+        }
+
+
+        .hero-info h1 {
+            color: var(--navy);
+
+            font-size: clamp(32px, 4vw, 46px);
+
+            line-height: 1.1;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .hero-location {
+            color: var(--muted);
+            font-size: 15px;
+
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .hero-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .stars {
+            color: var(--gold);
+            letter-spacing: 2px;
+            font-size: 17px;
+        }
+
+
+        .rating-value {
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+
+        .rating-label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+
+        /* HERO ACTION */
+
+        .hero-action {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+
+            min-width: 220px;
+        }
+
+
+        .primary-action {
+            background: var(--primary);
+            color: white;
+
+            border: none;
+
+            padding: 15px 23px;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+            font-weight: 750;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 25px rgba(37,99,235,0.24);
+
+            transition: 0.25s ease;
+        }
+
+
+        .primary-action:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 30px rgba(37,99,235,0.30);
+        }
+
+
+        .secondary-action {
+            margin-top: 9px;
+
+            color: var(--primary);
+
+            background: white;
+
+            border: 1px solid #bfdbfe;
+
+            padding: 12px 20px;
+
+            border-radius: 11px;
+
+            text-align: center;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+
+        .secondary-action:hover {
+            background: var(--soft-blue);
+        }
+
+
+        /* =====================================================
+           QUICK STATS
+        ===================================================== */
+
+        .quick-stats {
+            max-width: 1240px;
+
+            margin: -1px auto 0;
+
+            padding: 0 28px;
+        }
+
+
+        .stats-inner {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-top: none;
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+
+        .stat {
+            padding: 20px 25px;
+
+            border-right: 1px solid var(--border);
+        }
+
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+
+        .stat-label {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .stat-value {
+            color: var(--navy);
+
+            font-size: 17px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-container {
+            max-width: 1240px;
+
+            margin: auto;
+
+            padding: 50px 28px 80px;
+
+            display: grid;
+
+            grid-template-columns: minmax(0, 1fr) 350px;
+
+            gap: 35px;
+        }
+
+
+        .content-column {
+            min-width: 0;
+        }
+
+
+        .sidebar {
+            min-width: 0;
+        }
+
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+
+        .content-section {
+            margin-bottom: 45px;
+        }
+
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+
+        .section-heading h2 {
+            color: var(--navy);
+
+            font-size: 22px;
+
+            letter-spacing: -0.4px;
+        }
+
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           ABOUT
+        ===================================================== */
+
+        .about-content {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            padding: 26px;
+
+            color: #475569;
+
+            font-size: 15px;
+
+            line-height: 1.85;
+        }
+
+
+        /* =====================================================
+           SERVICES
+        ===================================================== */
+
+        .services-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+
+        .service-item {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 15px;
+
+            padding: 19px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .service-item:hover {
+            transform: translateY(-3px);
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 12px 30px rgba(15,23,42,0.07);
+        }
+
+
+        .service-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            min-width: 0;
+        }
+
+
+        .service-icon {
+            width: 42px;
+            height: 42px;
+
+            flex-shrink: 0;
+
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--soft-blue);
+
+            font-size: 18px;
+        }
+
+
+        .service-name {
+            color: var(--navy);
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .service-label {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 2px;
+        }
+
+
+        .service-price {
+            color: var(--primary);
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           REVIEWS
+        ===================================================== */
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+
+            gap: 14px;
+        }
+
+
+        .review-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 15px;
+
+            padding: 21px 23px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .review-card:hover {
+            border-color: #cbd5e1;
+
+            box-shadow:
+                0 8px 25px rgba(15,23,42,0.05);
+        }
+
+
+        .review-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 11px;
+        }
+
+
+        .review-user {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            background: var(--soft-blue);
+
+            color: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+
+            font-weight: 800;
+        }
+
+
+        .review-user-name {
+            color: var(--navy);
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .review-stars {
+            color: var(--gold);
+
+            font-size: 13px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .review-comment {
+            color: #475569;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        .empty-reviews {
+            background: white;
+
+            border: 1px dashed #cbd5e1;
+
+            border-radius: 15px;
+
+            padding: 40px 20px;
+
+            text-align: center;
+
+            color: var(--muted);
+        }
+
+
+        .empty-icon {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .side-box {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            padding: 23px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .side-box h3 {
+            color: var(--navy);
+
+            font-size: 16px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .contact-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 11px 0;
+
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+
+        .contact-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+
+        .contact-text span {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .contact-text strong {
+            color: var(--navy);
+
+            font-size: 13px;
+        }
+
+
+        /* EXPERIENCE */
+
+        .experience-box {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .experience-number {
+            color: var(--primary);
+
+            font-size: 34px;
+
+            font-weight: 850;
+
+            line-height: 1;
+        }
+
+
+        .experience-text {
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+
+        .experience-text strong {
+            display: block;
+
+            color: var(--navy);
+
+            font-size: 13px;
+        }
+
+
+        /* OWNER AREA */
+
+        .owner-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #ffffff
+                );
+
+            border: 1px solid #bfdbfe;
+        }
+
+
+        .owner-box h3 {
+            margin-bottom: 7px;
+        }
+
+
+        .owner-box p {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .owner-actions {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 9px;
+        }
+
+
+        .owner-btn {
+            text-align: center;
+
+            padding: 11px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: var(--primary);
+
+            background: white;
+
+            border: 1px solid #bfdbfe;
+
+            transition: 0.2s ease;
+        }
+
+
+        .owner-btn:hover {
+            background: var(--soft-blue);
+        }
+
+
+        .owner-btn.primary {
+            color: white;
+
+            background: var(--primary);
+
+            border-color: var(--primary);
+        }
+
+
+        .owner-btn.primary:hover {
+            background: var(--primary-dark);
+        }
+
+
+        /* =====================================================
+           BOTTOM CTA
+        ===================================================== */
+
+        .bottom-cta {
+            max-width: 1240px;
+
+            margin: 0 auto 70px;
+
+            padding: 0 28px;
+        }
+
+
+        .cta-inner {
+            background:
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(255,255,255,0.15),
+                    transparent 25%
+                ),
+                linear-gradient(
+                    135deg,
+                    #1e3a8a,
+                    #2563eb
+                );
+
+            border-radius: 20px;
+
+            padding: 34px 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 25px;
+
+            color: white;
+        }
+
+
+        .cta-inner h2 {
+            font-size: 23px;
+
+            margin-bottom: 5px;
+
+            letter-spacing: -0.5px;
+        }
+
+
+        .cta-inner p {
+            opacity: 0.8;
+
+            font-size: 13px;
+        }
+
+
+        .cta-button {
+            background: white;
+
+            color: var(--primary);
+
+            padding: 13px 22px;
+
+            border-radius: 11px;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+
+            transition: 0.2s ease;
+        }
+
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.15);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 950px) {
+
+            .hero-container {
+                grid-template-columns: 140px 1fr;
+            }
+
+            .profile-photo {
+                width: 135px;
+                height: 135px;
+            }
+
+            .hero-action {
+                grid-column: 1 / -1;
+
+                display: grid;
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 10px;
+            }
+
+            .secondary-action {
+                margin-top: 0;
+            }
+
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: grid;
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 17px;
+            }
+
+            .side-box {
+                margin-bottom: 0;
+            }
+        }
+
+
+        @media (max-width: 680px) {
+
+            .fx-navbar {
+                padding: 0 18px;
+            }
+
+            .fx-logo-f {
+                font-size: 36px;
+            }
+
+            .fx-logo-text {
+                font-size: 27px;
+            }
+
+            .fx-nav-link {
+                font-size: 12px;
+
+                padding: 8px 9px;
+            }
+
+
+            .hero-container {
+                grid-template-columns: 1fr;
+
+                text-align: center;
+
+                padding: 40px 20px 30px;
+            }
+
+
+            .profile-photo {
+                width: 135px;
+                height: 135px;
+
+                margin: auto;
+            }
+
+
+            .hero-location,
+            .hero-rating {
+                justify-content: center;
+            }
+
+
+            .hero-action {
+                display: flex;
+
+                width: 100%;
+            }
+
+
+            .secondary-action {
+                margin-top: 0;
+            }
+
+
+            .stats-inner {
+                grid-template-columns: 1fr;
+            }
+
+
+            .stat {
+                border-right: none;
+
+                border-bottom: 1px solid var(--border);
+            }
+
+
+            .stat:last-child {
+                border-bottom: none;
+            }
+
+
+            .main-container {
+                padding: 35px 18px 60px;
+            }
+
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+
+            .bottom-cta {
+                padding: 0 18px;
+            }
+
+
+            .cta-inner {
+                padding: 28px 22px;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .cta-button {
+                width: 100%;
+
+                text-align: center;
+            }
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-<header>
-<div class="logo">
-<span style="font-family:'Lucida Handwriting', cursive; font-size:48px;">F</span>
-<span style="font-size:36px;">ixora</span>
-</div>
 
-<nav>
-    {% if user.is_authenticated %}
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-        {% if user.artisan %}
-            <a href="{% url 'artisan_history' %}" style="color:white; margin-right:15px;">
-                History
+<header class="fx-navbar">
+
+    <a href="{% url 'home' %}" class="fx-logo">
+
+        <span class="fx-logo-f">F</span>
+
+        <span class="fx-logo-text">ixora</span>
+
+    </a>
+
+
+    <nav class="fx-nav-right">
+
+        {% if user.is_authenticated %}
+
+            {% if user.artisan %}
+
+                <a
+                    href="{% url 'artisan_history' %}"
+                    class="fx-nav-link"
+                >
+                    📋 History
+                </a>
+
+            {% endif %}
+
+            <a
+                href="{% url 'logout' %}"
+                class="fx-nav-link fx-logout"
+            >
+                Logout
             </a>
+
         {% endif %}
 
-        <a href="{% url 'logout' %}" style="color:white; margin-right:15px;">
-            Logout
-        </a>
+    </nav>
 
-    {% endif %}
-</nav>
 </header>
-<section class="profile-section">
 
-<div class="profile-card">
 
-{% if artisan.image %}
-    <img src="{{ artisan.image.url }}" alt="{{ artisan.name }}">
-{% else %}
-    <p>No Image</p>
-{% endif %}
 
-<h2>{{ artisan.name }}</h2>
+<!-- =====================================================
+     PROFILE HERO
+===================================================== -->
 
-<!-- SERVICES -->
-<div>
-{% for s in services %}
-    <span class="badge">{{ s.name }} - {{ s.price }} DA</span><br>
-{% endfor %}
-</div>
+<section class="profile-hero">
 
-<p>📍 {{ artisan.city }}</p>
-<p>📞 {{ artisan.phone }}</p>
-<p>Experience: {{ artisan.experience }} years</p>
+    <div class="hero-container">
 
-<p>{{ artisan.description }}</p>
 
-<!-- RATING -->
-<p>
-⭐ {{ average_rating }}
-</p>
+        <!-- PHOTO -->
 
-<!-- OWNER BUTTONS -->
-{% if is_owner %}
+        <div class="profile-photo">
 
-    <a href="{% url 'artisan_requests' %}" class="review-btn">
-        View Requests
-    </a>
+            {% if artisan.image %}
 
-    <a href="{% url 'edit_profile' %}" class="review-btn">
-        Edit Profile
-    </a>
+                <img
+                    src="{{ artisan.image.url }}"
+                    alt="{{ artisan.name }}"
+                >
 
-{% endif %}
+            {% else %}
 
-<!-- CLIENT BUTTONS -->
+                <div class="photo-placeholder">
+                    👤
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+
+        <!-- INFORMATION -->
+
+        <div class="hero-info">
+
+            <div class="trust-badge">
+
+                <span class="trust-dot"></span>
+
+                Trusted Artisan
+
+            </div>
+
+
+            <h1>
+                {{ artisan.name }}
+            </h1>
+
+
+            <div class="hero-location">
+
+                <span>📍</span>
+
+                <span>{{ artisan.city }}</span>
+
+            </div>
+
+
+            <div class="hero-rating">
+
+                <span class="stars">
+                    ★★★★★
+                </span>
+
+                <span class="rating-value">
+                    {{ average_rating }}
+                </span>
+
+                <span class="rating-label">
+                    Based on customer reviews
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ACTION -->
+
+        <div class="hero-action">
+
+            {% if not is_owner %}
+
+                <a
+                    href="{% url 'request_service' artisan.id %}"
+                    class="primary-action"
+                >
+                    🔧 Request Service
+                </a>
+
+
+                <a
+                    href="{% url 'add_review' artisan.id %}"
+                    class="secondary-action"
+                >
+                    ⭐ Leave a Review
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{% url 'artisan_requests' %}"
+                    class="primary-action"
+                >
+                    📋 View Requests
+                </a>
+
+
+                <a
+                    href="{% url 'edit_profile' %}"
+                    class="secondary-action"
+                >
+                    ✏️ Edit Profile
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     QUICK STATS
+===================================================== -->
+
+<section class="quick-stats">
+
+    <div class="stats-inner">
+
+        <div class="stat">
+
+            <span class="stat-label">
+                Experience
+            </span>
+
+            <span class="stat-value">
+                {{ artisan.experience }} years
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span class="stat-label">
+                Location
+            </span>
+
+            <span class="stat-value">
+                {{ artisan.city }}
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span class="stat-label">
+                Customer Rating
+            </span>
+
+            <span class="stat-value">
+                ⭐ {{ average_rating }} / 5
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main-container">
+
+
+    <!-- =================================================
+         LEFT CONTENT
+    ================================================== -->
+
+    <div class="content-column">
+
+
+        <!-- ABOUT -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>
+                        About the Artisan
+                    </h2>
+
+                    <p>
+                        Professional information
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="about-content">
+
+                {{ artisan.description }}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- SERVICES -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Services
+                    </h2>
+
+                    <p>
+                        Services offered by {{ artisan.name }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="services-grid">
+
+                {% for s in services %}
+
+                    <div class="service-item">
+
+                        <div class="service-left">
+
+                            <div class="service-icon">
+                                🛠️
+                            </div>
+
+
+                            <div>
+
+                                <div class="service-name">
+                                    {{ s.name }}
+                                </div>
+
+                                <span class="service-label">
+                                    Professional service
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="service-price">
+                            {{ s.price }} DA
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-reviews">
+
+                        No services available yet.
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- REVIEWS -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Customer Reviews
+                    </h2>
+
+                    <p>
+                        What customers say about this artisan
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="reviews-list">
+
+                {% for review in reviews %}
+
+                    <article class="review-card">
+
+                        <div class="review-header">
+
+
+                            <div class="review-user">
+
+                                <div class="user-avatar">
+
+                                    {{ review.user_name|first|upper }}
+
+                                </div>
+
+
+                                <span class="review-user-name">
+
+                                    {{ review.user_name }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="review-stars">
+
+                                {% for i in "12345" %}
+
+                                    {% if forloop.counter <= review.rating %}
+
+                                        ★
+
+                                    {% else %}
+
+                                        ☆
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="review-comment">
+
+                            "{{ review.comment }}"
+
+                        </p>
+
+                    </article>
+
+
+                {% empty %}
+
+                    <div class="empty-reviews">
+
+                        <div class="empty-icon">
+                            💬
+                        </div>
+
+                        <strong>
+                            No reviews yet
+                        </strong>
+
+                        <p>
+                            Be the first customer to leave a review.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- CONTACT -->
+
+        <div class="side-box">
+
+            <h3>
+                Contact Information
+            </h3>
+
+
+            <div class="contact-row">
+
+                <div class="contact-icon">
+                    📍
+                </div>
+
+                <div class="contact-text">
+
+                    <span>
+                        Location
+                    </span>
+
+                    <strong>
+                        {{ artisan.city }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-row">
+
+                <div class="contact-icon">
+                    📞
+                </div>
+
+                <div class="contact-text">
+
+                    <span>
+                        Phone
+                    </span>
+
+                    <strong>
+                        {{ artisan.phone }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- EXPERIENCE -->
+
+        <div class="side-box">
+
+            <h3>
+                Experience
+            </h3>
+
+
+            <div class="experience-box">
+
+                <div class="experience-number">
+                    {{ artisan.experience }}
+                </div>
+
+
+                <div class="experience-text">
+
+                    <strong>
+                        Years of Experience
+                    </strong>
+
+                    Professional experience
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- OWNER -->
+
+        {% if is_owner %}
+
+            <div class="side-box owner-box">
+
+                <h3>
+                    Your Artisan Profile
+                </h3>
+
+                <p>
+                    Manage your requests and profile information.
+                </p>
+
+
+                <div class="owner-actions">
+
+                    <a
+                        href="{% url 'artisan_requests' %}"
+                        class="owner-btn primary"
+                    >
+                        📋 View Requests
+                    </a>
+
+
+                    <a
+                        href="{% url 'edit_profile' %}"
+                        class="owner-btn"
+                    >
+                        ✏️ Edit Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+    </aside>
+
+</main>
+
+
+
+<!-- =====================================================
+     BOTTOM CTA
+===================================================== -->
+
 {% if not is_owner %}
 
-    <a href="{% url 'request_service' artisan.id %}" class="review-btn">
-        Request Service
-    </a>
+<section class="bottom-cta">
 
-    <a href="{% url 'add_review' artisan.id %}" class="review-btn">
-        Add Review
-    </a>
+    <div class="cta-inner">
+
+        <div>
+
+            <h2>
+                Need help with a project?
+            </h2>
+
+            <p>
+                Request a service from {{ artisan.name }} through Fixora.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'request_service' artisan.id %}"
+            class="cta-button"
+        >
+            Request Service →
+        </a>
+
+    </div>
+
+</section>
 
 {% endif %}
 
-</div>
-</section>
 
-<!-- REVIEWS -->
-<section class="reviews-section">
-
-<h3>Customer Reviews</h3>
-
-{% for review in reviews %}
-<div class="review-card">
-<p>⭐ {{ review.rating }}</p>
-<p>{{ review.comment }}</p>
-<small>- {{ review.user_name }}</small>
-</div>
-{% empty %}
-<p>No reviews yet</p>
-{% endfor %}
-
-</section>
 
 </body>
 </html>
