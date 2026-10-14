@@ -575,46 +575,169 @@
             bottom: 35px;
         }
 
+           
         /* ========================================
-           STATS
+           WHY CHOOSE FIXORA
         ======================================== */
 
-        .fx-stats {
+        .fx-why {
             position: relative;
-            z-index: 5;
-            border-top: 1px solid var(--fx-slate-200);
-            border-bottom: 1px solid var(--fx-slate-200);
-            background: white;
+            padding: 65px 0;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg,
+                #fbfaff 0%,
+                #f4f7ff 55%,
+                #fff8fc 100%
+            );
         }
 
-        .fx-stats-grid {
+        .fx-why-heading {
+            max-width: 760px;
+            margin: 0 auto 42px;
+            text-align: center;
+        }
+
+        .fx-why-badge {
+            display: inline-block;
+            padding: 9px 18px;
+            margin-bottom: 16px;
+            border-radius: 30px;
+            background: #eee8ff;
+            color: #7855df;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .fx-why-heading h2 {
+            margin-bottom: 16px;
+            color: #172b50;
+            font-size: clamp(27px, 4vw, 42px);
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .fx-why-heading h2 span {
+            color: #8860e8;
+        }
+
+        .fx-why-heading p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #687795;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .fx-why-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
 
-        .fx-stat {
-            padding: 27px 20px;
+        .fx-why-card {
+            padding: 27px 18px;
             text-align: center;
-            border-right: 1px solid var(--fx-slate-200);
+            border: 1px solid #e9e8f5;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: .25s ease;
         }
 
-        .fx-stat:last-child {
-            border-right: 0;
+        .fx-why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(75, 65, 130, 0.09);
         }
 
-        .fx-stat-number {
-            color: var(--fx-slate-950);
+        .fx-why-icon {
+            width: 58px;
+            height: 58px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 18px;
+            border-radius: 17px;
             font-size: 29px;
-            line-height: 1.1;
-            font-weight: 850;
-            letter-spacing: -1px;
-            margin-bottom: 5px;
+            font-weight: 700;
         }
 
-        .fx-stat-label {
-            color: var(--fx-slate-500);
-            font-size: 12px;
-            font-weight: 500;
+        .fx-why-icon.purple {
+            color: #7950c8;
+            background: #eee5ff;
+        }
+
+        .fx-why-icon.blue {
+            color: #2878d8;
+            background: #e3efff;
+        }
+
+        .fx-why-icon.pink {
+            color: #d83d9b;
+            background: #ffe7f5;
+        }
+
+        .fx-why-icon.green {
+            color: #169d77;
+            background: #def7ed;
+        }
+
+        .fx-why-card h3 {
+            margin-bottom: 12px;
+            color: #172b50;
+            font-size: 16px;
+            font-weight: 750;
+        }
+
+        .fx-why-card p {
+            color: #687795;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .fx-why-action {
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .fx-why-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 25px;
+            border-radius: 30px;
+            background: linear-gradient(100deg, #8858ec, #5796f4);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(116, 91, 225, 0.2);
+            transition: .2s ease;
+        }
+
+        .fx-why-button:hover {
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        @media (max-width: 1050px) {
+            .fx-why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 680px) {
+            .fx-why {
+                padding: 50px 0;
+            }
+
+            .fx-why-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .fx-why-card {
+                padding: 24px 18px;
+            }
         }
 
         /* ========================================
@@ -1812,62 +1935,112 @@
     </section>
 
 
-    <!-- =========================================
-         STATS
-    ========================================== -->
+    <section class="fx-why">
 
-    <section class="fx-stats">
+        <div class="fx-container">
 
-        <div class="fx-container fx-stats-grid">
+            <div class="fx-why-heading">
 
-            <div class="fx-stat">
+                <span class="fx-why-badge">
+                    Why Choose Fixora?
+                </span>
 
-                <div class="fx-stat-number">
-                    500+
+                <h2>
+                    A Platform Designed
+                    <span>for You</span>
+                </h2>
+
+                <p>
+                    Fixora makes it easier to find local service
+                    professionals and connect with artisans
+                    for your everyday needs.
+                </p>
+
+            </div>
+
+
+            <div class="fx-why-grid">
+
+                <div class="fx-why-card">
+
+                    <div class="fx-why-icon purple">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Artisan Profiles
+                    </h3>
+
+                    <p>
+                        Explore artisan profiles and discover
+                        the services they offer.
+                    </p>
+
                 </div>
 
-                <div class="fx-stat-label">
-                    Happy Clients
+
+                <div class="fx-why-card">
+
+                    <div class="fx-why-icon blue">
+                        ⌕
+                    </div>
+
+                    <h3>
+                        Easy Search
+                    </h3>
+
+                    <p>
+                        Find services based on your needs
+                        and preferred location.
+                    </p>
+
+                </div>
+
+
+                <div class="fx-why-card">
+
+                    <div class="fx-why-icon pink">
+                        ↗
+                    </div>
+
+                    <h3>
+                        Service Requests
+                    </h3>
+
+                    <p>
+                        Send a service request to an artisan
+                        and follow its progress.
+                    </p>
+
+                </div>
+
+
+                <div class="fx-why-card">
+
+                    <div class="fx-why-icon green">
+                        ☆
+                    </div>
+
+                    <h3>
+                        Reviews and Ratings
+                    </h3>
+
+                    <p>
+                        Check available reviews and ratings
+                        to help you choose a professional.
+                    </p>
+
                 </div>
 
             </div>
 
 
-            <div class="fx-stat">
+            <div class="fx-why-action">
 
-                <div class="fx-stat-number">
-                    100+
-                </div>
-
-                <div class="fx-stat-label">
-                    Trusted Artisans
-                </div>
-
-            </div>
-
-
-            <div class="fx-stat">
-
-                <div class="fx-stat-number">
-                    300+
-                </div>
-
-                <div class="fx-stat-label">
-                    Completed Requests
-                </div>
-
-            </div>
-
-
-            <div class="fx-stat">
-
-                <div class="fx-stat-number">
-                    80%
-                </div>
-
-                <div class="fx-stat-label">
-                    Client Satisfaction
-                </div>
+                <a href="/search/" class="fx-why-button">
+                    Explore Services
+                    <span>→</span>
+                </a>
 
             </div>
 
@@ -2345,4 +2518,4 @@
     </footer>
 
 </body>
-</html>
+</html> 
